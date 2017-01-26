@@ -1,0 +1,5 @@
+site_name: PVS02 Docs
+pages:
+    - Home: index.md
+    - About: about.md
+theme: readthedocs
