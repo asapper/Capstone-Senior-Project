@@ -28,11 +28,11 @@ https://scotch.io/tutorials/create-a-mean-app-with-angular-2-and-docker-compose
 	* Ryan's username: ryan
 
 
-* Run the following command, swapping "username" with your username: psql -h 192.168.3.128 -p 32772 -d pushstock -U username
+* Run the following command, swapping "username" with your username: psql -h 192.168.3.128 -p 32774 -d pushstock -U username
 
 * You'll be prompted to enter your password. As said, this is the same as your username for the time-being.
 
-* This should bring up a PostgreSQL command line; you should see "docker=#" (docker being the name of the database at the moment)
+* This should bring up a PostgreSQL command line; you should see "pushstock=#" (pushstock being the name of the database at the moment)
 
 * To test that you are connected properly, in the psql command line, type: select * from buttons;
 	* This should return a single test button that I have added
