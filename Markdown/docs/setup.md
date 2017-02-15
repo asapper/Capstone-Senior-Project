@@ -21,14 +21,16 @@ https://scotch.io/tutorials/create-a-mean-app-with-angular-2-and-docker-compose
 	* If using Windows: Go to [PostgreSQL](https://www.postgresql.org/download/windows/) and download the installer.
 
 
-* Now, we can connect to the database. I have created user's for everyone to connect with no password.
+* Now, we can connect to the database. I have created user's for everyone to connect with the password the same as the username (this can be changed later).
 	* Andy's username: andy
 	* Brennan's username: brennan
 	* Collin's username: collin
 	* Ryan's username: ryan
 
 
-* Run the following command, swapping "username" with your username: psql -h 192.168.3.128 -p 32772 -d docker -U username
+* Run the following command, swapping "username" with your username: psql -h 192.168.3.128 -p 32772 -d pushstock -U username
+
+* You'll be prompted to enter your password. As said, this is the same as your username for the time-being.
 
 * This should bring up a PostgreSQL command line; you should see "docker=#" (docker being the name of the database at the moment)
 
