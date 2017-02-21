@@ -2,4 +2,5 @@ site_name: PVS02 Docs
 pages:
     - Home: index.md
     - About: about.md
+    - Dev Setup: setup.md
 theme: readthedocs
