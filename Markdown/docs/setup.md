@@ -37,3 +37,18 @@ https://scotch.io/tutorials/create-a-mean-app-with-angular-2-and-docker-compose
 * To test that you are connected properly, in the psql command line, type: select * from buttons;
 	* This should return a single test button that I have added
 
+
+## Developing on your local machine
+### The latest push to the repo includes most of what we need to really get down to developing.
+
+To get started on our dev, you'll pull from our Git repo in TFS. (You probably already did that considering you're reading this). Once you've pulled, go into the pushstock-app directory. When testing/running the app while developing, you'll need Docker on your machine. Go to Docker's website and follow the instructions.
+
+Once Docker is up and running, type the following in terminal while inside of the push-stock app directory: docker-compose up --build
+
+This will take a little bit of time the first time you run it, as it's building the images of the express-server, angular-client (not much going on with that at the moment), and MongoDB (just for now, easily switchable to Sequelize/Postgres). It then runs all 3 of these images in their own containers, but they're containers that share a network, so it can all communicate. Pretty cool, eh?
+
+Now, you can test without the Pi or the button! Go to localhost:3000/api and you should see a message. Use Postman (download it) and send a POST to localhost:3000/api/singleClick and you should receive a message back that says "Single click acknowledged!".
+
+Hooray! We have our basic dev environment. Now, we can add to the angular-client directory or the express-server directory all of our dev, and then rebuild with the same docker-compose statement above. This will look at all the images/files, see what needs to be updated, and only rebuild those things.
+
+- Ryan
