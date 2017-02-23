@@ -18,7 +18,7 @@ const port = process.env.PORT || '3000';
 app.set('port', port);
 
 // Connect to DB
-//mongoose.connect('mongodb://127.0.0.1/testdb');
+mongoose.connect('mongodb://127.0.0.1/testdb');
 
 // Set our api routes
 app.use('/api', api_routes);
