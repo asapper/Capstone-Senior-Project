@@ -20,7 +20,7 @@ app.set('port', port);
 // Connect to DB (mongodb = name of mongo container)
 // (database is name of link in docker-compose to database service)
 // (docker-files is root directory of project)
-const dbHost = 'mongodb://database/docker-files'
+const dbHost = 'mongodb://database/pushstock-app'
 mongoose.connect(dbHost);
 
 // Set our api routes
