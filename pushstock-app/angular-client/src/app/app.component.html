@@ -1,3 +1,30 @@
-<h1>
-  {{title}}
-</h1>
+<!-- Bootstrap Navbar -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <a class="navbar-brand" href="#">Mean Docker</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <h3>Buttons</h3>
+        <!-- Bootstrap Table -->
+        <div class="panel panel-default">
+            <div class="panel-heading">List of Buttons</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Click Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let button of buttons">
+                        <td>{{ button.buttonId }}</td>
+                        <td>{{ button.clickTimestamp }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

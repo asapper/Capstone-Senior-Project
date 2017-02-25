@@ -13,6 +13,13 @@ const api_routes = require('./routes/api');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Cross Origin middleware
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 // Get port from environment and store in Express
 const port = process.env.PORT || '3000';
 app.set('port', port);
