@@ -5,6 +5,8 @@ services:
    build: angular-client
    ports:
      - "4200:4200"
+   volumes:
+     - ./angular-client/src:/usr/src/app/src
 
  express:
    build: express-server
@@ -12,6 +14,9 @@ services:
      - "3000:3000"
    links:
      - database
+   volumes:
+     - ./express-server/app:/usr/src/app/app
+     - ./express-server/routes:/usr/src/app/routes
 
  database:
    image: mongo

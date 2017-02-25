@@ -16,12 +16,14 @@
                     <tr>
                         <th>Id</th>
                         <th>Click Timestamp</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let button of buttons">
                         <td>{{ button.buttonId }}</td>
                         <td>{{ button.clickTimestamp }}</td>
+                        <td>{{ button.buttonDescription }}</td>
                     </tr>
                 </tbody>
             </table>
