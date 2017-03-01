@@ -1,22 +1,17 @@
 version: '2'
 
 services:
- angular:
-   build: angular-client
+ web:
+   build: .
    ports:
      - "4200:4200"
-   volumes:
-     - ./angular-client/src:/usr/src/app/src
-
- express:
-   build: express-server
-   ports:
-     - "3000:3000"
    links:
      - database
+   depends_on:
+     - database
+   command: ["./wait-for-it.sh", "-h", "localhost", "-p", "27017"]
    volumes:
-     - ./express-server/app:/usr/src/app/app
-     - ./express-server/routes:/usr/src/app/routes
+     - ./public/src:/usr/src/app/src
 
  database:
    image: mongo
