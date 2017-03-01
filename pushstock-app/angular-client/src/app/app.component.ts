@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-
+import { Button } from './shared/models/button';
 // Import rxjs map operator
 import 'rxjs/add/operator/map';
 
@@ -15,6 +15,9 @@ export class AppComponent {
     // Link to our api, pointing to localhost
     API = 'http://localhost:3000/api';
 
+    // Button used for adding to database
+    addButton: Button;
+
     // empty list of buttons
     buttons: any[] = [];
 
@@ -24,6 +27,19 @@ export class AppComponent {
     ngOnInit() {
         this.getAllButtons();
     }
+
+    // Function called when a button is created
+	  onButtonCreated(buttonId: number, clickTimestamp: Date, buttonDescription: string){
+      this.http.post(`${this.API}/addButton`, { buttonId, clickTimestamp, buttonDescription })
+     .map(res => res.json())
+     .subscribe(() => {
+       this.getAllButtons();
+     })
+
+     console.log("button added");
+
+	  }
+
 
     // get all buttons from the API
     getAllButtons() {

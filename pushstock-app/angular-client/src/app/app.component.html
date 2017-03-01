@@ -1,16 +1,32 @@
-<!-- Bootstrap Navbar -->
-<nav class="navbar navbar-default">
-    <div class="container">
-        <a class="navbar-brand" href="#">Mean Docker</a>
-    </div>
-</nav>
+<!-- File:        component.html
+*   Author:       Brennan Saul, Andy Sapper
+*   Description:  html for the AppComponet <app-root>
+-->
 
-<div class="container">
+<!-- Bootstrap Navbar -->
+<header>
+  <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+          <a class="navbar-brand" href="#">Mean Docker</a>
+      </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
     <div class="row">
-        <h3>Buttons</h3>
+      <div class="col-sm-8">
+        <h3>FLIC Buttons</h3>
+      </div>
+      <div class="col-sm-8">
+
+      </div>
+    </div>
         <!-- Bootstrap Table -->
         <div class="panel panel-default">
             <div class="panel-heading">List of Buttons</div>
+
+            <!-- Table for button in the mongo DB -->
             <table class="table">
                 <thead>
                     <tr>
@@ -19,14 +35,30 @@
                         <th>Description</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="buttons?.length > 0">
                     <tr *ngFor="let button of buttons">
                         <td>{{ button.buttonId }}</td>
                         <td>{{ button.clickTimestamp }}</td>
                         <td>{{ button.buttonDescription }}</td>
                     </tr>
                 </tbody>
+                <tbody *ngIf="buttons?.length < 1" class="text-center">
+                    There are no buttons in the database
+                </tbody>
+
             </table>
         </div>
-    </div>
-</div>
+  </div>
+
+  <!-- Button form displayed after addButton button clicked -->
+  <div class="jumbotron">
+    <!-- Here the parent creates the compnent and listens for an event -->
+    <button-form (buttonCreated)="onButtonCreated($event.button.buttonId, $event.button.clickTimestamp, $event.button.buttonDescription)"></button-form>
+
+  </div>
+
+</main>
+
+<footer class="text-center">
+  Copyright &copy; 2016
+</footer>

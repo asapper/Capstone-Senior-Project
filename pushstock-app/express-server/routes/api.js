@@ -60,4 +60,31 @@ router.get('/buttons', function(req, res) {
     });
 });
 
+router.post('/addButton', function(req, res) {
+    // get the button's information
+    buttonId = req.body.buttonId;
+    clickTimestamp = req.body.clickTimestamp;
+    description = req.body.buttonDescription;
+    console.log("POST: button added through webapp " +
+        buttonId + " at " + clickTimestamp);
+
+    // validate button information
+    // ...validation here
+
+    // create new Button
+    var newBtn = new Button();
+    newBtn.buttonId = buttonId;
+    newBtn.clickTimestamp = clickTimestamp;
+    newBtn.buttonDescription = description;
+    // save the Button and check for errors
+    newBtn.save(function(err) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({ message: 'New button created!' });
+            console.log('New button created!');
+        }
+    });
+});
+
 module.exports = router;
