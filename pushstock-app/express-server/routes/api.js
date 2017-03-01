@@ -1,8 +1,40 @@
 const express = require('express');
 const router = express.Router();
+const authRouter = express.Router();
+const AuthenticationController = require('../controllers/authentication'),  
+      passportService = require('../config/passport'),
+      passport = require('passport');
 
 const Button = require('../app/models/button');
+const Employee = require('../app/models/employee');
 
+// Middleware to require login/auth
+const requireAuth = passport.authenticate('jwt', { session: false });  
+const requireLogin = passport.authenticate('local', { session: false });  
+
+// Constants for role types
+const REQUIRE_ADMIN = "Admin",  
+      REQUIRE_OWNER = "Owner",
+      REQUIRE_CLIENT = "Client",
+      REQUIRE_MEMBER = "Member";
+
+//=========================
+// Auth Routes
+//=========================
+
+// Set auth routes as subgroup/middleware to apiRoutes
+router.use('/auth', authRouter);
+
+authRouter.get('/', function(req, res) {
+    console.log("GET: /api/auth being accessed");
+    res.json({ message: 'Hooray! Welcome to Authentication!' });
+});
+
+// Registration route
+authRouter.post('/register', AuthenticationController.register);
+
+// Login route
+authRouter.post('/login', requireLogin, AuthenticationController.login);
 
 // Route always called (verifications done here)
 router.use(function(req, res, next) {
