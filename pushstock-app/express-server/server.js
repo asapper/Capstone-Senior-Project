@@ -5,6 +5,7 @@ const app = express();
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const brcypt = require('bcrypt-nodejs');
 
 // Get our API routes
 const api_routes = require('./routes/api');
@@ -16,7 +17,9 @@ app.use(bodyParser.json());
 // Cross Origin middleware
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
 
@@ -24,9 +27,12 @@ app.use(function(req, res, next) {
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
+const secret = '201701-PVS02';
+app.set('secret', secret);
+
 // Connect to DB (mongodb = name of mongo container)
 // (database is name of link in docker-compose to database service)
-// (docker-files is root directory of project)
+// (pushstock-app is root directory of project)
 const dbHost = 'mongodb://database/pushstock-app'
 mongoose.connect(dbHost);
 
