@@ -15,13 +15,44 @@ export class AppComponent {
     // Link to our api, pointing to localhost
     API = 'http://localhost:3000/api';
 
-    // Button used for adding to database
-    addButton: Button;
+    // booleans used to determine which view should be displayed in the web app
+    welcomeView: boolean = true;
+    buttonView: boolean = false;
+    workerView: boolean = false;
+
+    changeToHomeView(){
+      this.welcomeView = true;
+      this.buttonView = false;
+      this.workerView = false;
+    }
+
+    changeToButtonView(){
+      this.welcomeView = false;
+      this.buttonView = true;
+      this.workerView = false;
+    }
+
+    changeToWorkerView(){
+      this.welcomeView = false;
+      this.buttonView = false;
+      this.workerView = true;
+    }
+
+
+
+    // Boolean flag that controls if the buttonform is displayed
+    buttonActive: boolean = false;
 
     // empty list of buttons
     buttons: any[] = [];
 
     constructor(private http: Http) {}
+
+    // used to set buttonActive variable to true
+    setTrue() {
+      this.buttonActive = true;
+      console.log("set buttonActive to true")
+    }
 
     // Angular 2 Life Cycle event whem component has been initialized
     ngOnInit() {

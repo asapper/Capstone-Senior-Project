@@ -15,8 +15,31 @@ var AppComponent = (function () {
         this.http = http;
         this.title = 'app works!';
         this.API = 'http://localhost:3000/api';
+        this.welcomeView = true;
+        this.buttonView = false;
+        this.workerView = false;
+        this.buttonActive = false;
         this.buttons = [];
     }
+    AppComponent.prototype.changeToHomeView = function () {
+        this.welcomeView = true;
+        this.buttonView = false;
+        this.workerView = false;
+    };
+    AppComponent.prototype.changeToButtonView = function () {
+        this.welcomeView = false;
+        this.buttonView = true;
+        this.workerView = false;
+    };
+    AppComponent.prototype.changeToWorkerView = function () {
+        this.welcomeView = false;
+        this.buttonView = false;
+        this.workerView = true;
+    };
+    AppComponent.prototype.setTrue = function () {
+        this.buttonActive = true;
+        console.log("set buttonActive to true");
+    };
     AppComponent.prototype.ngOnInit = function () {
         this.getAllButtons();
     };
