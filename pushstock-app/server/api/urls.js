@@ -2,7 +2,6 @@ const express = require('express');
 const api_router = express.Router();
 
 const views = require('./views');
-const Button = require('../app/models/button');
 
 
 // Route always called (verifications done here)
