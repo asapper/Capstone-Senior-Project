@@ -14,10 +14,7 @@ function generateToken(employee) {
 function setEmployeeInfo(request) {  
   return {
     _id: request._id,
-    firstName: request.profile.firstName,
-    lastName: request.profile.lastName,
-    email: request.email,
-    role: request.role,
+    email: request.email
   };
 }
 
@@ -25,8 +22,8 @@ function setEmployeeInfo(request) {
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-
-  let employeeInfo = setEmployeeInfo(req.employee);
+  console.log(req.user);
+  let employeeInfo = setEmployeeInfo(req.user);
 
   res.status(200).json({
     token: 'JWT ' + generateToken(employeeInfo),
