@@ -8,6 +8,9 @@ const api_routes = require('../api/urls');
 const auth_routes = require('../auth/urls');
 
 
+main_router.get('/', function(req, res) {
+    res.sendFile('/usr/src/app/public/dist/index.html');
+});
 // Set our api routes
 main_router.use('/api', api_routes);
 // Set up auth routes

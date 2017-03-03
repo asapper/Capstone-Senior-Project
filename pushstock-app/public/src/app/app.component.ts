@@ -13,7 +13,7 @@ export class AppComponent {
     title = 'app works!';
 
     // Link to our api, pointing to localhost
-    API = 'http://localhost:3000/api';
+    API = 'http://localhost:4200/api';
 
     // empty list of buttons
     buttons: any[] = [];

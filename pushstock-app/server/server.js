@@ -1,7 +1,7 @@
 // Get dependencies
 const express = require('express');
 const app = express();
-//const path = require('path');
+const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -10,12 +10,20 @@ const brcypt = require('bcrypt-nodejs');
 // Get our API routes
 const main_router = require('./config/urls');
 
-// URLs
-app.use('/', main_router);
 
 // Parsers for POST data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+// Point static path to dist
+app.use(express.static('../public/dist'));
+
+// URLs
+app.use('/', main_router);
+// Catch all routes and return index file
+app.get('*', (req, res) => {
+    res.sendFile('../public/dist/index.html');
+});
+
 // Cross Origin middleware
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

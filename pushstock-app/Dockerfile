@@ -14,6 +14,7 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app/public
 # Install dependencies for public
 RUN npm install
+RUN ./node_modules/angular-cli/bin/ng build
 # Move into server directory
 WORKDIR /usr/src/app/server
 # Install dependencies for server
@@ -23,9 +24,5 @@ WORKDIR /usr/src/app
 
 # Expose the port the app runs in
 EXPOSE 4200
-
-WORKDIR /usr/src/app/public
-# Serve the app
-CMD ["npm", "start"]
 
 WORKDIR /usr/src/app

@@ -10,8 +10,6 @@ services:
    depends_on:
      - database
    command: ["./wait-for-it.sh", "database:27017", "--strict", "--", "./wait-for-mongo.sh"]
-   volumes:
-     - ./public/src:/usr/src/app/src
 
  database:
    image: mongo
