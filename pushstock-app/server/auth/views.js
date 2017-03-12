@@ -86,7 +86,7 @@ module.exports = {
 
     // Handle login view
     loginView: function(req, res, next) {
-        let employeeInfo = setEmployeeInfo(req.employee);
+        let employeeInfo = setEmployeeInfo(req.user);
         res.status(200).json({
             token: 'JWT ' + generateToken(employeeInfo),
             employee: employeeInfo

@@ -18,13 +18,14 @@ const EmployeeSchema = new Schema({
     required: true
   },
   profile: {
-    firstName: { type: String },
-    lastName: { type: String }
+    firstName: { type: String, required: false },
+    lastName: { type: String, required: false },
+    required: false
   },
   role: {
     type: String,
     enum: ['Worker', 'Manager', 'Admin'],
-    required: true
+    required: false
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
@@ -60,4 +61,4 @@ EmployeeSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 }
 
-module.exports = mongoose.model('Employee', EmployeeSchema);  
+module.exports = mongoose.model('Employee', EmployeeSchema);   

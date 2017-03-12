@@ -18,7 +18,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
   		if (err) { return done(err); }
   		if (!isMatch) { return done(null, false, { error: "Your login details could not be verified. Please try again." }); }
 
-  	return done(null, user);
+  	return done(null, employee);
   	});
   });
 });
