@@ -22,6 +22,10 @@ RUN npm install
 # Return to top level directory of project
 WORKDIR /usr/src/app
 
+# Add API environment variables
+ENV PUSHSTOCK_API_USERNAME="pushstock-api"
+ENV PUSHSTOCK_API_PASSWORD="Capstone_PVS022017API"
+
 # Expose the port the app runs in
 EXPOSE 4200
 
