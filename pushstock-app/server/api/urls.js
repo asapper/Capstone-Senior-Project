@@ -12,7 +12,9 @@ api_router.get('/', views.indexView);
 api_router.post('/singleClick', views.singleClickView);
 // Retrieve all Buttons in database (ex: /api/buttons)
 api_router.get('/buttons', views.getAllButtonsView);
-// Retreive all open Tasks in database (ex: /api/tasks)
+// Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);
+// Delete all open Tasks (for testing)
+api_router.delete('/tasks', views.deleteAllTasksView);
 
 module.exports = api_router;

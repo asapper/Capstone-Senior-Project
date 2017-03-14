@@ -13,7 +13,7 @@
 
 const mongoose = require('mongoose'),
 			Schema = mongoose.Schema,
-			ObjectId = Schema.Type.ObjectId;
+			ObjectId = Schema.Types.ObjectId;
 
 // buttonId: {type: Number, required: true};
 // employee: {

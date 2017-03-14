@@ -1,3 +1,15 @@
+/*
+ * Filename:							views.js
+ * Description:						This file defines the views returned in response to API calls.
+ *
+ * Edit history:
+ *
+ * Editor			Date				Description
+ * ------			--------		-----------
+ * sapper			03/01/17		File created
+ * rapp				03/13/17		Added task creation in response to singleClick call
+ *
+ */
 const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 
@@ -19,15 +31,71 @@ module.exports = {
     // Handle the processing of a Single Click received
     singleClickView: function(req, res) {
         // get the button's information
-        buttonId = req.body.buttonid;
-        clickTimestamp = req.body.click_timestamp;
+        reqButtonId = req.body.buttonid;
+        reqClickTimestamp = req.body.click_timestamp;
 
         console.log("POST: Single Click by button " +
-            buttonId + " at " + clickTimestamp);
+            reqButtonId + " at " + reqClickTimestamp);
+				
+
+				var button;
 
         // validate button information
         // ...validation here
+				// Check whether button exists
+				Button
+					.findOne({ buttonId: reqButtonId}, null, function(err, button) {
+					if (err) {
+						res.send(err);
+					} else if (!button) {
+						// No button found; create a new one
+						button = new Button({ 
+							buttonId: reqButtonId,
+							clickTimestamp: reqClickTimestamp
+						});
 
+						// Save the new button and check for errors
+						button.save(function(err) {
+							if (err) {
+								res.send(err);
+							} else {
+								res.json({ message: 'New button created!' });
+								console.log('New button created!');
+							}
+						});
+					} else {
+						// Button already exists
+						button = button;
+						res.json({ message: 'Button already exists. :(' });
+						console.log('Button already exists. :(');
+					} 
+					})
+					.then(function(button) {
+						// Check for open tasks associated with this button
+						Task.findOne({ button: button.id }, null, function(err, task) {
+							if (err) {
+								res.send(err);
+							} else if (!task) {
+								// No task found; create a new onw
+								var newTask = new Task({ button: button.id });
+								newTask.save(function(err) {
+									if (err) {
+										res.send(err);
+									} else {
+										res.json({ message: 'New task created!' });
+										console.log('New task created!');
+									}
+								});
+							} else {
+								// An open task is already associated with this button
+								res.json({ message: 'This button has an open task' });
+								console.log('This button has an open task');
+							}
+						});
+					});
+
+
+				/*
         // create new Button
         var newBtn = new Button();
         newBtn.buttonId = buttonId;
@@ -42,22 +110,28 @@ module.exports = {
                 console.log('New button created!');
             }
         });
-
+				*/
+				
+				/*
 				// If no tasks associated with this button, make one
-				Task.findOne({ button: newBtn.id }, null, function(err, task) {
+				//Task.findOne({ button: newButton.id }, null, function(err, task) {
+				Task.findOne({ button: reqButtonId }, null, function(err, task) {
 					if (err) {
 						res.send(err);
 					} else if (!task) {
 						// No task found; create a new one with no assigned employee
-						var newTask = new Task({ button: newBtn.id });
+						var newTask = new Task({ button: reqButtonId});
 						newTask.save(function(err) {
 							if (err) {
 								res.send(err);
-							} 
-							// else saved
-						}
+							} else {
+								res.json({ message: 'New task created!' });
+								console.log('New task created!');
+							}
+						});
 					}
 				});
+				*/
     },
 
     // Handle retrieving all the buttons stored
@@ -87,7 +161,20 @@ module.exports = {
 					res.json(tasks);
 					console.log('Returning a list of all tasks (along with their employees) in the database!');
 				}
-			}
-		}
+			});
+		},
 
+		// Delete all tasks (for testing)
+		deleteAllTasksView: function(req, res) {
+			console.log("DELETE: Deleting all tasks...");
+
+			Task.remove(function(err) {
+				if (err) {
+					res.send(err);
+				} else {
+					res.json({ message: 'All tasks removed.'});
+					console.log('All tasks removed.');
+				}
+			});
+		}
 };
