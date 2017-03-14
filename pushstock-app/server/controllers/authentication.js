@@ -1,20 +1,21 @@
 "use strict"
-const jwt = require('jsonwebtoken'),
+const jwt = require('jsonwebtoken'),  
       crypto = require('crypto'),
       Employee = require('../app/models/employee'),
       config = require('../config/main');
 
-function generateToken(employee) {
+function generateToken(employee) {  
   return jwt.sign(employee, config.secret, {
     expiresIn: 10080 // in seconds
   });
 }
 
 // Set user info from request
-function setEmployeeInfo(request) {
+function setEmployeeInfo(request) {  
   return {
     _id: request._id,
-    email: request.email
+    email: request.email,
+    role: request.role
   };
 }
 
@@ -35,12 +36,13 @@ exports.login = function(req, res, next) {
 //========================================
 // Registration Route
 //========================================
-exports.register = function(req, res, next) {
+exports.register = function(req, res, next) {  
   // Check for registration errors
   const email = req.body.email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password;
+  const role = req.body.role;
 
   // Return error if no email provided
   if (!email) {
@@ -70,7 +72,8 @@ exports.register = function(req, res, next) {
       let employee = new Employee({
         email: email,
         password: password,
-        profile: { firstName: firstName, lastName: lastName }
+        profile: { firstName: firstName, lastName: lastName },
+        role: role
       });
 
       employee.save(function(err, employee) {
@@ -97,11 +100,11 @@ exports.register = function(req, res, next) {
 //========================================
 
 // Role authorization check
-exports.roleAuthorization = function(role) {
+exports.roleAuthorization = function(requiredRole) {  
   return function(req, res, next) {
-    const employee = req.employee;
+    const user = req.user;
 
-    Employee.findById(employee._id, function(err, foundEmployee) {
+    Employee.findById(user._id, function(err, foundEmployee) {
       if (err) {
         res.status(422).json({ error: 'No user was found.' });
         return next(err);
@@ -117,3 +120,9 @@ exports.roleAuthorization = function(role) {
     });
   };
 }
+
+
+
+
+
+

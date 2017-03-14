@@ -23,7 +23,13 @@ function setEmployeeInfo(request) {
 }
 
 
+
 module.exports = {
+    securedView: function(req, res) {
+        console.log("GET: /secured being accessed");
+        res.json({ message: 'You must be an admin!' });
+    },
+
     // Handle index view for auth urls
     indexView: function(req, res) {
         console.log("GET: /auth/ being accessed");
