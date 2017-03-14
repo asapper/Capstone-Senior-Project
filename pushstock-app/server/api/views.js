@@ -37,8 +37,8 @@ module.exports = {
         console.log("POST: Single Click by button " +
             reqButtonId + " at " + reqClickTimestamp);
 				
-
-				var button;
+				var button, // The button making the API call
+						resMessage; // The message to send back as a response
 
         // validate button information
         // ...validation here
@@ -59,15 +59,19 @@ module.exports = {
 							if (err) {
 								res.send(err);
 							} else {
-								res.json({ message: 'New button created!' });
-								console.log('New button created!');
+								//res.json({ message: 'New button created!' });
+								resMessage = 'New button created!';
+								//console.log('New button created!');
 							}
 						});
 					} else {
 						// Button already exists
 						button = button;
+						/*
 						res.json({ message: 'Button already exists. :(' });
 						console.log('Button already exists. :(');
+						*/
+						resMessage = 'Button already exists.';
 					} 
 					})
 					.then(function(button) {
@@ -82,17 +86,30 @@ module.exports = {
 									if (err) {
 										res.send(err);
 									} else {
+										/*
 										res.json({ message: 'New task created!' });
 										console.log('New task created!');
+										*/
+										resMessage += '\nNew task created!';
 									}
 								});
 							} else {
 								// An open task is already associated with this button
+								/*
 								res.json({ message: 'This button has an open task' });
 								console.log('This button has an open task');
+								*/
+								resMessage += '\nThis button already has an open task.';
 							}
+						})
+						.then(function(task) {
+							res.json({ message: resMessage });
+							console.log(resMessage);
 						});
 					});
+
+				//res.json({ message: resMessage });
+				//console.log(resMessage);
 
 
 				/*
