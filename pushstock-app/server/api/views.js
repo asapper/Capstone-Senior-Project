@@ -15,6 +15,11 @@ module.exports = {
         res.json({ message: 'Hooray! Welcome to our API!' });
     },
 
+    securedView: function(req, res) {
+        console.log("GET: /secured being accessed");
+        res.json({message: 'You must be an admin!'});
+    },
+    
     // Handle the processing of a Single Click received
     singleClickView: function(req, res) {
         // get the button's information

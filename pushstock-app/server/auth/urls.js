@@ -21,8 +21,10 @@ const REQUIRE_ADMIN = "Admin",
 // Main route (ex: /auth/)
 auth_router.get('/', views.indexView);
 // Registration route (ex: /auth/register/)
-auth_router.post('/register', views.registrationView);
+auth_router.post('/register', AuthenticationController.register, views.registrationView);
 // Login route (ex: /auth/login/)
-auth_router.post('/login', requireLogin, views.loginView);
+auth_router.post('/login', requireLogin, AuthenticationController.login, views.loginView);
+
+auth_router.get('/secured', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), views.securedView);
 
 module.exports = auth_router;

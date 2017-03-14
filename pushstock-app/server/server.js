@@ -34,18 +34,11 @@ app.all('*', function(req, res, next){
 	if(req.secure){
 		return next();
 	};
-	//res.sendFile('../public/dist/index.html');
-	res.redirect('https://localhost:'+HTTPS_PORT+req.url);
+	res.sendFile('../public/dist/index.html');
 })
 
 // URLs
 app.use('/', main_router);
-
-/*
-//Catch all secure routes and give index
-app.get('*', (req, res) => {
-    res.sendFile('../public/dist/index.html');
-});*/
 
 // Cross Origin middleware
 app.use(function(req, res, next) {
