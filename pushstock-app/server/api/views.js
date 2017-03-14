@@ -1,4 +1,5 @@
 const Button = require('../app/models/button');
+const Task = require('../app/models/task');
 
 
 module.exports = {
@@ -56,6 +57,37 @@ module.exports = {
                 console.log('Returning a list of all the buttons in the database!');
             }
         });
-    }
+    },
+
+		/*
+		// Handle retrieving all the open Tasks stored
+		getAllTasksView: function(req, res) {
+			console.log("GET: Returning list of tasks...");
+
+			// Find all tasks
+			Task.find(function(err, tasks) {
+				if (err) {
+					res.send(err):
+				} else {
+					res.json(tasks);
+					console.log('Returning a list of all the tasks in the database!');
+				}
+			});
+		}
+		*/
+
+		getAllTasksView: function(req, res) {
+			console.log("GET: Returning list of tasks...");
+
+			// Find all tasks and populate the employee name fields
+			Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
+				if (err) {
+					res.send(err);
+				} else {
+					res.json(tasks);
+					console.log('Returning a list of all tasks (along with their employees) in the database!');
+				}
+			}
+		}
 
 };
