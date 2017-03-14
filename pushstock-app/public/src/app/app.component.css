@@ -1,0 +1,18 @@
+/*  File:         component.css
+*   Author:       Brennan Saul
+*   Description:  contians the styling for our AppComponent <my-app>
+*/
+button-list li {
+  cursor: pointer;
+}
+
+.jumbotron .glyphicon-hand-left{
+  font-size: 80px;
+
+}
+
+.jumbotron .glyphicon-user{
+  text-align: center;
+  display: block;
+  font-size: 80px;
+}

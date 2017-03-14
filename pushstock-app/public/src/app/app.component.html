@@ -1,0 +1,83 @@
+<!-- File:        component.html
+*   Author:       Brennan Saul, Andy Sapper
+*   Description:  html for the AppComponet <app-root>
+-->
+
+<!-- Bootstrap Navbar -->
+<header>
+  <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Mean Docker</a>
+        <!-- nav bar tabs -->
+         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#" (click)=changeToHomeView()>Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="#" (click)=changeToButtonView()>Buttons</a>
+          <a class="nav-item nav-link" href="#" (click)=changeToWorkerView()>Workers</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<main>
+
+  <!-- Displays if home tab selected -->
+  <div class="container" *ngIf="welcomeView">welcome</div>
+
+  <!-- Displays if button tab selected -->
+  <div class="container" *ngIf="buttonView">
+    <div class="row">
+      <!-- title -->
+      <div class="col-sm-4">
+        <h3>FLIC Buttons</h3>
+      </div>
+      <!-- button to enable add button form -->
+      <div class="col-sm-4" class="text-right">
+        <button (click)="setTrue()">+ Add a Button +</button>
+      </div>
+    </div>
+        <!-- Bootstrap Table -->
+        <div class="panel panel-default">
+            <div class="panel-heading">List of Buttons</div>
+
+            <!-- Table for the buttons in the mongo DB -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Click Timestamp</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="buttons?.length > 0">
+                    <tr *ngFor="let button of buttons">
+                        <td>{{ button.buttonId }}</td>
+                        <td>{{ button.clickTimestamp }}</td>
+                        <td>{{ button.buttonDescription }}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="buttons?.length < 1" class="text-center">
+                    There are no buttons in the database
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Button form displayed after addButton button clicked -->
+        <div class="jumbotron" *ngIf="this.buttonActive">
+          <!-- Here the parent creates the compnent and listens for an event -->
+            <button-form (buttonCreated)="onButtonCreated($event.button.buttonId, $event.button.clickTimestamp, $event.button.buttonDescription)"></button-form>
+        </div>
+
+  </div>
+
+    <div class="container" *ngIf="workerView">workerView</div>
+
+
+</main>
+
+<footer class="text-center">
+  Copyright &copy; 2016
+</footer>
