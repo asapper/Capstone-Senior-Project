@@ -47,11 +47,14 @@ app.set('secret', secret);
 // Connect to DB (mongodb = name of mongo container)
 // (database is name of link in docker-compose to database service)
 // (docker-files is root directory of project)
-const dbHost = 'mongodb://database/pushstock-app'
+const dbHost = 'mongodb://database/pushstock-app';
+
+/*
 const options = {
     user: process.env.PUSHSTOCK_API_USERNAME,
     pass: process.env.PUSHSTOCK_API_PASSWORD
 };
+*/
 mongoose.connect(dbHost);
 
 

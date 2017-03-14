@@ -17,4 +17,3 @@ services:
      - /tmp/mongodb:/data/db
    ports:
      - "27017:27017"
-   command: ["--auth"]

@@ -11,12 +11,15 @@ import { ButtonFormComponent } from './buttons/button-form.component';
     AppComponent,
     ButtonFormComponent
   ],
+
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

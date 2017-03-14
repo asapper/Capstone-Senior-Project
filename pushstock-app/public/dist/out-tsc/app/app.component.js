@@ -67,7 +67,6 @@ AppComponent = __decorate([
     Component({
         selector: 'app-root',
         templateUrl: './app.component.html',
-        styleUrls: ['./app.component.css']
     }),
     __metadata("design:paramtypes", [Http])
 ], AppComponent);
