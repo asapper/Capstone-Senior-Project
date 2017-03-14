@@ -1,4 +1,4 @@
-module.exports = {  
+module.exports = {
     // Secret key for JWT signing and encryption
     'secret': '201701-PVS02',
     // Database connection information

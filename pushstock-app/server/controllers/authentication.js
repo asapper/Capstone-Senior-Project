@@ -1,17 +1,17 @@
 "use strict"
-const jwt = require('jsonwebtoken'),  
+const jwt = require('jsonwebtoken'),
       crypto = require('crypto'),
       Employee = require('../app/models/employee'),
       config = require('../config/main');
 
-function generateToken(employee) {  
+function generateToken(employee) {
   return jwt.sign(employee, config.secret, {
     expiresIn: 10080 // in seconds
   });
 }
 
 // Set user info from request
-function setEmployeeInfo(request) {  
+function setEmployeeInfo(request) {
   return {
     _id: request._id,
     email: request.email
@@ -35,7 +35,7 @@ exports.login = function(req, res, next) {
 //========================================
 // Registration Route
 //========================================
-exports.register = function(req, res, next) {  
+exports.register = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email;
   const firstName = req.body.firstName;
@@ -97,7 +97,7 @@ exports.register = function(req, res, next) {
 //========================================
 
 // Role authorization check
-exports.roleAuthorization = function(role) {  
+exports.roleAuthorization = function(role) {
   return function(req, res, next) {
     const employee = req.employee;
 
@@ -117,9 +117,3 @@ exports.roleAuthorization = function(role) {
     });
   };
 }
-
-
-
-
-
-
