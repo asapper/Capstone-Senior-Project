@@ -42,6 +42,22 @@ module.exports = {
                 console.log('New button created!');
             }
         });
+
+				// If no tasks associated with this button, make one
+				Task.findOne({ button: newBtn.id }, null, function(err, task) {
+					if (err) {
+						res.send(err);
+					} else if (!task) {
+						// No task found; create a new one with no assigned employee
+						var newTask = new Task({ button: newBtn.id });
+						newTask.save(function(err) {
+							if (err) {
+								res.send(err);
+							} 
+							// else saved
+						}
+					}
+				});
     },
 
     // Handle retrieving all the buttons stored
@@ -59,23 +75,7 @@ module.exports = {
         });
     },
 
-		/*
-		// Handle retrieving all the open Tasks stored
-		getAllTasksView: function(req, res) {
-			console.log("GET: Returning list of tasks...");
-
-			// Find all tasks
-			Task.find(function(err, tasks) {
-				if (err) {
-					res.send(err):
-				} else {
-					res.json(tasks);
-					console.log('Returning a list of all the tasks in the database!');
-				}
-			});
-		}
-		*/
-
+		// Handle retreiving all the tasks stored along with their assigned employee
 		getAllTasksView: function(req, res) {
 			console.log("GET: Returning list of tasks...");
 

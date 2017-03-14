@@ -25,11 +25,13 @@ const mongoose = require('mongoose'),
 // Task Schema
 //==========================
 const TaskSchema = new Schema({
+	/*
 	taskId: {
 		type: Number,
 		unique: true,
 		required: true
 	},
+	*/
 	button: {
 		type: ObjectId,
 		ref: 'Button',
