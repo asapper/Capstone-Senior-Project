@@ -13,7 +13,7 @@ export class AppComponent {
     title = 'app works!';
 
     // Link to our api, pointing to localhost
-    API = 'http://192.168.3.128:4200/api';
+    API = 'http://localhost:4200/api';
 
     // empty list of buttons
     buttons: any[] = [];
@@ -30,7 +30,7 @@ export class AppComponent {
         this.http.get(`${this.API}/buttons`)
             .map(res => res.json())
             .subscribe(buttons => {
-                console.log(buttons);
+                //console.log(buttons);
                 this.buttons = buttons;
             })
     }

@@ -1,7 +1,7 @@
 // Get dependencies
 const express = require('express');
 const app = express();
-const path = require('path');
+//const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -19,6 +19,7 @@ app.use(express.static('../public/dist'));
 
 // URLs
 app.use('/', main_router);
+
 // Catch all routes and return index file
 app.get('*', (req, res) => {
     res.sendFile('../public/dist/index.html');
@@ -36,18 +37,18 @@ app.use(function(req, res, next) {
 const port = process.env.PORT || '4200';
 app.set('port', port);
 
-const secret = '201701-PVS02';
-app.set('secret', secret);
+//const secret = '201701-PVS02';
+//app.set('secret', secret);
 
 // Connect to DB (mongodb = name of mongo container)
 // database is name of link in docker-compose to database service
 // pushstock-app is root directory of project
 const dbHost = 'mongodb://database/pushstock-app'
-const options = {
-    user: process.env.PUSHSTOCK_API_USERNAME,
-    pass: process.env.PUSHSTOCK_API_PASSWORD
-};
-mongoose.connect(dbHost, options);
+//const options = {
+//    user: process.env.PUSHSTOCK_API_USERNAME,
+//    pass: process.env.PUSHSTOCK_API_PASSWORD
+//};
+mongoose.connect(dbHost);
 
 // Create HTTP Server
 const server = http.createServer(app);
