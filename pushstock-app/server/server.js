@@ -1,28 +1,51 @@
 // Get dependencies
 const express = require('express');
 const app = express();
+const redirectApp = express();
 const path = require('path');
 const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const brcypt = require('bcrypt-nodejs');
 
+const HTTP_PORT = '80';
+const HTTPS_PORT = '4200';
+
+const serverOptions = {
+	key: fs.readFileSync('./config/key.pem'),
+	cert: fs.readFileSync('./config/cert.pem')
+};
+
 // Get our API routes
 const main_router = require('./config/urls');
-
 
 // Parsers for POST data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 // Point static path to dist
 app.use(express.static('../public/dist'));
 
+
+// Catch all routes and secure
+app.all('*', function(req, res, next){
+	if(req.secure){
+		return next();
+	};
+	//res.sendFile('../public/dist/index.html');
+	res.redirect('https://localhost:'+HTTPS_PORT+req.url);
+})
+
 // URLs
 app.use('/', main_router);
-// Catch all routes and return index file
+
+/*
+//Catch all secure routes and give index
 app.get('*', (req, res) => {
     res.sendFile('../public/dist/index.html');
-});
+});*/
 
 // Cross Origin middleware
 app.use(function(req, res, next) {
@@ -32,9 +55,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
-// Get port from environment and store in Express
-const port = process.env.PORT || '4200';
-app.set('port', port);
 
 const secret = '201701-PVS02';
 app.set('secret', secret);
@@ -43,13 +63,19 @@ app.set('secret', secret);
 // database is name of link in docker-compose to database service
 // pushstock-app is root directory of project
 const dbHost = 'mongodb://database/pushstock-app'
-const options = {
+const dbOptions = {
     user: process.env.PUSHSTOCK_API_USERNAME,
     pass: process.env.PUSHSTOCK_API_PASSWORD
 };
-mongoose.connect(dbHost, options);
+//mongoose.connect(dbHost, dbOptions);
+mongoose.connect(dbHost);
 
-// Create HTTP Server
-const server = http.createServer(app);
+// Create HTTP Server to redirect
+const insecureServer = http.createServer(redirectApp, function(req, res){
+	res.redirect('https://localhost:4200');
+}).listen(HTTP_PORT);
+
+// Create HTTPS Server
+const secureServer = https.createServer(serverOptions, app);
 // Listen on provied port, on all network interfaces
-server.listen(port, () => console.log('API running on localhost:' + port));
+secureServer.listen(HTTPS_PORT, () => console.log('Secure API running on localhost:' + HTTPS_PORT));

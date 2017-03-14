@@ -28,5 +28,6 @@ ENV PUSHSTOCK_API_PASSWORD="Capstone_PVS022017API"
 
 # Expose the port the app runs in
 EXPOSE 4200
+EXPOSE 80
 
 WORKDIR /usr/src/app
