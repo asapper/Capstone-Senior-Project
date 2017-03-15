@@ -36,42 +36,20 @@
 
   <!-- Displays if button tab selected -->
   <div class="container" *ngIf="buttonView">
+
     <div class="row">
-      <!-- title -->
+      <!-- Title -->
       <div class="col-sm-4">
         <h3>FLIC Buttons</h3>
       </div>
-      <!-- button to enable add button form -->
+      <!-- Button to enable add button form -->
       <div class="col-sm-4" class="text-right">
         <button (click)="setTrue()">+ Add a Button +</button>
       </div>
     </div>
-        <!-- Bootstrap Table -->
-        <div class="panel panel-default">
-            <div class="panel-heading">List of Buttons</div>
 
-            <!-- Table for the buttons in the mongo DB -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Click Timestamp</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="buttons?.length > 0">
-                    <tr *ngFor="let button of buttons">
-                        <td>{{ button.buttonId }}</td>
-                        <td>{{ button.clickTimestamp }}</td>
-                        <td>{{ button.buttonDescription }}</td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="buttons?.length < 1" class="text-center">
-                    There are no buttons in the database
-                </tbody>
-
-            </table>
-        </div>
+    <!-- Button Table Component: array of buttons passed to the table -->
+    <button-table [buttonList]="buttons">Loading...</button-table>
 
         <!-- Button form displayed after addButton button clicked -->
         <div class="jumbotron" *ngIf="this.buttonActive">

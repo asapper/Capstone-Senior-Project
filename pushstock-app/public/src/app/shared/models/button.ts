@@ -7,7 +7,7 @@
 */
 
 export class Button {
-  buttonId:          number; // Primary key
+  buttonId:          String; // Primary key
   clickTimestamp:    Date;
   buttonDescription: string
 }

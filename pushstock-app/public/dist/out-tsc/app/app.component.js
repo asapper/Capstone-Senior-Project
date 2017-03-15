@@ -14,7 +14,7 @@ var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
         this.title = 'app works!';
-        this.API = 'http://localhost:4200/api';
+        this.API = 'https://localhost:4200/api';
         this.buttons = [];
         this.welcomeView = true;
         this.buttonView = false;

@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
+import { ButtonTableComponent } from './buttons/button-table.component';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -19,7 +20,8 @@ AppModule = __decorate([
     NgModule({
         declarations: [
             AppComponent,
-            ButtonFormComponent
+            ButtonFormComponent,
+            ButtonTableComponent
         ],
         imports: [
             BrowserModule,

@@ -1,0 +1,26 @@
+<!-- Bootstrap Table -->
+<div class="panel panel-default">
+    <div class="panel-heading">List of Buttons</div>
+
+    <!-- Table for the buttons in the mongo DB -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Click Timestamp</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="buttonList?.length > 0">
+            <tr *ngFor="let button of buttonList">
+                <td>{{ button.buttonId }}</td>
+                <td>{{ button.clickTimestamp }}</td>
+                <td>{{ button.buttonDescription }}</td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="buttonList?.length < 1" class="text-center">
+            No buttons have been registered to the system.
+        </tbody>
+
+    </table>
+  </div>

@@ -5,11 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
+import { ButtonTableComponent } from './buttons/button-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonFormComponent
+    ButtonFormComponent,
+    ButtonTableComponent
   ],
 
   imports: [
@@ -19,7 +21,9 @@ import { ButtonFormComponent } from './buttons/button-form.component';
   ],
   providers: [],
   bootstrap: [
-    AppComponent
+    AppComponent//,
+    //ButtonFormComponent,
+    //ButtonTableComponent
   ]
 })
 export class AppModule { }
