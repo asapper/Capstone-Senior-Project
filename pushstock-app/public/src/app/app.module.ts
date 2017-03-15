@@ -21,9 +21,7 @@ import { ButtonTableComponent } from './buttons/button-table.component';
   ],
   providers: [],
   bootstrap: [
-    AppComponent//,
-    //ButtonFormComponent,
-    //ButtonTableComponent
+    AppComponent
   ]
 })
 export class AppModule { }

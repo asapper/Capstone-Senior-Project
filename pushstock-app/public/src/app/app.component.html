@@ -32,19 +32,19 @@
 <main>
 
   <!-- Displays if home tab selected -->
-  <div class="jumbotron" *ngIf="welcomeView">welcome</div>
+  <div class="jumbotron" *ngIf="welcomeView">Login</div>
 
   <!-- Displays if button tab selected -->
   <div class="container" *ngIf="buttonView">
 
     <div class="row">
       <!-- Title -->
-      <div class="col-sm-4">
+      <div class="col-sm-4 text-left">
         <h3>FLIC Buttons</h3>
       </div>
       <!-- Button to enable add button form -->
-      <div class="col-sm-4" class="text-right">
-        <button (click)="setTrue()">+ Add a Button +</button>
+      <div class="col-sm-4 text-right">
+        <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
       </div>
     </div>
 
