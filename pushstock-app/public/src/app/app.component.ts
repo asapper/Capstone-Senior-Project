@@ -22,6 +22,7 @@ export class AppComponent {
     welcomeView: boolean = true;
     buttonView: boolean = false;
     workerView: boolean = false;
+		taskView: boolean = false;
 
     // Boolean flag that controls if the buttonform is displayed
     buttonActive: boolean = false;
@@ -34,19 +35,30 @@ export class AppComponent {
       this.welcomeView = true;
       this.buttonView = false;
       this.workerView = false;
+			this.taskView = false;
     }
 
     changeToButtonView(){
       this.welcomeView = false;
       this.buttonView = true;
       this.workerView = false;
+			this.taskView = false;
     }
 
     changeToWorkerView(){
       this.welcomeView = false;
       this.buttonView = false;
       this.workerView = true;
+			this.taskView = false;
     }
+
+    changeToTaskView(){
+      this.welcomeView = false;
+      this.buttonView = false;
+      this.workerView = false;
+			this.taskView = true;
+    }
+
 
     // Does anyone know what this does?
     constructor(private http: Http) {}
