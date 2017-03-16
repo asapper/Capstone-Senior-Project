@@ -37,21 +37,18 @@ module.exports = {
         console.log("POST: Single Click by button " +
             reqButtonId + " at " + reqClickTimestamp);
 				
-				var button, // The button making the API call
-						resMessage; // The message to send back as a response
+				var resMessage; // The message to send back as a response
 
-        // validate button information
-        // ...validation here
-				// Check whether button exists
-				Button
-					.findOne({ buttonId: reqButtonId}, null, function(err, button) {
+				// Checks whether the button exists and creates it if it doesn't
+				var buttonQuery = Button.findOne({ buttonId: reqButtonId });
+				var buttonPromise = buttonQuery.exec(function(err, button) {
 					if (err) {
 						res.send(err);
 					} else if (!button) {
-						// No button found; create a new one
-						button = new Button({ 
+						// No button found, so create a new one
+						button = new Button({
 							buttonId: reqButtonId,
-							clickTimestamp: reqClickTimestamp
+							clickTimeStamp: reqClickTimestamp
 						});
 
 						// Save the new button and check for errors
@@ -59,96 +56,39 @@ module.exports = {
 							if (err) {
 								res.send(err);
 							} else {
-								//res.json({ message: 'New button created!' });
 								resMessage = 'New button created!';
-								//console.log('New button created!');
 							}
 						});
 					} else {
 						// Button already exists
-						button = button;
-						/*
-						res.json({ message: 'Button already exists. :(' });
-						console.log('Button already exists. :(');
-						*/
 						resMessage = 'Button already exists.';
-					} 
-					})
-					.then(function(button) {
-						// Check for open tasks associated with this button
-						Task.findOne({ button: button.id }, null, function(err, task) {
-							if (err) {
-								res.send(err);
-							} else if (!task) {
-								// No task found; create a new onw
-								var newTask = new Task({ button: button.id });
-								newTask.save(function(err) {
-									if (err) {
-										res.send(err);
-									} else {
-										/*
-										res.json({ message: 'New task created!' });
-										console.log('New task created!');
-										*/
-										resMessage += '\nNew task created!';
-									}
-								});
-							} else {
-								// An open task is already associated with this button
-								/*
-								res.json({ message: 'This button has an open task' });
-								console.log('This button has an open task');
-								*/
-								resMessage += '\nThis button already has an open task.';
-							}
-						})
-						.then(function(task) {
-							res.json({ message: resMessage });
-							console.log(resMessage);
-						});
-					});
-
-				//res.json({ message: resMessage });
-				//console.log(resMessage);
-
-
-				/*
-        // create new Button
-        var newBtn = new Button();
-        newBtn.buttonId = buttonId;
-        newBtn.clickTimestamp = clickTimestamp;
-
-        // save the Button and check for errors
-        newBtn.save(function(err) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json({ message: 'New button created!' });
-                console.log('New button created!');
-            }
-        });
-				*/
-				
-				/*
-				// If no tasks associated with this button, make one
-				//Task.findOne({ button: newButton.id }, null, function(err, task) {
-				Task.findOne({ button: reqButtonId }, null, function(err, task) {
-					if (err) {
-						res.send(err);
-					} else if (!task) {
-						// No task found; create a new one with no assigned employee
-						var newTask = new Task({ button: reqButtonId});
-						newTask.save(function(err) {
-							if (err) {
-								res.send(err);
-							} else {
-								res.json({ message: 'New task created!' });
-								console.log('New task created!');
-							}
-						});
 					}
 				});
-				*/
+
+				// Once the button is found or created, create a new task if one not already open
+				buttonPromise.then(function(button) {
+					Task.findOne({ button: button.id }, null, function(err, task) {
+						if (err) {
+							res.send(err);
+						} else if (!task) {
+							// No open task found, so create one
+							var newTask = new Task({ button: button.id });
+							newTask.save(function(err) {
+								if (err) {
+									res.send(err);
+								} 
+							});
+							resMessage += " New task created!";
+						} else {
+							// A task is already open for this button
+							resMessage += " There is already an open task for button " + button.id;
+						}
+					})
+					.then(function(task) {
+						res.json({ message: resMessage });
+						console.log(resMessage);
+					});
+				});
     },
 
     // Handle retrieving all the buttons stored
