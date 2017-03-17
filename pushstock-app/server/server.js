@@ -60,8 +60,7 @@ const dbOptions = {
     user: process.env.PUSHSTOCK_API_USERNAME,
     pass: process.env.PUSHSTOCK_API_PASSWORD
 };
-//mongoose.connect(dbHost, dbOptions);
-mongoose.connect(dbHost);
+mongoose.connect(dbHost, dbOptions);
 
 // Create HTTP Server to redirect
 const insecureServer = http.createServer(redirectApp, function(req, res){
