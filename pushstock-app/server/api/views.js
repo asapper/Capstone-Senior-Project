@@ -8,10 +8,14 @@
  * ------			--------		-----------
  * sapper			03/01/17		File created
  * rapp				03/13/17		Added task creation in response to singleClick call
+ * Saul       03/16/17    Added view to get all employees in DB
+ * Saul       03/20/17    Deleted all employees 
  *
  */
 const Button = require('../app/models/button');
 const Task = require('../app/models/task');
+const Employee = require('../app/models/employee');
+
 
 
 module.exports = {
@@ -36,7 +40,7 @@ module.exports = {
 
         console.log("POST: Single Click by button " +
             reqButtonId + " at " + reqClickTimestamp);
-				
+
 				var button, // The button making the API call
 						resMessage; // The message to send back as a response
 
@@ -49,7 +53,7 @@ module.exports = {
 						res.send(err);
 					} else if (!button) {
 						// No button found; create a new one
-						button = new Button({ 
+						button = new Button({
 							buttonId: reqButtonId,
 							clickTimestamp: reqClickTimestamp
 						});
@@ -72,7 +76,7 @@ module.exports = {
 						console.log('Button already exists. :(');
 						*/
 						resMessage = 'Button already exists.';
-					} 
+					}
 					})
 					.then(function(button) {
 						// Check for open tasks associated with this button
@@ -128,7 +132,7 @@ module.exports = {
             }
         });
 				*/
-				
+
 				/*
 				// If no tasks associated with this button, make one
 				//Task.findOne({ button: newButton.id }, null, function(err, task) {
@@ -194,8 +198,8 @@ module.exports = {
 				}
 			});
 		},
-		
-    
+
+
 
     addButtonView: function(req, res) {
         // get the button's information
@@ -222,5 +226,68 @@ module.exports = {
                 console.log('New button created!');
             }
         });
-    }
+    },
+
+    // Handle retrieving all the employees stored
+    getAllEmployeesView: function(req, res) {
+        console.log("GET: Returning list of employees...");
+
+        // Find all employees
+        Employee.find(function(err, employees) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(employees);
+                console.log("Returning a list of all the employees in the database!");
+            }
+        });
+    },
+
+    addEmployeeView: function(req, res) {
+        // get the button's information
+        email = req.body.email;
+        password = req.body.password;
+        firstName = req.body.firstName;
+        lastName = req.body.lastName;
+        role = req.body.role;
+
+        console.log("POST: Employee added through webapp " +
+            email);
+
+        // validate button information
+        // ...validation here
+
+        // create new Button
+        var newEmployee = new Employee();
+        newEmployee.email = email;
+        newEmployee.password = password;
+        newEmployee.profile = { firstName, lastName }
+        newEmployee.role = role;
+        // save the Button and check for errors
+        newEmployee.save(function(err) {
+            if (err) {
+                res.send(err);
+                console.log("Error creating the employee.");
+                console.log(err);
+            } else {
+                res.json({ message: "New employee created!" });
+                console.log("New employee created!");
+            }
+        });
+    },
+
+    // Delete all Employees (for testing)
+		deleteAllEmployeesView: function(req, res) {
+			console.log("DELETE: Deleting all employees...");
+
+			Employee.remove(function(err) {
+				if (err) {
+					res.send(err);
+				} else {
+          res.send('DELETE request to homepage');
+					res.json({ message: 'All employees removed.'});
+					console.log('All employees removed.');
+				}
+			});
+		}
 };

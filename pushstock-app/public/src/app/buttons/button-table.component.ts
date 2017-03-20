@@ -1,9 +1,13 @@
-/*  File:         button-table.component.ts
-*   Author:       Brennan Saul
-*   Description:  A component where one enters the information
-*   Modified:
-*                 March 15, 2017
-*                   - File created
+/*
+* File:         button-table.component.ts
+* Author:       Brennan Saul
+* Description:  A component that displays all of the buttons in the DB
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/15/17		File created
 */
 
 
@@ -24,12 +28,7 @@ import { Button } from '../shared/models/button';
 })
 
 export class ButtonTableComponent {
-  // For output
+  // Reads in the buttonList passed from AppComponent
   @Input() buttonList: any[];
 
-  //newButton: Button = new Button();
-
-  //testButton: Button = new Button();
-  // boolean used to clear all form values (even touched and invalid fields)
-  //active: boolean = true;
 }

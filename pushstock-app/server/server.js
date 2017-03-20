@@ -7,7 +7,7 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 const brcypt = require('bcrypt-nodejs');
 
 const HTTP_PORT = '80';
@@ -57,11 +57,14 @@ app.set('secret', secret);
 // pushstock-app is root directory of project
 const dbHost = 'mongodb://database/pushstock-app'
 const dbOptions = {
-    user: process.env.PUSHSTOCK_API_USERNAME,
-    pass: process.env.PUSHSTOCK_API_PASSWORD
+    //user: process.env.PUSHSTOCK_API_USERNAME,
+    //pass: process.env.PUSHSTOCK_API_PASSWORD
 };
+
 //mongoose.connect(dbHost, dbOptions);
+mongoose.Promise = require('bluebird');
 mongoose.connect(dbHost);
+//console.log(mongoose.Promise);
 
 // Create HTTP Server to redirect
 const insecureServer = http.createServer(redirectApp, function(req, res){
