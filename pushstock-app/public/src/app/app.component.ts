@@ -1,3 +1,16 @@
+/*
+* File:         employee-table.component.ts
+* Author:       Brennan Saul
+* Description:  The root component
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/16/17		getEmployees added
+* Saul        03/20/17    implemented Delete and Add employees functionality
+*/
+
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Button } from './shared/models/button';
@@ -15,8 +28,18 @@ export class AppComponent {
     // Link to our api, pointing to localhost
     API = 'https://localhost:4200/api';
 
-    // Empty list of buttons
+    // variables for testing
+    email: String = "James_Saul@baylor.edu";
+    password: String = "password";
+    firstName: String = "Brennan";
+    lastName: String = "Saul";
+    role: String = "Manager";
+
+    // Empty list of buttons to be populated by DB
     buttons: any[] = [];
+
+    // Empty list of employess to be populated by DB
+    employees: any[] = [];
 
     // booleans used to determine which view should be displayed in the web app
     welcomeView: boolean = true;
@@ -66,12 +89,14 @@ export class AppComponent {
     // Used to set buttonActive variable to true
     setTrue() {
       this.buttonActive = true;
-      console.log("set buttonActive to true")
+      console.log("set buttonActive to true");
     }
 
     // Angular 2 Life Cycle event whem component has been initialized
     ngOnInit() {
         this.getAllButtons();
+        this.getAllEmployees();
+        //this.deleteAllEmployees();
     }
 
     // Function called when a button is created
@@ -83,7 +108,6 @@ export class AppComponent {
      })
 
      console.log("button added");
-
 	  }
 
 
@@ -95,5 +119,32 @@ export class AppComponent {
                 console.log(buttons);
                 this.buttons = buttons;
             })
+    }
+
+    // Function that returns all buttons from the API
+    getAllEmployees() {
+        this.http.get(`${this.API}/employees`)
+            .map(res => res.json())
+            .subscribe(employees => {
+                console.log(employees);
+                this.employees = employees;
+            })
+    }
+
+    // Function to test adding an employee to the DB
+	  onEmployeeCreated(email: String, password: String, firstName: String, lastName: String, role: String){
+      this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role})
+     .map(res => res.json())
+     .subscribe(() => {
+      this.getAllEmployees();
+     })
+
+     console.log("employee added!");
+	  }
+
+    // Deletes all employees in DB (For testing)
+    deleteAllEmployees(){
+      console.log("deleted employees");
+      this.http.delete(`${this.API}/employees`)
     }
 }

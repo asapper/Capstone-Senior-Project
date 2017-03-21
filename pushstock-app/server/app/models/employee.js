@@ -28,8 +28,8 @@ const EmployeeSchema = new Schema({
     enum: ['Worker', 'Manager', 'Admin'],
     required: false
   },
-  resetPasswordToken: { type: String },
-  resetPasswordExpires: { type: Date }
+  resetPasswordToken: { type: String, required: false},
+  resetPasswordExpires: { type: Date, required: false}
 },
 {
   timestamps: true
