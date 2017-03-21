@@ -1,3 +1,4 @@
+
 // Get dependencies
 const express = require('express');
 const app = express();
@@ -57,13 +58,13 @@ app.set('secret', secret);
 // pushstock-app is root directory of project
 const dbHost = 'mongodb://database/pushstock-app'
 const dbOptions = {
-    //user: process.env.PUSHSTOCK_API_USERNAME,
-    //pass: process.env.PUSHSTOCK_API_PASSWORD
+    user: process.env.PUSHSTOCK_API_USERNAME,
+    pass: process.env.PUSHSTOCK_API_PASSWORD
 };
 
 //mongoose.connect(dbHost, dbOptions);
 mongoose.Promise = require('bluebird');
-mongoose.connect(dbHost);
+mongoose.connect(dbHost, dbOptions);
 
 // Create HTTP Server to redirect
 const insecureServer = http.createServer(redirectApp, function(req, res){

@@ -41,7 +41,8 @@ module.exports = {
         console.log("POST: Single Click by button " +
             reqButtonId + " at " + reqClickTimestamp);
 
-				var resMessage; // The message to send back as a response
+				var button, // The button making the API call
+						resMessage; // The message to send back as a response
 
 				// Checks whether the button exists and creates it if it doesn't
 				var buttonQuery = Button.findOne({ buttonId: reqButtonId });
@@ -67,7 +68,6 @@ module.exports = {
 						// Button already exists
 						resMessage = 'Button already exists.';
 					}
-<<<<<<< HEAD
 				});
 
 				// Once the button is found or created, create a new task if one not already open
@@ -92,9 +92,9 @@ module.exports = {
 					.then(function(task) {
 						res.json({ message: resMessage });
 						console.log(resMessage);
+					});
 				});
     },
-
     // Handle retrieving all the buttons stored
     getAllButtonsView: function(req, res) {
         console.log("GET: Returning list of buttons...");
