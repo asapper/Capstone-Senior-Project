@@ -1,9 +1,13 @@
-/*  File:         button-table.component.ts
-*   Author:       Brennan Saul
-*   Description:  A component where one enters the information
-*   Modified:
-*                 March 15, 2017
-*                   - File created
+/*
+* File:         button-table.component.ts
+* Author:       Brennan Saul
+* Description:  A component that displays all of the buttons in the DB
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/15/17		File created
 */
 
 
@@ -23,6 +27,6 @@ import { Component, Input, } from '@angular/core';
 })
 
 export class ButtonTableComponent {
-  // For output
+  // Reads in the buttonList passed from AppComponent
   @Input() buttonList: any[];
 }

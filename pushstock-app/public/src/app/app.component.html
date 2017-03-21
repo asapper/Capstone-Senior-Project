@@ -1,6 +1,14 @@
-<!-- File:        component.html
-*   Author:       Brennan Saul, Andy Sapper
-*   Description:  html for the AppComponet <app-root>
+<!--
+* File:        component.html
+* Author:       Brennan Saul, Andy Sapper
+* Description:  html for the AppComponet <app-root>
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/15/17		Refactored
+* Saul        03/16/17    Employee section added
 -->
 
 <!-- Bootstrap Navbar -->
@@ -60,7 +68,10 @@
   </div>
 
     <!-- Worker view displayed if selected -->
-    <div class="jumbotron" *ngIf="workerView">workerView</div>
+    <div class="jumbotron" *ngIf="workerView">
+      <a href="#" class="btn btn-primary" (click)="onEmployeeCreated(email, password, firstName, lastName, role)">Add Employee</a>
+      <employee-table [employeeList]="employees">Employee Table Loading...</employee-table>
+    </div>
 
 
 </main>
