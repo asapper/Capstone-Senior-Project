@@ -19,6 +19,7 @@ function setEmployeeInfo(request) {
         lastName: request.profile.lastName,
         email: request.email,
         role: request.role,
+        password: request.password
     };
 }
 
