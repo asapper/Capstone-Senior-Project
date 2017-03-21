@@ -9,17 +9,21 @@
 * ======			========		===========
 * Saul			  03/15/17		ButtonTableComponent added
 * Saul			  03/16/17		EmployeeTableComponent added
+* Rapp			  03/21/17		Switched to use Angular2's built-in routing module
 */
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -32,13 +36,17 @@ import { EmployeeTableComponent } from './employees/employee-table.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+		AppRoutingModule
   ],
   providers: [],
+	bootstrap: [ AppComponent]
+	/*
   bootstrap: [
     AppComponent,
     ButtonTableComponent,
     EmployeeTableComponent
   ]
+ */
 })
 export class AppModule { }

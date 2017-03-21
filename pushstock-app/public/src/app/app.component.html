@@ -9,6 +9,7 @@
 * ======			========		===========
 * Saul			  03/15/17		Refactored
 * Saul        03/16/17    Employee section added
+* Rapp				03/21/17		Changed links to use RouterLinks
 -->
 
 <!-- Bootstrap Navbar -->
@@ -22,13 +23,13 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <ul class="nav navbar-nav">
             <li>
-              <a href="#" (click)=changeToHomeView()> Home <span class="sr-only">(current)</span></a>
+							<a routerLink="/tasks">Tasks</a>
             </li>
             <li>
-            <a href="#" (click)=changeToButtonView()>Buttons</a>
+							<a routerLink="/buttons">Buttons</a>
             </li>
             <li>
-            <a href="#" (click)=changeToWorkerView()>Workers</a>
+							<a routerLink="/employees">Employees</a>
             </li>
           </ul>
         </div>
@@ -36,7 +37,9 @@
   </nav>
 </header>
 
+<router-outlet></router-outlet>
 
+<!--
 <main>
 
   <!-- Displays if home tab selected -->
@@ -76,6 +79,9 @@
 
 </main>
 
+-->
+
 <footer class="text-center">
   Copyright &copy; 2016
 </footer>
+
