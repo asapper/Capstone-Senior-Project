@@ -1,6 +1,13 @@
-/*  File:         button-form.component.ts
-*   Author:       Brennan Saul
-*   Description:  A component where one enters the information
+/*
+* File:         button-form.component.ts
+* Author:       Brennan Saul
+* Description:  A component where one enters the information
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/16/17		Updated
 */
 
 
