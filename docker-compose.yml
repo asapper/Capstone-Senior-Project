@@ -2,7 +2,7 @@ version: '2'
 
 services:
  web:
-   build: .
+   build: pushstock-app
    ports:
      - "4200:4200"
      - "80:80"
@@ -13,6 +13,7 @@ services:
    command: ["./wait-for-it.sh", "database:27017", "--strict", "--", "./wait-for-mongo.sh"]
 
  database:
+   build: database
    image: mongo
    volumes:
      - /tmp/mongodb:/data/db

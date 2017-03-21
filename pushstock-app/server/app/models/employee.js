@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'),  
+const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       bcrypt = require('bcrypt-nodejs');
 
@@ -6,7 +6,8 @@ const mongoose = require('mongoose'),
 //================================
 // User Schema
 //================================
-const EmployeeSchema = new Schema({  
+
+const EmployeeSchema = new Schema({
   email: {
     type: String,
     lowercase: true,
@@ -35,7 +36,7 @@ const EmployeeSchema = new Schema({
 });
 
 // Pre-save of user to database, hash password if password is modified or new
-EmployeeSchema.pre('save', function(next) {  
+EmployeeSchema.pre('save', function(next) {
   const user = this,
   SALT_FACTOR = 5;
 
@@ -53,7 +54,7 @@ EmployeeSchema.pre('save', function(next) {
 });
 
 // Method to compare password for login
-EmployeeSchema.methods.comparePassword = function(candidatePassword, cb) {  
+EmployeeSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) { return cb(err); }
 
@@ -61,4 +62,4 @@ EmployeeSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 }
 
-module.exports = mongoose.model('Employee', EmployeeSchema);   
+module.exports = mongoose.model('Employee', EmployeeSchema);

@@ -1,32 +1,70 @@
-<!-- Bootstrap Navbar -->
-<nav class="navbar navbar-default">
-    <div class="container">
-        <a class="navbar-brand" href="#">Mean Docker</a>
-    </div>
-</nav>
+<!-- File:        component.html
+*   Author:       Brennan Saul, Andy Sapper
+*   Description:  html for the AppComponet <app-root>
+-->
 
-<div class="container">
-    <div class="row">
-        <h3>Buttons</h3>
-        <!-- Bootstrap Table -->
-        <div class="panel panel-default">
-            <div class="panel-heading">List of Buttons</div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Click Timestamp</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let button of buttons">
-                        <td>{{ button.buttonId }}</td>
-                        <td>{{ button.clickTimestamp }}</td>
-                        <td>{{ button.buttonDescription }}</td>
-                    </tr>
-                </tbody>
-            </table>
+<!-- Bootstrap Navbar -->
+<header>
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">PushStock</a>
         </div>
+          <!-- nav bar tabs -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#" (click)=changeToHomeView()> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li>
+            <a href="#" (click)=changeToButtonView()>Buttons</a>
+            </li>
+            <li>
+            <a href="#" (click)=changeToWorkerView()>Workers</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+</header>
+
+
+<main>
+
+  <!-- Displays if home tab selected -->
+  <div class="jumbotron" *ngIf="welcomeView">Login</div>
+
+  <!-- Displays if button tab selected -->
+  <div class="container" *ngIf="buttonView">
+
+    <div class="row">
+      <!-- Title -->
+      <div class="col-sm-4 text-left">
+        <h3>FLIC Buttons</h3>
+      </div>
+      <!-- Button to enable add button form -->
+      <div class="col-sm-4 text-right">
+        <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
+      </div>
     </div>
-</div>
+
+    <!-- Button Table Component: array of buttons passed to the table -->
+    <button-table [buttonList]="buttons">Loading...</button-table>
+
+        <!-- Button form displayed after addButton button clicked -->
+        <div class="jumbotron" *ngIf="this.buttonActive">
+          <!-- Here the parent creates the compnent and listens for an event -->
+            <button-form (buttonCreated)="onButtonCreated($event.button.buttonId, $event.button.clickTimestamp, $event.button.buttonDescription)"></button-form>
+        </div>
+
+  </div>
+
+    <!-- Worker view displayed if selected -->
+    <div class="jumbotron" *ngIf="workerView">workerView</div>
+
+
+</main>
+
+<footer class="text-center">
+  Copyright &copy; 2016
+</footer>
