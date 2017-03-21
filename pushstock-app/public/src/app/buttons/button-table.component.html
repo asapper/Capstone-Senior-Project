@@ -10,15 +10,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Click Timestamp</th>
+                <th>MAC Address</th>
                 <th>Description</th>
             </tr>
         </thead>
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
-                <td>{{ button.buttonId }}</td>
-                <td>{{ button.clickTimestamp }}</td>
+                <td>{{ button.macAddr }}</td>
                 <td>{{ button.buttonDescription }}</td>
             </tr>
         </tbody>

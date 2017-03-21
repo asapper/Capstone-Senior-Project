@@ -8,7 +8,6 @@
 
 
 import { Component, Input, } from '@angular/core';
-import { Button } from '../shared/models/button';
 
 @Component ({
   selector: 'button-table',
@@ -26,10 +25,4 @@ import { Button } from '../shared/models/button';
 export class ButtonTableComponent {
   // For output
   @Input() buttonList: any[];
-
-  //newButton: Button = new Button();
-
-  //testButton: Button = new Button();
-  // boolean used to clear all form values (even touched and invalid fields)
-  //active: boolean = true;
 }

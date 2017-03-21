@@ -31,8 +31,6 @@ export class ButtonFormComponent {
   active: boolean = true;
 
   onSubmit(){
-
-    this.newButton.clickTimestamp = new Date();
     // Show the event that the button was created
     this.buttonCreated.emit({ button: this.newButton });
 
