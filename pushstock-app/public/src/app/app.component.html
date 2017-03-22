@@ -46,15 +46,14 @@
 
   <!-- Displays if button tab selected -->
   <div class="container" *ngIf="buttonView">
-    <!-- Button Table Component: array of buttons passed to the table
-         includes the ButtonFormComponent -->
+    <!-- Button Table Component which contains button form component -->
     <button-table>Loading...</button-table>
   </div>
 
     <!-- Worker view displayed if selected -->
     <div class="jumbotron" *ngIf="workerView">
-      <a href="#" class="btn btn-primary" (click)="onEmployeeCreated(email, password, firstName, lastName, role)">Add Employee</a>
-      <employee-table [employeeList]="employees">Employee Table Loading...</employee-table>
+      <!-- Employee Table Component which contains Employee form component -->
+      <employee-table>Employee Table Loading...</employee-table>
     </div>
 
 

@@ -1,20 +1,19 @@
 /*
-* File:         button-form.component.ts
+* File:         employee-form.component.ts
 * Author:       Brennan Saul
-* Description:  A component where one enters the information
+* Description:  A component used to add employees to the database
 *
 * Edit history:
 *
 * Editor			Date				Description
 * ======			========		===========
-* Saul			  03/16/17		Updated
-* Saul        03/21/17    Self Contained. Does not use root component
+* Saul			  03/22/17		File created
 */
 
 import { Component, Output, EventEmitter } from '@angular/core';
-import { Button } from '../shared/models/button';
+import { Employee } from '../shared/models/employee';
 import { Http } from '@angular/http';
-//import { ButtonTableComponent } from './button-table.component';
+//import { EmployeeTableComponent } from './employee-table.component';
 
 @Component ({
   selector: 'button-form',
@@ -27,33 +26,37 @@ import { Http } from '@angular/http';
     }
   `],
     templateUrl: './button-form.component.html',
-    //providers: [ButtonTableComponent]
+    //providers: [EmployeeTableComponent]
 })
 
 export class ButtonFormComponent {
   // For output
-  @Output() buttonCreated = new EventEmitter();
+  @Output() employeeCreated = new EventEmitter();
 
   API = 'https://localhost:4200/api';
+
+  roles: String[] = [ "Admin", "Manager", "Worker" ];
 
   // Does anyone know what this does?
   constructor(private http: Http) {}
 
   // Class used to group data added to mongoDb
-  newButton: Button = new Button();
+  newEmployee: Employee = new Employee();
 
+  // Used to clear form
   active: boolean = true;
 
-  addButton(buttonId: number, buttonDescription: String){
+  addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
 
-    this.http.post(`${this.API}/addButton`, { buttonId, buttonDescription })
+    // Add Employee through API
+    this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role})
 
-    // emits event so that the table will know to update
-    this.buttonCreated.emit();
-    console.log("button added");
+    // Emit event so that the table will know to update
+    this.employeeCreated.emit();
+    console.log("Employee added");
 
     // clears the form everytime it is submitted
-    this.newButton = new Button();
+    this.newEmployee = new Employee();
 
     // clears forms and states invaled and touched
     this.active = false;

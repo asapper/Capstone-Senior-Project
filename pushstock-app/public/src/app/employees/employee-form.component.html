@@ -1,0 +1,85 @@
+<!--
+* File:         employee-form.component.html
+* Author:       Brennan Saul
+* Description:  The html template for the EmployeeFormComponent
+
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/22/17		File Created
+-->
+
+
+<!-- #form defines a template reference variable: now we can easily
+reference the form using the form variable. then bind to the ngForm
+directive-->
+
+<!-- submit: submits and refreshes the page -->
+<!-- ngSubmit: does not refresh tht page -->
+<form #form=ngForm (ngSubmit)="onSubmit()" *ngIf="active">
+
+  <!-- If the form is valid -->
+  {{ form.valid }}
+
+  <!-- First name field -->
+  <div class="form-group" [ngClass]="{ 'has-error': firstName.invalid && firstName.touched }">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" name="firstName" required
+    [(ngModel)]="newEmployee.firstName" #firstName="ngModel" placeholder="firstName">
+
+    <!-- Shows "Required" if first name field is empty & been touched -->
+    <span style="color:red" class="help-block"
+    *ngIf="firstName.invalid && firstName.touched"> Required </span>
+  </div>
+
+  <!-- Last name field -->
+  <div class="form-group" [ngClass]="{ 'has-error': lastName.invalid && lastName.touched }">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" name="lastName" required
+    [(ngModel)]="newEmployee.lastName" #lastName="ngModel" placeholder="lastName">
+
+    <!-- Shows "Required" if last name field is empty & been touched -->
+    <span style="color:red" class="help-block"
+    *ngIf="lastName.invalid && lastName.touched"> Required </span>
+  </div>
+
+  <!-- Email field -->
+  <div class="form-group" [ngClass]="{ 'has-error': email.invalid && email.touched }">
+  <label for="email">Email</label>
+    <input type="text" class="form-control" name="email" required
+    [(ngModel)]="newEmployee.email" #email="ngModel" placeholder="Email:">
+
+    <!-- Shows "Required" if email field is empty -->
+    <span style="color:red" class="help-block"
+    *ngIf="email.invalid && email.touched"> Required </span>
+  </div>
+
+  <!-- password field -->
+  <div class="form-group" [ngClass]="{ 'has-error': password.invalid && password.touched }">
+  <label for="password">Password</label>
+    <input type="text" class="form-control" name="password" required
+    [(ngModel)]="newEmployee.password" #password="ngModel" placeholder="Password">
+
+    <!-- Shows "Required" if first name field is empty -->
+    <span style="color:red" class="help-block"
+    *ngIf="password.invalid && password.touched"> Required </span>
+  </div>
+
+  <div class="form-group" [ngClass]="{ 'has-error': password.invalid && password.touched }">
+    <label for="role">Role</label><br />
+    <select [(ngModel)]="newEmployee.role" name="role" required #role="ngModel"
+    placeholder="Select a Role">
+       <option *ngFor="#role of roles" [value]="role">{{ role }}</option>
+    </select>
+</div>
+
+
+
+  <!-- Button is disabled if form=invaild & been touched -->
+  <button type="button" (click)="addEmployee(newEmployee.email,
+  newEmployee.password, newEmployee.firstName, newEmployee.lastName,
+  newEmployee.role))" class="btn btn-lg btn-block btn-primary"
+  [disabled]="form.invalid">
+    Add Employee
+  </button>
