@@ -8,10 +8,13 @@
 * Editor			Date				Description
 * ======			========		===========
 * Saul			  03/15/17		File created
+* Saul        03/21/17    Calls API instead of relying on AppComponent
+* Saul        03/21/17    Self contained & calls the ButtonFormComponent
 */
 
 
-import { Component, Input, } from '@angular/core';
+import { Component } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Component ({
   selector: 'button-table',
@@ -27,6 +30,35 @@ import { Component, Input, } from '@angular/core';
 })
 
 export class ButtonTableComponent {
-  // Reads in the buttonList passed from AppComponent
-  @Input() buttonList: any[];
+  constructor(private http: Http) {}
+
+  // API path
+  API = 'https://localhost:4200/api';
+
+  buttonList: any[];
+
+  // Boolean flag that controls if the buttonform is displayed
+  buttonActive: boolean = false;
+
+  // Angular 2 Life Cycle event whem component has been initialized
+  // Get the array of buttons when the component is initialized
+  ngOnInit() {
+      this.getAllButtons();
+  }
+
+  // Function that returns all buttons from the API
+  getAllButtons() {
+      this.http.get(`${this.API}/buttons`)
+          .map(res => res.json())
+          .subscribe(buttons => {
+              console.log(buttons);
+              this.buttonList = buttons;
+          })
+  }
+
+  setTrue() {
+    this.buttonActive = true;
+    console.log("set buttonActive to true");
+  }
+
 }

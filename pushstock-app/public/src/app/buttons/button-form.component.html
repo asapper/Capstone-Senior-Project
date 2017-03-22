@@ -8,6 +8,7 @@
 * Editor			Date				Description
 * ======			========		===========
 * Saul			  03/16/17		updated
+* Saul        03/21/17    Self sufficient adding to the Db
 -->
 
 
@@ -24,7 +25,7 @@ directive-->
     <input type="text" class="form-control" name="macAddr" required
     [(ngModel)]="newButton.macAddr" #macAddr="ngModel" placeholder="macAddr">
 
-    <!-- Shows "Required" if first name field is empty & been touched -->
+    <!-- Shows "Required" if macAddr field is empty & been touched -->
     <span style="color:red" class="help-block"
     *ngIf="macAddr.invalid && macAddr.touched"> Required </span>
   </div>
@@ -35,13 +36,13 @@ directive-->
     <input type="text" class="form-control" name="buttonDescription" required
     [(ngModel)]="newButton.buttonDescription" #buttonDescription="ngModel" placeholder="Description:">
 
-    <!-- Shows "Required" if first name field is empty -->
+    <!-- Shows "Required" if buttonDescription field is empty -->
     <span style="color:red" class="help-block"
     *ngIf="buttonDescription.invalid && buttonDescription.touched"> Required </span>
   </div>
 
   <!-- Button is disabled if form=invaild & been touched -->
-  <button type="submit" class="btn btn-lg btn-block btn-primary"
+  <button type="button" (click)="addButton(newButton.macAddr, newButton.buttonDescription)" class="btn btn-lg btn-block btn-primary"
   [disabled]="form.invalid">
     Add Button
   </button>

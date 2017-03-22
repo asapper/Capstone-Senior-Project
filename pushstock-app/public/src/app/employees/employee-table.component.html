@@ -9,34 +9,49 @@
 * Saul			  03/16/17		File created
 * Saul        03/20/17    Fixed display number error
 -->
+<div>
 
-<!-- Bootstrap Table -->
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title pull-left">Employees registerd: <span class="badge">{{ employeeList?.length }} </span></div>
-      <!--<div class="panel-title pull-right">Bottons Registered: {{ buttonList?.length }}</div> -->
-      <div class="clearfix"></div>
+  <!-- Title -->
+  <h3>Employees</h3>
+  <!-- Bootstrap Table -->
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title pull-left">Employees registerd: <span class="badge">{{ employeeList?.length }} </span></div>
+        <div class="panel-title pull-right">
+          <!-- Button to enable add Employee form -->
+          <a href="#" class="btn btn-primary" (click)="setTrue()">Add Employee</a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <!-- Table for the Employees in the mongo DB -->
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+              </tr>
+          </thead>
+          <tbody *ngIf="employeeList?.length > 0">
+              <tr *ngFor="let employee of employeeList">
+                  <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
+                  <td>{{ employee.email }}</td>
+                  <td>{{ employee.role }}</td>
+              </tr>
+          </tbody>
+          <tbody *ngIf="employeeList?.length < 1 text-center">
+              No employees have been registered to the system.
+          </tbody>
+
+      </table>
     </div>
 
-    <!-- Table for the buttons in the mongo DB -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="employeeList?.length > 0">
-            <tr *ngFor="let employee of employeeList">
-                <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
-                <td>{{ employee.email }}</td>
-                <td>{{ employee.role }}</td>
-            </tr>
-        </tbody>
-        <tbody *ngIf="employeeList?.length < 1 text-center">
-            No employees have been registered to the system.
-        </tbody>
-
-    </table>
-  </div>
+    <!-- Emplyee form displayed after addEmployee button clicked -->
+    <div class="jumbotron" *ngIf="this.employeeActive">
+      <!-- Call employee-form component. employee-form component will emit an event when
+           an employee has been created so that this componet will know to update
+           the table. -->
+      <employee-form (employeeCreated)="getAllEmployees()"></employee-form>
+    </div>
+</div>

@@ -73,7 +73,7 @@ module.exports = {
                     newTask.save(function(err) {
                         if (err) {
                             res.send(err);
-                        } 
+                        }
                     });
                     resMessage += " New task created!";
                 } else {
@@ -187,6 +187,7 @@ module.exports = {
             } else {
                 res.json({ message: "New employee created!" });
                 console.log("New employee created!");
+                console.log(newEmployee.role);
             }
         });
     },
