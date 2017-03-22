@@ -20,13 +20,15 @@ import { AppComponent } from './app.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
+import { EmployeeFormComponent } from './employees/employee-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ButtonFormComponent,
     ButtonTableComponent,
-    EmployeeTableComponent
+    EmployeeTableComponent,
+    EmployeeFormComponent
   ],
 
   imports: [
@@ -38,7 +40,8 @@ import { EmployeeTableComponent } from './employees/employee-table.component';
   bootstrap: [
     AppComponent,
     ButtonTableComponent,
-    EmployeeTableComponent
+    EmployeeTableComponent,
+    EmployeeFormComponent
   ]
 })
 export class AppModule { }

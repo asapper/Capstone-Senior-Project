@@ -48,10 +48,10 @@
     </div>
 
     <!-- Emplyee form displayed after addEmployee button clicked -->
-    <div class="jumbotron" *ngIf="this.buttonActive">
+    <div class="jumbotron" *ngIf="this.employeeActive">
       <!-- Call employee-form component. employee-form component will emit an event when
            an employee has been created so that this componet will know to update
            the table. -->
-      <employee-form (EmployeeCreated)="getAllEmployees()"></employee-form>
+      <employee-form (employeeCreated)="getAllEmployees()"></employee-form>
     </div>
 </div>

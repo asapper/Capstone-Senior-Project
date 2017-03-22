@@ -13,7 +13,7 @@
 */
 
 
-import { Component, Input, } from '@angular/core';
+import { Component } from '@angular/core';
 import { Employee } from '../shared/models/employee';
 import { Http } from '@angular/http';
 
@@ -40,6 +40,8 @@ export class EmployeeTableComponent {
   // Reads in the employeeList from the API
   employeeList: any[];
 
+  employeeActive: boolean = false;
+
   // Angular 2 Life Cycle event whem component has been initialized
   // Get the array of employees when the component is initialized
   ngOnInit() {
@@ -54,6 +56,12 @@ export class EmployeeTableComponent {
               console.log(employees);
               this.employeeList = employees;
           })
+  }
+
+  // Function sets boolean to true showing the employee form
+  setTrue() {
+    this.employeeActive = true;
+    console.log("set employeeActive to true");
   }
 
   // Deletes all employees in DB (For testing)

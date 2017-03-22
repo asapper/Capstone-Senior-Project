@@ -212,6 +212,7 @@ module.exports = {
             } else {
                 res.json({ message: "New employee created!" });
                 console.log("New employee created!");
+                console.log(newEmployee.role);
             }
         });
     },

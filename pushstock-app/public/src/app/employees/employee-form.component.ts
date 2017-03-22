@@ -7,16 +7,16 @@
 *
 * Editor			Date				Description
 * ======			========		===========
-* Saul			  03/22/17		File created
+* Saul			  03/22/17		File created / Working EmployeeFormComponent
 */
 
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Employee } from '../shared/models/employee';
 import { Http } from '@angular/http';
-//import { EmployeeTableComponent } from './employee-table.component';
+import { EmployeeTableComponent } from './employee-table.component';
 
 @Component ({
-  selector: 'button-form',
+  selector: 'employee-form',
   styles: [`
     form {
       padding: 10px;
@@ -25,11 +25,11 @@ import { Http } from '@angular/http';
       margin-bottom: 30px;
     }
   `],
-    templateUrl: './button-form.component.html',
-    //providers: [EmployeeTableComponent]
+    templateUrl: './employee-form.component.html',
+    providers: [EmployeeTableComponent]
 })
 
-export class ButtonFormComponent {
+export class EmployeeFormComponent {
   // For output
   @Output() employeeCreated = new EventEmitter();
 
@@ -38,7 +38,7 @@ export class ButtonFormComponent {
   roles: String[] = [ "Admin", "Manager", "Worker" ];
 
   // Does anyone know what this does?
-  constructor(private http: Http) {}
+  constructor(private http: Http, private table: EmployeeTableComponent) {}
 
   // Class used to group data added to mongoDb
   newEmployee: Employee = new Employee();
@@ -50,10 +50,14 @@ export class ButtonFormComponent {
 
     // Add Employee through API
     this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role})
-
+    .map(res => res.json())
+    .subscribe(employees => {
+        console.log(employees);
+        this.table.employeeList = employees;
+    })
     // Emit event so that the table will know to update
     this.employeeCreated.emit();
-    console.log("Employee added");
+    console.log("Employee added" + this.newEmployee);
 
     // clears the form everytime it is submitted
     this.newEmployee = new Employee();

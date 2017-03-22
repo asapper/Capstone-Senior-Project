@@ -14,7 +14,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Button } from '../shared/models/button';
 import { Http } from '@angular/http';
-//import { ButtonTableComponent } from './button-table.component';
+import { ButtonTableComponent } from './button-table.component';
 
 @Component ({
   selector: 'button-form',
@@ -27,7 +27,7 @@ import { Http } from '@angular/http';
     }
   `],
     templateUrl: './button-form.component.html',
-    //providers: [ButtonTableComponent]
+    providers: [ButtonTableComponent]
 })
 
 export class ButtonFormComponent {
@@ -37,7 +37,7 @@ export class ButtonFormComponent {
   API = 'https://localhost:4200/api';
 
   // Does anyone know what this does?
-  constructor(private http: Http) {}
+  constructor(private http: Http, private table: ButtonTableComponent) {}
 
   // Class used to group data added to mongoDb
   newButton: Button = new Button();
@@ -47,10 +47,14 @@ export class ButtonFormComponent {
   addButton(buttonId: number, buttonDescription: String){
 
     this.http.post(`${this.API}/addButton`, { buttonId, buttonDescription })
-
+    .map(res => res.json())
+    .subscribe(employees => {
+        console.log(employees);
+        this.table.buttonList = employees;
+    })
     // emits event so that the table will know to update
     this.buttonCreated.emit();
-    console.log("button added");
+    console.log("button added" + this.newButton);
 
     // clears the form everytime it is submitted
     this.newButton = new Button();
