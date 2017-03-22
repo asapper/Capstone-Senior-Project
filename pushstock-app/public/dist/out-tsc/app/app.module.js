@@ -11,6 +11,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
+import { EmployeeTableComponent } from './employees/employee-table.component';
+import { EmployeeFormComponent } from './employees/employee-form.component';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -21,7 +23,9 @@ AppModule = __decorate([
         declarations: [
             AppComponent,
             ButtonFormComponent,
-            ButtonTableComponent
+            ButtonTableComponent,
+            EmployeeTableComponent,
+            EmployeeFormComponent
         ],
         imports: [
             BrowserModule,
@@ -30,7 +34,10 @@ AppModule = __decorate([
         ],
         providers: [],
         bootstrap: [
-            AppComponent
+            AppComponent,
+            ButtonTableComponent,
+            EmployeeTableComponent,
+            EmployeeFormComponent
         ]
     })
 ], AppModule);

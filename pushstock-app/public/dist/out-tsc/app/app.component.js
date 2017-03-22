@@ -15,11 +15,9 @@ var AppComponent = (function () {
         this.http = http;
         this.title = 'app works!';
         this.API = 'https://localhost:4200/api';
-        this.buttons = [];
         this.welcomeView = true;
         this.buttonView = false;
         this.workerView = false;
-        this.buttonActive = false;
     }
     AppComponent.prototype.changeToHomeView = function () {
         this.welcomeView = true;
@@ -35,31 +33,6 @@ var AppComponent = (function () {
         this.welcomeView = false;
         this.buttonView = false;
         this.workerView = true;
-    };
-    AppComponent.prototype.setTrue = function () {
-        this.buttonActive = true;
-        console.log("set buttonActive to true");
-    };
-    AppComponent.prototype.ngOnInit = function () {
-        this.getAllButtons();
-    };
-    AppComponent.prototype.onButtonCreated = function (buttonId, clickTimestamp, buttonDescription) {
-        var _this = this;
-        this.http.post(this.API + "/addButton", { buttonId: buttonId, clickTimestamp: clickTimestamp, buttonDescription: buttonDescription })
-            .map(function (res) { return res.json(); })
-            .subscribe(function () {
-            _this.getAllButtons();
-        });
-        console.log("button added");
-    };
-    AppComponent.prototype.getAllButtons = function () {
-        var _this = this;
-        this.http.get(this.API + "/buttons")
-            .map(function (res) { return res.json(); })
-            .subscribe(function (buttons) {
-            console.log(buttons);
-            _this.buttons = buttons;
-        });
     };
     return AppComponent;
 }());
