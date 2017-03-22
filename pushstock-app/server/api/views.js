@@ -123,22 +123,17 @@ module.exports = {
     },
 
     addButtonView: function(req, res) {
-        // get the button's information
-        macAddr = req.body.macAddr;
-        description = req.body.buttonDescription;
-        // validate button information
-        // ...validation here
-
         // create new Button
         var newBtn = new Button();
-        newBtn.macAddr = macAddr;
-        newBtn.buttonDescription = description;
+        newBtn.macAddr =  req.body.macAddr;
+        newBtn.description = req.body.description;
         // save the Button and check for errors
         newBtn.save(function(err) {
             if (err) {
                 res.send(err);
             } else {
-                res.json({ message: 'New button created!' });
+                res.json({ message: 'New button created!'});
+                console.log("new button created" + newBtn);
             }
         });
     },

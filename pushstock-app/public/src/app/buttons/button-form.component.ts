@@ -45,13 +45,13 @@ export class ButtonFormComponent {
   active: boolean = true;
 
 
-  addButton(buttonId: number, buttonDescription: String){
+  addButton(macAddr: String, description: String){
 
-    this.http.post(`${this.API}/addButton`, { buttonId, buttonDescription })
+    this.http.post(`${this.API}/addButton`, { macAddr, description })
     .map(res => res.json())
-    .subscribe(employees => {
-        console.log(employees);
-        this.table.buttonList = employees;
+    .subscribe(buttons => {
+        console.log(buttons);
+        this.table.buttonList = buttons;
     })
     // emits event so that the table will know to update
     this.buttonCreated.emit();

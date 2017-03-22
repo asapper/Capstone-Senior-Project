@@ -39,7 +39,7 @@
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
                 <td>{{ button.macAddr }}</td>
-                <td>{{ button.buttonDescription }}</td>
+                <td>{{ button.description }}</td>
             </tr>
         </tbody>
         <tbody *ngIf="buttonList?.length < 1" class="text-center">

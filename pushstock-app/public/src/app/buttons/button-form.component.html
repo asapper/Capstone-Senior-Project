@@ -30,19 +30,19 @@ directive-->
     *ngIf="macAddr.invalid && macAddr.touched"> Required </span>
   </div>
 
-  <!-- buttonDescription field -->
-  <div class="form-group" [ngClass]="{ 'has-error': buttonDescription.invalid && buttonDescription.touched }">
-  <label for="buttonDescription">Description</label>
-    <input type="text" class="form-control" name="buttonDescription" required
-    [(ngModel)]="newButton.buttonDescription" #buttonDescription="ngModel" placeholder="Description:">
+  <!-- description field -->
+  <div class="form-group" [ngClass]="{ 'has-error': description.invalid && description.touched }">
+  <label for="description">Description</label>
+    <input type="text" class="form-control" name="description" required
+    [(ngModel)]="newButton.description" #description="ngModel" placeholder="Description:">
 
-    <!-- Shows "Required" if buttonDescription field is empty -->
+    <!-- Shows "Required" if description field is empty -->
     <span style="color:red" class="help-block"
-    *ngIf="buttonDescription.invalid && buttonDescription.touched"> Required </span>
+    *ngIf="description.invalid && description.touched"> Required </span>
   </div>
 
   <!-- Button is disabled if form=invaild & been touched -->
-  <button type="button" (click)="addButton(newButton.macAddr, newButton.buttonDescription)" class="btn btn-lg btn-block btn-primary"
+  <button type="button" (click)="addButton(newButton.macAddr, newButton.description)" class="btn btn-lg btn-block btn-primary"
   [disabled]="form.invalid">
     Add Button
   </button>

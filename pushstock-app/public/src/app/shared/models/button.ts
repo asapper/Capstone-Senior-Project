@@ -15,5 +15,5 @@
 
 export class Button {
   macAddr: String; // Primary key
-  buttonDescription: String
+  description: String
 }
