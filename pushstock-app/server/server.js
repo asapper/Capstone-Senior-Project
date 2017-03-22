@@ -10,6 +10,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 const brcypt = require('bcrypt-nodejs');
+const morgan = require('morgan');
 
 const HTTP_PORT = '80';
 const HTTPS_PORT = '4200';
@@ -28,6 +29,8 @@ app.use(bodyParser.json());
 
 // Point static path to dist
 app.use(express.static('../public/dist'));
+// Set logger
+app.use(morgan('dev'));
 
 
 // Catch all routes and secure

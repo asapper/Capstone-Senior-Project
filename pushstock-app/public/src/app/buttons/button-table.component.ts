@@ -12,7 +12,6 @@
 
 
 import { Component, Input, } from '@angular/core';
-import { Button } from '../shared/models/button';
 
 @Component ({
   selector: 'button-table',
@@ -30,5 +29,4 @@ import { Button } from '../shared/models/button';
 export class ButtonTableComponent {
   // Reads in the buttonList passed from AppComponent
   @Input() buttonList: any[];
-
 }

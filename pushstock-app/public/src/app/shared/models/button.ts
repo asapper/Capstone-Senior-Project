@@ -14,7 +14,6 @@
 */
 
 export class Button {
-  buttonId:          String; // Primary key
-  clickTimestamp:    Date;
+  macAddr: String; // Primary key
   buttonDescription: String
 }

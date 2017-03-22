@@ -18,19 +18,15 @@ directive-->
 <!-- submit: submits and refreshes the page -->
 <!-- ngSubmit: does not refresh tht page -->
 <form #form=ngForm (ngSubmit)="onSubmit()" *ngIf="active">
-
-  <!-- If the form is valid -->
-  {{ form.valid }}
-
-  <!-- buttonId Address -->
-  <div class="form-group" [ngClass]="{ 'has-error': buttonId.invalid && buttonId.touched }">
-    <label for="buttonId">Button Id</label>
-    <input type="text" class="form-control" name="buttonId" required
-    [(ngModel)]="newButton.buttonId" #buttonId="ngModel" placeholder="buttonId">
+  <!-- macAddr Address -->
+  <div class="form-group" [ngClass]="{ 'has-error': macAddr.invalid && macAddr.touched }">
+    <label for="macAddr">Button MAC Address</label>
+    <input type="text" class="form-control" name="macAddr" required
+    [(ngModel)]="newButton.macAddr" #macAddr="ngModel" placeholder="macAddr">
 
     <!-- Shows "Required" if first name field is empty & been touched -->
     <span style="color:red" class="help-block"
-    *ngIf="buttonId.invalid && buttonId.touched"> Required </span>
+    *ngIf="macAddr.invalid && macAddr.touched"> Required </span>
   </div>
 
   <!-- buttonDescription field -->
