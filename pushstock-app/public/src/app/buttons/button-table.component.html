@@ -8,10 +8,24 @@
 * Editor			Date				Description
 * ======			========		===========
 * Saul			  03/15/17		File created
+* Saul        03/21/17    Self contained and calls the ButtonFormComponent
 -->
 
-<!-- Bootstrap Table -->
-<div class="panel panel-default">
+<div>
+
+  <div class="row">
+    <!-- Title -->
+    <div class="col-sm-4 text-left">
+      <h3>FLIC Buttons</h3>
+    </div>
+    <!-- Button to enable add button form -->
+    <div class="col-sm-4 text-right">
+      <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap Table -->
+  <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
       <!--<div class="panel-title pull-right">Bottons Registered: {{ buttonList?.length }}</div> -->
@@ -30,7 +44,6 @@
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
                 <td>{{ button.buttonId }}</td>
-                <td>{{ button.clickTimestamp }}</td>
                 <td>{{ button.buttonDescription }}</td>
             </tr>
         </tbody>
@@ -40,3 +53,13 @@
 
     </table>
   </div>
+
+  <!-- Button form displayed after addButton button clicked -->
+  <div class="jumbotron" *ngIf="this.buttonActive">
+    <!-- Call button component. button-form component will emit and event when
+         a button has been created so that this componet will know to update
+         the table. -->
+    <button-form (buttonCreated)="getAllButtons()"></button-form>
+  </div>
+
+</div>

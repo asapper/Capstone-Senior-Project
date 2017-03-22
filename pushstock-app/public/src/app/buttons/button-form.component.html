@@ -8,6 +8,7 @@
 * Editor			Date				Description
 * ======			========		===========
 * Saul			  03/16/17		updated
+* Saul        03/21/17    Self sufficient adding to the Db
 -->
 
 
@@ -45,7 +46,7 @@ directive-->
   </div>
 
   <!-- Button is disabled if form=invaild & been touched -->
-  <button type="submit" class="btn btn-lg btn-block btn-primary"
+  <button type="button" (click)="addButton(newButton.buttonId, newButton.buttonDescription)" class="btn btn-lg btn-block btn-primary"
   [disabled]="form.invalid">
     Add Button
   </button>

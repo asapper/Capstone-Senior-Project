@@ -9,6 +9,8 @@
 * ======			========		===========
 * Saul			  03/15/17		Refactored
 * Saul        03/16/17    Employee section added
+* Saul        03/21/17    no longer passes buttonList to button table because
+*                         the button table component calls the API by its self
 -->
 
 <!-- Bootstrap Navbar -->
@@ -44,27 +46,9 @@
 
   <!-- Displays if button tab selected -->
   <div class="container" *ngIf="buttonView">
-
-    <div class="row">
-      <!-- Title -->
-      <div class="col-sm-4 text-left">
-        <h3>FLIC Buttons</h3>
-      </div>
-      <!-- Button to enable add button form -->
-      <div class="col-sm-4 text-right">
-        <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
-      </div>
-    </div>
-
-    <!-- Button Table Component: array of buttons passed to the table -->
-    <button-table [buttonList]="buttons">Loading...</button-table>
-
-        <!-- Button form displayed after addButton button clicked -->
-        <div class="jumbotron" *ngIf="this.buttonActive">
-          <!-- Here the parent creates the compnent and listens for an event -->
-            <button-form (buttonCreated)="onButtonCreated($event.button.buttonId, $event.button.clickTimestamp, $event.button.buttonDescription)"></button-form>
-        </div>
-
+    <!-- Button Table Component: array of buttons passed to the table
+         includes the ButtonFormComponent -->
+    <button-table>Loading...</button-table>
   </div>
 
     <!-- Worker view displayed if selected -->
