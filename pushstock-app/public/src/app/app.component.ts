@@ -24,7 +24,7 @@ import 'rxjs/add/operator/map';
     //styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'app works!';
+    title = 'PushStock';
 
     // Link to our api, pointing to localhost
     API = 'https://localhost:4200/api';
@@ -36,26 +36,32 @@ export class AppComponent {
     welcomeView: boolean = true;
     buttonView: boolean = false;
     workerView: boolean = false;
+		taskView: boolean = false;
 
-    /*  Functions called to change the current view of the client app
-    *   may be a good idea to try figure out to combine these. A fuction that
-    *   sets the passe boolean variable to true and the rest to false
-    */
+    // Boolean flag that controls if the buttonform is displayed
+    buttonActive: boolean = false;
+
+    //  Functions called to change the current view of the client app
+    //  may be a good idea to try figure out to combine these. A fuction that
+    //  sets the passe boolean variable to true and the rest to false
     changeToHomeView(){
       this.welcomeView = true;
       this.buttonView = false;
       this.workerView = false;
+			this.taskView = false;
     }
 
     changeToButtonView(){
       this.welcomeView = false;
       this.buttonView = true;
       this.workerView = false;
+			this.taskView = false;
     }
 
     changeToWorkerView(){
       this.welcomeView = false;
       this.buttonView = false;
       this.workerView = true;
+			this.taskView = false;
     }
 }
