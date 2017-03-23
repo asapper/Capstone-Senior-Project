@@ -23,6 +23,7 @@ import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
+import { TaskTableComponent } from './tasks/task-table.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -32,7 +33,8 @@ import { AppRoutingModule } from './app-routing.module';
     ButtonFormComponent,
     ButtonTableComponent,
     EmployeeTableComponent,
-    EmployeeFormComponent
+    EmployeeFormComponent,
+		TaskTableComponent
   ],
 
   imports: [

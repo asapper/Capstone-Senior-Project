@@ -11,7 +11,6 @@
 
 
 import { Component } from '@angular/core';
-import { Task } from '../shared/models/task';
 import { Http } from '@angular/http';
 
 @Component ({

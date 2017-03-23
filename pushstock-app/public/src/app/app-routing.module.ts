@@ -18,7 +18,7 @@ import { EmployeeTableComponent } from './employees/employee-table.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/tasks', pathMatch: full},
+	{ path: '', redirectTo: '/tasks', pathMatch: 'full'},
 	{ path: 'tasks', component: TaskTableComponent},
 	{ path: 'buttons', component: ButtonTableComponent},
 	{ path: 'employees', component: EmployeeTableComponent}
