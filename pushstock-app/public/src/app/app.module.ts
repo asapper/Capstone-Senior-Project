@@ -39,6 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
+		RouterModule,
 		AppRoutingModule
   ],
   providers: [],

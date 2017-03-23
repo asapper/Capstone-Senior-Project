@@ -7,22 +7,21 @@
  * Editor			Date				Description
  * =====			========		===========
  * Rapp				03/21/17		File created and Routes defined
+ * Rapp				03/23/17		Updated component names and paths
  */
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// TODO correct these paths
-import { TasksComponent } from './tasks/tasks.component';
-import { EmployeesComponent } from './employees/employees.component';
-import { ButtonsComponent } from './buttons/buttons.component';
+import { TaskTableComponent } from './tasks/task-table.component';
+import { EmployeeTableComponent } from './employees/employee-table.component';
+import { ButtonTableComponent } from './buttons/button-table.component';
 
-// TODO correct these component names
 const routes: Routes = [
 	{ path: '', redirectTo: '/tasks', pathMatch: full},
-	{ path: 'tasks', component: TasksComponent},
-	{ path: 'buttons', component: ButtonsComponent},
-	{ path: 'employees', component: EmployeesComponent}
+	{ path: 'tasks', component: TaskTableComponent},
+	{ path: 'buttons', component: ButtonTableComponent},
+	{ path: 'employees', component: EmployeeTableComponent}
 ];
 
 @NgModule({
