@@ -14,7 +14,9 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app/public
 # Install dependencies for public
 RUN npm install
-RUN ./node_modules/angular-cli/bin/ng build
+#RUN ./node_modules/angular-cli/bin/ng build
+# changed to updated angular dependency
+RUN ./node_modules/@angular/cli/bin/ng build
 # Move into server directory
 WORKDIR /usr/src/app/server
 # Install dependencies for server

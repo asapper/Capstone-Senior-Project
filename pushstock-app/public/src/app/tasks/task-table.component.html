@@ -11,11 +11,11 @@
 <div>
 
   <!-- Title -->
-  <h3>Employees</h3>
+  <h3>Open Tasks</h3>
   <!-- Bootstrap Table -->
   <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="panel-title pull-left">Open tasks: <span class="badge">{{ taskList?.length }} </span></div>
+        <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
           <a href="#" class="btn btn-primary" (click)="setTrue()">Add Task</a>
@@ -36,8 +36,8 @@
                   <td>{{ employee.role }}</td>
               </tr>
           </tbody>
-          <tbody *ngIf="employeeList?.length < 1 text-center">
-              No employees have been registered to the system.
+          <tbody *ngIf="employeeList?.length < 1" class="text-center">
+              There are no open tasks right now.
           </tbody>
 
       </table>
