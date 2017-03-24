@@ -23,7 +23,7 @@ directive-->
   <div class="form-group" [ngClass]="{ 'has-error': macAddr.invalid && macAddr.touched }">
     <label for="macAddr">Button MAC Address</label>
     <input type="text" class="form-control" name="macAddr" required
-    [(ngModel)]="newButton.macAddr" #macAddr="ngModel" placeholder="macAddr">
+    [(ngModel)]="newButton.macAddr" #macAddr="ngModel" placeholder="ex: 12:34:56:78:90">
 
     <!-- Shows "Required" if macAddr field is empty & been touched -->
     <span style="color:red" class="help-block"
@@ -34,7 +34,7 @@ directive-->
   <div class="form-group" [ngClass]="{ 'has-error': description.invalid && description.touched }">
   <label for="description">Description</label>
     <input type="text" class="form-control" name="description" required
-    [(ngModel)]="newButton.description" #description="ngModel" placeholder="Description:">
+    [(ngModel)]="newButton.description" #description="ngModel" placeholder="ex: toilet paper, first floor">
 
     <!-- Shows "Required" if description field is empty -->
     <span style="color:red" class="help-block"

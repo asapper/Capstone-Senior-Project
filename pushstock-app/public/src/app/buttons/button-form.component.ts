@@ -18,16 +18,8 @@ import { ButtonTableComponent } from './button-table.component';
 
 @Component ({
   selector: 'button-form',
-  styles: [`
-    form {
-      padding: 10px;
-      background: #ECF0F1;
-      border-radius: 3px;
-      margin-bottom: 30px;
-    }
-  `],
-    templateUrl: './button-form.component.html',
-    providers: [ButtonTableComponent]
+  templateUrl: './button-form.component.html',
+  providers: [ButtonTableComponent]
 })
 
 export class ButtonFormComponent {

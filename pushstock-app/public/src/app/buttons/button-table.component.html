@@ -23,7 +23,8 @@
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
       <div class="panel-title pull-right">
         <!-- Button to enable add button form -->
-        <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
+        <a class="btn btn-primary" (click)="setAddButtonTrue()">Add FLIC Button</a>
+        <a class="btn btn-primary" (click)="setAssignButtonTrue()">Assign FLIC Button</a>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -50,11 +51,16 @@
   </div>
 
   <!-- Button form displayed after addButton button clicked -->
-  <div class="jumbotron" *ngIf="this.buttonActive">
+  <div class="jumbotron" *ngIf="this.addButtonActive">
     <!-- Call button component. button-form component will emit an event when
          a button has been created so that this componet will know to update
          the table. -->
     <button-form (buttonCreated)="getAllButtons()"></button-form>
+  </div>
+
+  <!-- Button form of unassigned buttons displayed after assignButton button clicked -->
+  <div class="jumbotron" *ngIf="this.assignButtonActive">
+      <button-assign-form></button-assign-form>
   </div>
 
 </div>

@@ -19,6 +19,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { ButtonAssignFormComponent } from './buttons/button-assign-form.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
@@ -30,6 +31,7 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
+    ButtonAssignFormComponent,
     ButtonFormComponent,
     ButtonTableComponent,
     EmployeeTableComponent,

@@ -18,6 +18,7 @@ const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
 
+const controller = require('./controller');
 
 
 module.exports = {
@@ -34,57 +35,10 @@ module.exports = {
     // Handle the processing of a Single Click received
     singleClickView: function(req, res) {
         // get the button's information
-        reqMacAddr = req.body.macAddr;
-
-        var resMessage; // The message to send back as a response
-        // Checks whether the button exists and creates it if it doesn't
-        var buttonQuery = Button.findOne({ macAddr: reqMacAddr });
-        var buttonPromise = buttonQuery.exec(function(err, button) {
-            if (err) {
-                res.send(err);
-            } else if (!button) {
-                // No button found, so create a new one
-                button = new Button({
-                    macAddr: reqMacAddr,
-                });
-
-                // Save the new button and check for errors
-                button.save(function(err) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        resMessage = 'New button created!';
-                    }
-                });
-            } else {
-                // Button already exists
-                resMessage = 'Button already exists.';
-            }
-        });
-
-        // Once the button is found or created, create a new task if one not already open
-        buttonPromise.then(function(button) {
-            Task.findOne({ button: button.id }, null, function(err, task) {
-                if (err) {
-                    res.send(err);
-                } else if (!task) {
-                    // No open task found, so create one
-                    var newTask = new Task({ button: button.id });
-                    newTask.save(function(err) {
-                        if (err) {
-                            res.send(err);
-                        }
-                    });
-                    resMessage += " New task created!";
-                } else {
-                    // A task is already open for this button
-                    resMessage += " There is already an open task for button " + button.id;
-                }
-            })
-            .then(function(task) {
-                res.json({ message: resMessage });
-            });
-        });
+        macAddr = req.body.macAddr;
+        // create button
+        var response = controller.createButton(macAddr);
+        res.send(response);
     },
 
     // Handle retrieving all the buttons stored
@@ -123,82 +77,48 @@ module.exports = {
     },
 
     addButtonView: function(req, res) {
-        // create new Button
-        var newBtn = new Button();
-        newBtn.macAddr =  req.body.macAddr;
-        newBtn.description = req.body.description;
-        // save the Button and check for errors
-        newBtn.save(function(err) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json({ message: 'New button created!'});
-                console.log("new button created" + newBtn);
-            }
-        });
+        var response = controller.createButton(req.body.macAddr, req.body.description);
+        res.send(response);
     },
 
     // Handle retrieving all the employees stored
     getAllEmployeesView: function(req, res) {
-        console.log("GET: Returning list of employees...");
-
         // Find all employees
         Employee.find(function(err, employees) {
             if (err) {
                 res.send(err);
             } else {
                 res.json(employees);
-                console.log("Returning a list of all the employees in the database!");
             }
         });
     },
 
     addEmployeeView: function(req, res) {
-        // get the button's information
-        email = req.body.email;
-        password = req.body.password;
+        // get the employee's information
         firstName = req.body.firstName;
         lastName = req.body.lastName;
+        email = req.body.email;
+        password = req.body.password;
         role = req.body.role;
 
-        console.log("POST: Employee added through webapp " +
-            email);
-
-        // validate button information
+        // validate employee information
         // ...validation here
 
-        // create new Button
-        var newEmployee = new Employee();
-        newEmployee.email = email;
-        newEmployee.password = password;
-        newEmployee.profile = { firstName, lastName }
-        newEmployee.role = role;
-        // save the Button and check for errors
-        newEmployee.save(function(err) {
-            if (err) {
-                res.send(err);
-                console.log("Error creating the employee.");
-                console.log(err);
-            } else {
-                res.json({ message: "New employee created!" });
-                console.log("New employee created!");
-                console.log(newEmployee.role);
-            }
-        });
+        // create employee
+        var response = controller.createEmployee(
+            firstName, lastName, email, password, role);
+        res.send(response);
     },
 
     // Delete all Employees (for testing)
-		deleteAllEmployeesView: function(req, res) {
-			console.log("DELETE: Deleting all employees...");
-
-			Employee.remove(function(err) {
-				if (err) {
-					res.send(err);
-				} else {
-          res.send('DELETE request to homepage');
-					res.json({ message: 'All employees removed.'});
-					console.log('All employees removed.');
-				}
-			});
-		}
+    deleteAllEmployeesView: function(req, res) {
+        Employee.remove(function(err) {
+            if (err) {
+                res.send(err);
+			} else {
+                res.send('DELETE request to homepage');
+				res.json({ message: 'All employees removed.'});
+			}
+		});
+	}
 };
