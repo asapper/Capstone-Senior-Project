@@ -8,6 +8,7 @@
 * ======			========		===========
 * Saul			  03/16/17		File created
 * Saul        03/20/17    Fixed display number error
+* Saul        03/27/17    Added delete button and call to function
 -->
 <div>
 
@@ -31,6 +32,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Edit / Delete</th>
               </tr>
           </thead>
           <tbody *ngIf="employeeList?.length > 0">
@@ -38,6 +40,11 @@
                   <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
                   <td>{{ employee.email }}</td>
                   <td>{{ employee.role }}</td>
+                  <td>
+                    <button type="button" (click)="deleteEmployee(employee.email)" class="btn btn-default">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </td>
               </tr>
           </tbody>
           <tbody *ngIf="employeeList?.length < 1" class="text-center">

@@ -8,9 +8,11 @@
 * Editor			Date				Description
 * ------			--------		-----------
 * sapper			03/01/17		File created
-* Saul        03/16/17    get employeeList
+* Saul        03/16/17    Get employeeList
 * Saul        03/16/17    Add employee
 * Saul        03/20/17    Deleted all employees
+* Saul        03/27/17    Path for delete button added
+* Saul        03/27/17    Path for delete employee added
 */
 
 const express = require('express');
@@ -42,6 +44,8 @@ api_router.post('/addEmployee', views.addEmployeeView);
 api_router.delete('/employees', views.deleteAllEmployeesView);
 // Delete a specified button
 api_router.delete('/buttons/:macAddr', views.deleteButtonView);
+// Delete a specified employee
+api_router.delete('/employees/:email', views.deleteEmployeeView);
 
 
 

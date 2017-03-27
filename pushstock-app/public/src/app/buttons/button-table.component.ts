@@ -10,6 +10,7 @@
 * Saul			  03/15/17		File created
 * Saul        03/21/17    Calls API instead of relying on AppComponent
 * Saul        03/21/17    Self contained & calls the ButtonFormComponent
+* Saul        03/27/17    deleteButton() added
 */
 
 
