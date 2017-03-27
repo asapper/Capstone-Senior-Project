@@ -138,6 +138,17 @@ module.exports = {
         });
     },
 
+    deleteButtonView: function(req, res){
+      Button.remove({
+        macAddr: req.params.macAddr
+      }, function(err, button) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    },
+
     // Handle retrieving all the employees stored
     getAllEmployeesView: function(req, res) {
         console.log("GET: Returning list of employees...");

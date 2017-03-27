@@ -23,7 +23,7 @@
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
       <div class="panel-title pull-right">
         <!-- Button to enable add button form -->
-        <a href="#" class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
+        <a class="btn btn-primary" (click)="setTrue()">Add FLIC Button</a>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -34,12 +34,20 @@
             <tr>
                 <th>MAC Address</th>
                 <th>Description</th>
+                <th>
+                  Edit / Delete
+                </th>
             </tr>
         </thead>
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
                 <td>{{ button.macAddr }}</td>
                 <td>{{ button.description }}</td>
+                <td>
+                  <button type="button" (click)="deleteButton(button.macAddr)" class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
             </tr>
         </tbody>
         <tbody *ngIf="buttonList?.length < 1" class="text-center">

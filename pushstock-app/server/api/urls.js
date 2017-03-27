@@ -40,6 +40,8 @@ api_router.get('/employees', views.getAllEmployeesView);
 api_router.post('/addEmployee', views.addEmployeeView);
 // Delete all open employees (for testing)
 api_router.delete('/employees', views.deleteAllEmployeesView);
+// Delete a specified button
+api_router.delete('/buttons/:macAddr', views.deleteButtonView);
 
 
 

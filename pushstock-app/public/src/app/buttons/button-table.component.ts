@@ -56,6 +56,19 @@ export class ButtonTableComponent {
           })
   }
 
+  // Function used to delete a button
+  deleteButton(macAddr: String){
+    this.http.delete(`${this.API}/buttons/${macAddr}`)
+    .map(res => res.json())
+    .subscribe(buttons => {
+        console.log(buttons);
+        this.buttonList = buttons;
+    })
+    console.log("deletebutton: " + macAddr);
+    // Get updated list
+    this.getAllButtons();
+  }
+
   setTrue() {
     this.buttonActive = true;
     console.log("set buttonActive to true");
