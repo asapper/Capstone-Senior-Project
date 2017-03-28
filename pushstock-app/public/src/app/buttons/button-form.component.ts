@@ -14,7 +14,9 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Button } from '../shared/models/button';
 import { Http } from '@angular/http';
+
 import { ButtonTableComponent } from './button-table.component';
+import { ButtonService } from '../services/button.service';
 
 @Component ({
   selector: 'button-form',
@@ -27,24 +29,28 @@ import { ButtonTableComponent } from './button-table.component';
     }
   `],
     templateUrl: './button-form.component.html',
-    providers: [ButtonTableComponent]
+    providers: [
+			ButtonTableComponent,
+			ButtonService
+		]
 })
 
 export class ButtonFormComponent {
   // For output
   @Output() buttonCreated = new EventEmitter();
 
-  API = 'https://localhost:4200/api';
+  //API = 'https://localhost:4200/api';
 
   // Does anyone know what this does?
-  constructor(private http: Http, private table: ButtonTableComponent) {}
+  //constructor(private http: Http, private table: ButtonTableComponent) {}
+	constructor(private table: ButtonTableComponent, private buttonService: ButtonService) {}
 
   // Class used to group data added to mongoDb
   newButton: Button = new Button();
 
   active: boolean = true;
 
-
+	/*
   addButton(macAddr: String, description: String){
 
     this.http.post(`${this.API}/addButton`, { macAddr, description })
@@ -65,4 +71,23 @@ export class ButtonFormComponent {
     setTimeout(() => this.active = true, 0);
 
   }
+ */
+	
+	addButton(macAddr: String, description: String): void {
+		// Call API to add button to database
+		this.buttonService.addButton(macAddr, description)
+			.subscribe(buttons => {
+				console.log(buttons);
+				this.table.buttonList = buttons;
+			});
+
+		// Emits event so that the table will know to update
+		this.buttonCreated.emit();
+		console.log('button added: ' + macAddr);
+
+		// Clear the form after submitted
+		this.newButton = new Button();
+		this.active = false;
+		setTimeout(() => this.active = true, 0);
+	}
 }

@@ -35,13 +35,16 @@ import { ButtonService } from '../services/button.service';
 })
 
 export class ButtonTableComponent implements OnInit {
+	buttonList: any[];
   //constructor(private http: Http) {}
-	constructor(private buttonService: ButtonService) {}
+	constructor(private buttonService: ButtonService) {
+		//buttonList = [];
+	}
 
   // API path
   //API = 'https://localhost:4200/api';
 
-  buttonList: any[];
+  //buttonList: any[] = [];
 
   // Boolean flag that controls if the buttonform is displayed
   buttonActive: boolean = false;
@@ -82,22 +85,36 @@ export class ButtonTableComponent implements OnInit {
   }
 	*/
 
+	// Send request to get list of all buttons in the database
 	getAllButtons(): void {
-		this.buttonList = this.ButtonService.getAllButtons();
+		// Call the API and store returned list of buttons in the array
+		this.buttonService.getAllButtons()
+			.subscribe(buttons => {
+				console.log(buttons);
+				this.buttonList = buttons;
+			});
 	}
 
+	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
-		this.ButtonService.deleteButton(macAddr);
+		this.buttonService.deleteButton(macAddr)
+			.subscribe(buttons => {
+				console.log(buttons);
+				//this.buttonList = buttons;
+			});
+
+		console.log('Deleted button: ' + macAddr);
+		this.getAllButtons();
 	}
 
+	// Send request to delete a button and then get an updated list
+	// of all buttons
 	deleteButtonAndUpdate(macAddr: String): void {
 		// Send delete request to API
 		this.deleteButton(macAddr);
-		console.log('Deleted button: ' + macAddr);
 
 		// Update local list of buttons
 		this.getAllButtons();
-		console.log('Updated local button list');
 	}
 
   setTrue() {

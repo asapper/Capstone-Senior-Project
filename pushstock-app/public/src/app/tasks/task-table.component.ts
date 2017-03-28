@@ -27,14 +27,17 @@ import { Http } from '@angular/http';
 })
 
 export class TaskTableComponent {
+	taskList: any[];
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+		this.taskList = [];
+	}
 
   // API path
   API = 'https://localhost:4200/api';
 
   // Reads in the taskList from the API
-  taskList: any[];
+  //taskList: any[];
 
   taskActive: boolean = false;
 
