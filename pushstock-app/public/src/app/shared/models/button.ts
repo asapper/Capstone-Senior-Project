@@ -14,6 +14,8 @@
 */
 
 export class Button {
-  public macAddr: String; // Primary key
-  public description: String
+    public id: number; // Primary key
+    public macAddr: String;
+    public description: String;
+    public isActive: boolean = false;
 }

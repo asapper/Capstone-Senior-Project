@@ -28,6 +28,10 @@ api_router.get('/', views.indexView);
 api_router.post('/singleClick', views.singleClickView);
 // Retrieve all Buttons in database (ex: /api/buttons)
 api_router.get('/buttons', views.getAllButtonsView);
+// Retrieve a specific Button (ex: /api/buttons/1)
+api_router.get('/buttons/:macAddr(\\d+)', views.getSingleButtonView);
+// Update a specific Button (ex: /api/buttons/1)
+api_router.put('/buttons/:macAddr(\\d+)', views.updateSingleButtonView);
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);
 // Delete all open Tasks (for testing)
@@ -40,8 +44,8 @@ api_router.get('/employees', views.getAllEmployeesView);
 api_router.post('/addEmployee', views.addEmployeeView);
 // Delete all open employees (for testing)
 api_router.delete('/employees', views.deleteAllEmployeesView);
-
-
+// Delete a specified button
+api_router.delete('/buttons/:macAddr', views.deleteButtonView);
 
 
 module.exports = api_router;

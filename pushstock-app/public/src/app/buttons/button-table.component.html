@@ -5,9 +5,9 @@
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ======			========		===========
-* Saul			  03/15/17		File created
+* Editor            Date                Description
+* ======            ========        ===========
+* Saul            03/15/17      File created
 * Saul        03/21/17    Self contained and calls the ButtonFormComponent
 * Saul        03/22/17    Removed unnecessary code and removed clickTimestamp
 -->
@@ -23,8 +23,7 @@
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
       <div class="panel-title pull-right">
         <!-- Button to enable add button form -->
-        <a class="btn btn-primary" (click)="setAddButtonTrue()">Add FLIC Button</a>
-        <a class="btn btn-primary" (click)="setAssignButtonTrue()">Assign FLIC Button</a>
+        <a class="btn btn-primary" [routerLink]="['/buttons/new']">Add FLIC Button</a>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -35,12 +34,25 @@
             <tr>
                 <th>MAC Address</th>
                 <th>Description</th>
+                <th>
+                  Edit / Delete
+                </th>
+                <th>Active?</th>
             </tr>
         </thead>
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
                 <td>{{ button.macAddr }}</td>
                 <td>{{ button.description }}</td>
+                <td>
+                    <button type="button" [routerLink]="['/buttons', button.macAddr]" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                  <button type="button" (click)="deleteButton(button.macAddr)" class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
+                <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
             </tr>
         </tbody>
         <tbody *ngIf="buttonList?.length < 1" class="text-center">
@@ -49,18 +61,4 @@
 
     </table>
   </div>
-
-  <!-- Button form displayed after addButton button clicked -->
-  <div class="jumbotron" *ngIf="this.addButtonActive">
-    <!-- Call button component. button-form component will emit an event when
-         a button has been created so that this componet will know to update
-         the table. -->
-    <button-form (buttonCreated)="getAllButtons()"></button-form>
-  </div>
-
-  <!-- Button form of unassigned buttons displayed after assignButton button clicked -->
-  <div class="jumbotron" *ngIf="this.assignButtonActive">
-      <button-assign-form></button-assign-form>
-  </div>
-
 </div>
