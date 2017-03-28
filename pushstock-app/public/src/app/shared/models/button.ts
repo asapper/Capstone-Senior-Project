@@ -15,5 +15,6 @@
 
 export class Button {
   macAddr: String; // Primary key
-  description: String
+  description: String;
+  isActive: boolean = false;
 }

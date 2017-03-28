@@ -8,7 +8,7 @@
  * ------       --------        -----------
  * sapper       03/01/17        File created
  * rapp         03/13/17        Added task creation in response to singleClick call
- * rapp         03/13/17		Added task creation in response to singleClick call
+ * rapp         03/13/17        Added task creation in response to singleClick call
  * Saul         03/16/17        Added view to get all employees in DB
  * Saul         03/20/17        Deleted all employees
  *
@@ -57,7 +57,13 @@ module.exports = {
                     }
                 });
             } else {
-                // Button already exists
+                // Button already exists, if inactive mark as active
+                if (button.isActive == false) {
+                    button.isActive = true;
+                    button.save();
+                    // return message
+                    res.json({ message: 'Button has been activated!' });
+                }
                 resMessage = 'Button already exists.';
             }
         });
@@ -99,25 +105,30 @@ module.exports = {
         });
     },
 
-    // Handle retreiving all the tasks stored along with their assigned employee
-    getAllTasksView: function(req, res) {
-        // Find all tasks and populate the employee name fields
-        Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
+    getSingleButtonView: function(req, res) {
+        Button.findById(req.params.id, function(err, button) {
             if (err) {
                 res.send(err);
             } else {
-                res.json(tasks);
+                res.json(button);
             }
         });
     },
 
-    // Delete all tasks (for testing)
-    deleteAllTasksView: function(req, res) {
-        Task.remove(function(err) {
+    updateSingleButtonView: function(req, res) {
+        button = Button.findById(req.params.id, function(err, button) {
             if (err) {
                 res.send(err);
             } else {
-                res.json({ message: 'All tasks removed.'});
+                button.macAddr = req.body.macAddr;
+                button.description = req.body.description;
+                button.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json({ message: 'Button updated!' });
+                    }
+                });
             }
         });
     },
@@ -146,6 +157,29 @@ module.exports = {
                 res.send(err);
 
             res.json({ message: 'Successfully deleted' });
+        });
+    },
+
+    // Handle retreiving all the tasks stored along with their assigned employee
+    getAllTasksView: function(req, res) {
+        // Find all tasks and populate the employee name fields
+        Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(tasks);
+            }
+        });
+    },
+
+    // Delete all tasks (for testing)
+    deleteAllTasksView: function(req, res) {
+        Task.remove(function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: 'All tasks removed.'});
+            }
         });
     },
 
@@ -199,17 +233,16 @@ module.exports = {
     },
 
     // Delete all Employees (for testing)
-		deleteAllEmployeesView: function(req, res) {
-			console.log("DELETE: Deleting all employees...");
-
-			Employee.remove(function(err) {
-				if (err) {
-					res.send(err);
-				} else {
-          res.send('DELETE request to homepage');
-					res.json({ message: 'All employees removed.'});
-					console.log('All employees removed.');
-				}
-			});
-		}
+    deleteAllEmployeesView: function(req, res) {
+        console.log("DELETE: Deleting all employees...");
+        Employee.remove(function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send('DELETE request to homepage');
+                res.json({ message: 'All employees removed.'});
+                console.log('All employees removed.');
+            }
+        });
+    }
 };

@@ -28,6 +28,10 @@ api_router.get('/', views.indexView);
 api_router.post('/singleClick', views.singleClickView);
 // Retrieve all Buttons in database (ex: /api/buttons)
 api_router.get('/buttons', views.getAllButtonsView);
+// Retrieve a specific Button (ex: /api/buttons/1)
+api_router.get('/buttons/:id', views.getSingleButtonView);
+// Update a specific Button (ex: /api/buttons/1)
+api_router.put('/buttons/:id', views.updateSingleButtonView);
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);
 // Delete all open Tasks (for testing)
