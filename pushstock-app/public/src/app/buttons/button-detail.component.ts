@@ -35,11 +35,10 @@ export class ButtonDetailComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-    //this.route.params
-    //        .switchMap((params: Params) => this.http.get(`${this.API}/buttons/+params['macAddr']`))
-    //        .map(res => res.json())
-    //        .subscribe(button => this.button = button);
-        this.button = { id: 10, macAddr: '987', description: 'test', isActive: false };
+        this.route.params
+            .switchMap((params: Params) => this.http.get(`${this.API}/buttons/${+params['macAddr']}`))
+            .map(res => res.json())
+            .subscribe(button => this.button = button);
     }
 
     goBack(): void {
@@ -48,7 +47,7 @@ export class ButtonDetailComponent implements OnInit {
 
     updateButton(description: String): void {
         this.route.params
-            .switchMap((params: Params) => this.http.put(`${this.API}/buttons/+params['macAddr']`, { description })
+        .switchMap((params: Params) => this.http.put(`${this.API}/buttons/${+params['macAddr']}`, { description })
             .map(res => res.json()));
     }
 }

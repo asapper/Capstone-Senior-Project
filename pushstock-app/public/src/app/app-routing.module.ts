@@ -24,7 +24,7 @@ const routes: Routes = [
 	{ path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
 	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
-    { path: 'buttons/:id', component: ButtonDetailComponent, pathMatch: 'full' },
+    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
 	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' }
 ];
 
