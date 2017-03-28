@@ -16,12 +16,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskTableComponent } from './tasks/task-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
+import { ButtonDetailComponent } from './buttons/button-detail.component';
+import { ButtonFormComponent } from './buttons/button-form.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/tasks', pathMatch: 'full'},
-	{ path: 'tasks', component: TaskTableComponent},
-	{ path: 'buttons', component: ButtonTableComponent},
-	{ path: 'employees', component: EmployeeTableComponent}
+	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
+	{ path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
+	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
+    { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
+    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
+	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

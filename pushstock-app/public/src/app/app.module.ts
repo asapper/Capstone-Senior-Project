@@ -5,11 +5,12 @@
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ======			========		===========
-* Saul			  03/15/17		ButtonTableComponent added
-* Saul			  03/16/17		EmployeeTableComponent added
-* Rapp			  03/21/17		Switched to use Angular2's built-in routing module
+* Editor        Date			Description
+* ======		========		===========
+* Saul          03/15/17		ButtonTableComponent added
+* Saul			03/16/17		EmployeeTableComponent added
+* Rapp			03/21/17		Switched to use Angular2's built-in routing module
+* Sapper        03/27/17        Add ButtonDetail component
 */
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,6 +25,7 @@ import { ButtonTableComponent } from './buttons/button-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
 import { TaskTableComponent } from './tasks/task-table.component';
+import { ButtonDetailComponent } from './buttons/button-detail.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -32,17 +34,18 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     ButtonFormComponent,
     ButtonTableComponent,
+    ButtonDetailComponent,
     EmployeeTableComponent,
     EmployeeFormComponent,
-		TaskTableComponent
+    TaskTableComponent
   ],
 
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-		RouterModule,
-		AppRoutingModule
+    RouterModule,
+    AppRoutingModule
   ],
   providers: [],
 	bootstrap: [ AppComponent]
