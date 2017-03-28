@@ -18,12 +18,17 @@ import { Http } from '@angular/http';
 
 import { Button } from '../shared/models/button';
 
+const BUTTONS = [
+    { id: 1, macAddr: '123', description: 'asdf', isActive: false },
+    { id: 2, macAddr: '234', description: 'jklm', isActive: false }
+];
+
 @Component({
     selector: 'button-detail',
     templateUrl: './button-detail.component.html'
 })
 export class ButtonDetailComponent implements OnInit {
-    button: Button;
+    button: any;
 
     // API path
     API = 'https://localhost:4200/api';
@@ -35,10 +40,20 @@ export class ButtonDetailComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.route.params
-            .switchMap((params: Params) => this.http.get(`${this.API}/buttons/${+params['macAddr']}`))
+        let macAddr = 0;
+        this.route.params.subscribe(params => {
+            macAddr = +params['macAddr'];
+        });
+        this.http.get(`${this.API}/buttons/${macAddr}`)
             .map(res => res.json())
-            .subscribe(button => this.button = button);
+            .subscribe(button => {
+                console.log(button);
+                this.button = button;
+            });
+
+        //this.route.params.subscribe(params => {
+        //  this.button = BUTTONS.find(x => x.macAddr == params['macAddr']);
+        //  });
     }
 
     goBack(): void {
@@ -46,8 +61,12 @@ export class ButtonDetailComponent implements OnInit {
     }
 
     updateButton(description: String): void {
-        this.route.params
-        .switchMap((params: Params) => this.http.put(`${this.API}/buttons/${+params['macAddr']}`, { description })
-            .map(res => res.json()));
+        let macAddr = 0;
+        this.route.params.subscribe(params => {
+            macAddr = +params['macAddr'];
+        });
+        this.http.put(`${this.API}/buttons/${macAddr}`, { description })
+            .map(res => res.json())
+            .subscribe();
     }
 }

@@ -107,7 +107,7 @@ module.exports = {
     },
 
     getSingleButtonView: function(req, res) {
-        Button.find({ macAddr: req.params.macAddr }, function(err, button) {
+        Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
                 res.send(err);
             } else {
@@ -117,11 +117,10 @@ module.exports = {
     },
 
     updateSingleButtonView: function(req, res) {
-        button = Button.find({ macAddr: req.params.macAddr }, function(err, button) {
+        button = Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
                 res.send(err);
             } else {
-                button.macAddr = req.params.macAddr;
                 button.description = req.body.description;
                 button.save(function(err) {
                     if (err) {
