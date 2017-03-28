@@ -11,7 +11,8 @@
  * rapp         03/13/17        Added task creation in response to singleClick call
  * Saul         03/16/17        Added view to get all employees in DB
  * Saul         03/20/17        Deleted all employees
- *
+ * Saul         03/27/17        Added DeleteButtonView
+ * Saul         03/27/17        Added DeleteEmployeeView
  */
 
 const Button = require('../app/models/button');
@@ -211,5 +212,17 @@ module.exports = {
 				res.json({ message: 'All employees removed.'});
 			}
 		});
-	}
+	},
+
+    // Delete a specified Employee
+    deleteEmployeeView: function(req, res){
+      Employee.remove({
+        email: req.params.email
+      }, function(err, email) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    }
 };

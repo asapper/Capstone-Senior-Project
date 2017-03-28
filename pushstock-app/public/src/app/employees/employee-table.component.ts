@@ -10,6 +10,7 @@
 * Saul			  03/16/17		File created
 * Saul        03/22/17    Calls API for the employee list
 * Saul        03/22/17    Removed unnecessary code
+* Saul        03/27/17    deleteEmployee() added 
 */
 
 
@@ -57,6 +58,20 @@ export class EmployeeTableComponent {
               this.employeeList = employees;
           })
   }
+
+  // Function used to delete a button
+  deleteEmployee(email: String){
+    this.http.delete(`${this.API}/employees/${email}`)
+    .map(res => res.json())
+    .subscribe(employees => {
+        console.log(employees);
+        this.employeeList = employees;
+    })
+    console.log("delete employee: " + email);
+    // Get updated list
+    this.getAllEmployees();
+  }
+
 
   // Function sets boolean to true showing the employee form
   setTrue() {
