@@ -21,13 +21,9 @@ import 'rxjs/add/operator/map';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    //styleUrls: ['./app.component.css']
 })
 export class AppComponent {
     title = 'PushStock';
-
-    // Link to our api, pointing to localhost
-    API = 'https://localhost:4200/api';
 
     // Does anyone know what this does?
     constructor(private http: Http) {}

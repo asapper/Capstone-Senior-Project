@@ -8,7 +8,7 @@
  * ------       --------        -----------
  * sapper       03/01/17        File created
  * rapp         03/13/17        Added task creation in response to singleClick call
- * rapp         03/13/17		    Added task creation in response to singleClick call
+ * rapp         03/13/17        Added task creation in response to singleClick call
  * Saul         03/16/17        Added view to get all employees in DB
  * Saul         03/20/17        Deleted all employees
  * Saul         03/27/17        Added DeleteButtonView
@@ -19,6 +19,7 @@ const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
 
+const controller = require('./controller');
 
 
 module.exports = {
@@ -58,7 +59,13 @@ module.exports = {
                     }
                 });
             } else {
-                // Button already exists
+                // Button already exists, if inactive mark as active
+                if (button.isActive == false) {
+                    button.isActive = true;
+                    button.save();
+                    // return message
+                    res.json({ message: 'Button has been activated!' });
+                }
                 resMessage = 'Button already exists.';
             }
         });
@@ -100,6 +107,49 @@ module.exports = {
         });
     },
 
+    getSingleButtonView: function(req, res) {
+        Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(button);
+            }
+        });
+    },
+
+    updateSingleButtonView: function(req, res) {
+        button = Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                button.description = req.body.description;
+                button.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json({ message: 'Button updated!' });
+                    }
+                });
+            }
+        });
+    },
+
+    addButtonView: function(req, res) {
+        var response = controller.createButton(req.body.macAddr, req.body.description);
+        res.send(response);
+    },
+
+    deleteButtonView: function(req, res){
+      Button.remove({
+        macAddr: req.params.macAddr
+      }, function(err, button) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    },
+
     // Handle retreiving all the tasks stored along with their assigned employee
     getAllTasksView: function(req, res) {
         // Find all tasks and populate the employee name fields
@@ -123,96 +173,46 @@ module.exports = {
         });
     },
 
-    addButtonView: function(req, res) {
-        // create new Button
-        var newBtn = new Button();
-        newBtn.macAddr =  req.body.macAddr;
-        newBtn.description = req.body.description;
-        // save the Button and check for errors
-        newBtn.save(function(err) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json({ message: 'New button created!'});
-                console.log("new button created" + newBtn);
-            }
-        });
-    },
-
-    deleteButtonView: function(req, res){
-      Button.remove({
-        macAddr: req.params.macAddr
-      }, function(err, button) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-        });
-    },
-
     // Handle retrieving all the employees stored
     getAllEmployeesView: function(req, res) {
-        console.log("GET: Returning list of employees...");
-
         // Find all employees
         Employee.find(function(err, employees) {
             if (err) {
                 res.send(err);
             } else {
                 res.json(employees);
-                console.log("Returning a list of all the employees in the database!");
             }
         });
     },
 
     addEmployeeView: function(req, res) {
-        // get the button's information
-        email = req.body.email;
-        password = req.body.password;
+        // get the employee's information
         firstName = req.body.firstName;
         lastName = req.body.lastName;
+        email = req.body.email;
+        password = req.body.password;
         role = req.body.role;
 
-        console.log("POST: Employee added through webapp " +
-            email);
-
-        // validate button information
+        // validate employee information
         // ...validation here
 
-        // create new Button
-        var newEmployee = new Employee();
-        newEmployee.email = email;
-        newEmployee.password = password;
-        newEmployee.profile = { firstName, lastName }
-        newEmployee.role = role;
-        // save the Button and check for errors
-        newEmployee.save(function(err) {
-            if (err) {
-                res.send(err);
-                console.log("Error creating the employee.");
-                console.log(err);
-            } else {
-                res.json({ message: "New employee created!" });
-                console.log("New employee created!");
-                console.log(newEmployee.role);
-            }
-        });
+        // create employee
+        var response = controller.createEmployee(
+            firstName, lastName, email, password, role);
+        res.send(response);
     },
 
     // Delete all Employees (for testing)
-		deleteAllEmployeesView: function(req, res) {
-			console.log("DELETE: Deleting all employees...");
-
-			Employee.remove(function(err) {
-				if (err) {
-					res.send(err);
-				} else {
-          res.send('DELETE request to homepage');
-					res.json({ message: 'All employees removed.'});
-					console.log('All employees removed.');
-				}
-			});
-		},
+    deleteAllEmployeesView: function(req, res) {
+        Employee.remove(function(err) {
+            if (err) {
+                res.send(err);
+			} else {
+                res.send('DELETE request to homepage');
+				res.json({ message: 'All employees removed.'});
+			}
+		});
+	},
 
     // Delete a specified Employee
     deleteEmployeeView: function(req, res){

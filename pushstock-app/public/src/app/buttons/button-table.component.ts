@@ -1,16 +1,17 @@
 /*
-* File:         button-table.component.ts
-* Author:       Brennan Saul
-* Description:  A component that displays all of the buttons in the DB
+* File:	         button-table.component.ts
+* Author:	       Brennan Saul
+* Description:	A component that displays all of the buttons in the DB
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ======			========		===========
-* Saul			  03/15/17		File created
-* Saul        03/21/17    Calls API instead of relying on AppComponent
-* Saul        03/21/17    Self contained & calls the ButtonFormComponent
-* Saul        03/27/17    deleteButton() added
+* Editor	Date            Description
+* ======	========		===========
+* Saul      03/15/17		File created
+* Saul      03/21/17        Calls API instead of relying on AppComponent
+* Saul      03/21/17        Self contained & calls the ButtonFormComponent
+* Saul      03/27/17        deleteButton() added
+* Rapp			03/28/17				Refactored API calls into ButtonService
 */
 
 
@@ -21,69 +22,24 @@ import { OnInit } from '@angular/core';
 import { ButtonService } from '../services/button.service';
 
 @Component ({
-  selector: 'button-table',
-  styles: [`
-    form {
-      padding: 10px;
-      background: #ECF0F1;
-      border-radius: 3px;
-      margin-bottom: 30px;
-    }
-  `],
-	providers: [ButtonService],
-  templateUrl: './button-table.component.html'
+	selector: 'button-table',
+	templateUrl: './button-table.component.html',
+	providers: [ButtonService]
 })
 
-export class ButtonTableComponent implements OnInit {
+export class ButtonTableComponent {
 	buttonList: any[];
-  //constructor(private http: Http) {}
-	constructor(private buttonService: ButtonService) {
-		//buttonList = [];
+    constructor(private buttonService: ButtonService) {
+		this.buttonList = [];
 	}
 
-  // API path
-  //API = 'https://localhost:4200/api';
-
-  //buttonList: any[] = [];
-
-  // Boolean flag that controls if the buttonform is displayed
-  buttonActive: boolean = false;
-
-  // Angular 2 Life Cycle event whem component has been initialized
-  // Get the array of buttons when the component is initialized
-  ngOnInit() {
-    //this.getAllButtons();
-		this.getAllButtons();
-  }
-
-  // Function that returns all buttons from the API
-	/*
-  getAllButtons() {
-      this.http.get(`${this.API}/buttons`)
-          .map(res => res.json())
-          .subscribe(buttons => {
-              console.log(buttons);
-              this.buttonList = buttons;
-          })
-  }
-	*/
 
 
-
-  // Function used to delete a button
-	/*
-  deleteButton(macAddr: String){
-    this.http.delete(`${this.API}/buttons/${macAddr}`)
-    .map(res => res.json())
-    .subscribe(buttons => {
-        console.log(buttons);
-        this.buttonList = buttons;
-    })
-    console.log("deletebutton: " + macAddr);
-    // Get updated list
-    this.getAllButtons();
-  }
-	*/
+    // Angular 2 Life Cycle event whem component has been initialized
+    // Get the array of buttons when the component is initialized
+    ngOnInit() {
+        this.getAllButtons();
+    }
 
 	// Send request to get list of all buttons in the database
 	getAllButtons(): void {
@@ -107,6 +63,9 @@ export class ButtonTableComponent implements OnInit {
 		this.getAllButtons();
 	}
 
+
+	// NOT BEING USED RIGHT NOW //
+
 	// Send request to delete a button and then get an updated list
 	// of all buttons
 	deleteButtonAndUpdate(macAddr: String): void {
@@ -116,10 +75,4 @@ export class ButtonTableComponent implements OnInit {
 		// Update local list of buttons
 		this.getAllButtons();
 	}
-
-  setTrue() {
-    this.buttonActive = true;
-    console.log("set buttonActive to true");
-  }
-
 }
