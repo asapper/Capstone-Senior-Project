@@ -10,13 +10,11 @@
  * Sapper       03/15/17       File created
  */
 
-import 'rxjs/add/operator/switchMap';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http } from '@angular/http';
 
-import { Button } from '../shared/models/button';
 
 const BUTTONS = [
     { id: 1, macAddr: '123', description: 'asdf', isActive: false },

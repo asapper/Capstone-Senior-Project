@@ -19,8 +19,6 @@ const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
 
-const controller = require('./controller');
-
 
 module.exports = {
     // Handle API authentication
@@ -48,6 +46,7 @@ module.exports = {
                 // No button found, so create a new one
                 button = new Button({
                     macAddr: reqMacAddr,
+                    dateLastUsed: Date.now()
                 });
 
                 // Save the new button and check for errors
@@ -62,6 +61,7 @@ module.exports = {
                 // Button already exists, if inactive mark as active
                 if (button.isActive == false) {
                     button.isActive = true;
+                    button.dateLastConfigured = Date.now();
                     button.save();
                     // return message
                     res.json({ message: 'Button has been activated!' });
@@ -135,8 +135,18 @@ module.exports = {
     },
 
     addButtonView: function(req, res) {
-        var response = controller.createButton(req.body.macAddr, req.body.description);
-        res.send(response);
+        // create new Button
+        var newBtn = new Button();
+        newBtn.macAddr = req.body.macAddr;
+        newBtn.description = req.body.description;
+        // save the Button and check for errors
+        newBtn.save(function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: 'New button created!' });
+            }
+        });
     },
 
     deleteButtonView: function(req, res){
@@ -197,9 +207,19 @@ module.exports = {
         // ...validation here
 
         // create employee
-        var response = controller.createEmployee(
-            firstName, lastName, email, password, role);
-        res.send(response);
+        var newEmployee = new Employee();
+        newEmployee.email = email;
+        newEmployee.password = password;
+        newEmployee.profile = { firstName, lastName }
+        newEmployee.role = role;
+        // save the Button and check for errors
+        newEmployee.save(function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: "New employee created!" });
+            }
+        });
     },
 
     // Delete all Employees (for testing)

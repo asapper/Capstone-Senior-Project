@@ -35,8 +35,8 @@ export class ButtonTableComponent {
     // API path
     API = 'https://localhost:4200/api';
 
-    buttonList: any[];
-    //buttonList = BUTTONS;
+    //buttonList: any[];
+    buttonList = BUTTONS;
 
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of buttons when the component is initialized
