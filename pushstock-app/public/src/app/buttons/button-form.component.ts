@@ -47,7 +47,6 @@ export class ButtonFormComponent {
 
 		// Emits event so that the table will know to update
 		this.buttonCreated.emit();
-		console.log('button added: ' + this.newButton);
 
 		// Clear the form after submitted
 		this.newButton = new Button();

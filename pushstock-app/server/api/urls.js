@@ -41,10 +41,14 @@ api_router.put('/buttons/:macAddr', views.updateSingleButtonView);
 api_router.delete('/buttons/:macAddr', views.deleteButtonView);
 // Add a button to the database
 api_router.post('/addButton', views.addButtonView);
+// Retrieve all assigned buttons
+api_router.get('/assignedbuttons', views.getAssignedButtonsView);
 // Retrieve all unassigned buttons
 api_router.get('/unassignedbuttons', views.getUnassignedButtonsView);
 // Update an unassigned button
 api_router.put('/assignbutton', views.assignButtonView);
+// Update an assigned button
+api_router.put('/unassignbutton', views.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);

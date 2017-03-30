@@ -1,0 +1,19 @@
+<div *ngIf="buttons.length > 0; else noButtonsPanel">
+    <h2>Unassign Buttons</h2>
+    <div>
+        <label>Assigned MAC addresses:</label>
+        <select name="macAddr" [(ngModel)]="oldButton.macAddr">
+            <option *ngFor="let button of buttons" [value]="button.macAddr">
+            {{ button.macAddr }}
+            </option>
+        </select>
+    </div><br>
+    <button class="btn btn-info" (click)="goBack()">Cancel</button>
+    <button class="btn btn-primary" (click)="unassignButton(oldButton.macAddr)"
+    [routerLink]="['/buttons']">Unassign Button</button>
+</div>
+
+<ng-template #noButtonsPanel>
+<h3>No assigned buttons :(</h3>
+<button class="btn btn-info" (click)="goBack()">Go Back</button>
+</ng-template>

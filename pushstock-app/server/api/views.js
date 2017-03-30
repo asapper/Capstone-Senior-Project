@@ -60,9 +60,11 @@ module.exports = {
             } else {
                 // button used, update field
                 button.dateLastUsed = Date.now();
-                button.save();
+                button.save(function(err) {
+                    if (err) res.send(err);
+                });
                 // Button already exists, if inactive mark as active
-                if (!button.isActive && button.description != "") {
+                if (!button.isActive && button.description != "" && !button.dateLastConfigured) {
                     button.isActive = true;
                     button.dateLastConfigured = Date.now();
                     button.save(function(err) {
@@ -115,10 +117,21 @@ module.exports = {
         });
     },
 
+    // Handle retrieving all assigned buttons
+    getAssignedButtonsView: function(req, res) {
+        Button.find({ isActive: true }, 'macAddr', function(err, buttons) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(buttons);
+            }
+        });
+    },
+
     // Handle retrieveing all unassigned buttons
     getUnassignedButtonsView: function(req, res) {
         // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
-        Button.find({ isActive: false, dateLastConfigured: null }, 'macAddr', function(err, buttons) {
+        Button.find({ isActive: false, description: "" }, 'macAddr', function(err, buttons) {
             if (err) {
                 res.send(err);
             } else {
@@ -156,6 +169,30 @@ module.exports = {
                         res.send(err);
                     } else {
                         res.json({ message: 'Button assigned!' });
+                    }
+                });
+            }
+        });
+    },
+
+    // Handle unassigning a button
+    unassignButtonView: function(req, res) {
+        // Retrieve button
+        Button.findOne({ macAddr: req.body.macAddr }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                // Update description
+                button.description = "";
+                // Set last configured date
+                button.dateLastConfigured = Date.now();
+                // Set to inactive
+                button.isActive = false;
+                button.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json({ message: 'Button unassigned!' });
                     }
                 });
             }
