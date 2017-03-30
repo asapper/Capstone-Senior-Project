@@ -11,13 +11,13 @@
 * Saul      03/21/17        Calls API instead of relying on AppComponent
 * Saul      03/21/17        Self contained & calls the ButtonFormComponent
 * Saul      03/27/17        deleteButton() added
-* Rapp			03/28/17				Refactored API calls into ButtonService
+* rapp		03/28/17        Refactored API calls into ButtonService
 */
 
 
 import { Component } from '@angular/core';
 //import { Http } from '@angular/http';
-import { OnInit } from '@angular/core';
+//import { OnInit } from '@angular/core';
 
 import { ButtonService } from '../services/button.service';
 
@@ -29,11 +29,10 @@ import { ButtonService } from '../services/button.service';
 
 export class ButtonTableComponent {
 	buttonList: any[];
+
     constructor(private buttonService: ButtonService) {
 		this.buttonList = [];
 	}
-
-
 
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of buttons when the component is initialized
@@ -53,26 +52,15 @@ export class ButtonTableComponent {
 
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
-		this.buttonService.deleteButton(macAddr)
+		this.buttonService.deleteButton(macAddr).subscribe();
+        /*
 			.subscribe(buttons => {
 				console.log(buttons);
 				//this.buttonList = buttons;
 			});
+           */
 
 		console.log('Deleted button: ' + macAddr);
-		this.getAllButtons();
-	}
-
-
-	// NOT BEING USED RIGHT NOW //
-
-	// Send request to delete a button and then get an updated list
-	// of all buttons
-	deleteButtonAndUpdate(macAddr: String): void {
-		// Send delete request to API
-		this.deleteButton(macAddr);
-
-		// Update local list of buttons
 		this.getAllButtons();
 	}
 }
