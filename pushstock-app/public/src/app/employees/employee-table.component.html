@@ -9,6 +9,7 @@
 * Saul			  03/16/17		File created
 * Saul        03/20/17    Fixed display number error
 * Saul        03/27/17    Added delete button and call to function
+* Saul        03/28/17    Added edit employee button
 -->
 <div>
 
@@ -41,6 +42,9 @@
                   <td>{{ employee.email }}</td>
                   <td>{{ employee.role }}</td>
                   <td>
+                    <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
                     <button type="button" (click)="deleteEmployee(employee.email)" class="btn btn-default">
                       <span class="glyphicon glyphicon-trash"></span>
                     </button>

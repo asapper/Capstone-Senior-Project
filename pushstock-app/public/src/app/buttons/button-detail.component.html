@@ -1,13 +1,12 @@
 <div *ngIf="button">
     <h2>Button #{{ button.id }}</h2>
     <div>
-        <label>MAC Address:</label> {{ button.macAddr }}
+        <label>MAC Address: </label>{{ button.macAddr }}
     </div>
     <div>
         <label>Description: </label>
         <input [(ngModel)]="button.description" placeholder="Description" />
     </div><br>
     <button class="btn btn-info" (click)="goBack()">Back</button>
-    <button class="btn btn-primary" (click)="updateButton(button.description)"
-    [routerLink]="['/buttons']">Save</button>
+    <button class="btn btn-primary" (click)="updateButton(button.description)">Save</button>
 </div>

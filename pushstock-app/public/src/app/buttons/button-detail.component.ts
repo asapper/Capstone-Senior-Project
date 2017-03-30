@@ -16,6 +16,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http } from '@angular/http';
 
+
 import { Button } from '../shared/models/button';
 
 const BUTTONS = [
@@ -50,10 +51,6 @@ export class ButtonDetailComponent implements OnInit {
                 console.log(button);
                 this.button = button;
             });
-
-        //this.route.params.subscribe(params => {
-        //  this.button = BUTTONS.find(x => x.macAddr == params['macAddr']);
-        //  });
     }
 
     goBack(): void {

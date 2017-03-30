@@ -13,7 +13,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Employee } from '../shared/models/employee';
 import { Http } from '@angular/http';
-import { EmployeeTableComponent } from './employee-table.component';
 
 @Component ({
   selector: 'employee-form',
@@ -26,7 +25,7 @@ import { EmployeeTableComponent } from './employee-table.component';
     }
   `],
     templateUrl: './employee-form.component.html',
-    providers: [EmployeeTableComponent]
+    providers: []
 })
 
 export class EmployeeFormComponent {
@@ -38,7 +37,7 @@ export class EmployeeFormComponent {
   roles: String[] = [ "Admin", "Manager", "Worker" ];
 
   // Does anyone know what this does?
-  constructor(private http: Http, private table: EmployeeTableComponent) {}
+  constructor(private http: Http) {}
 
   // Class used to group data added to mongoDb
   newEmployee: Employee = new Employee();
@@ -49,11 +48,10 @@ export class EmployeeFormComponent {
   addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
 
     // Add Employee through API
-    this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role})
+    this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role })
     .map(res => res.json())
     .subscribe(employees => {
         console.log(employees);
-        this.table.employeeList = employees;
     })
     // Emit event so that the table will know to update
     this.employeeCreated.emit();
