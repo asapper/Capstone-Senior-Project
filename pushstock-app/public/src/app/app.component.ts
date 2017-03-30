@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Button } from './shared/models/button';
-import { AppConfig } from './app.config';
 // Import rxjs map operator
 import 'rxjs/add/operator/map';
+import { AuthenticationService } from './services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    //styleUrls: ['./app.component.css']
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
+    userIsLoggedIn : boolean;
+
     // Does anyone know what this does?
-    constructor(private http: Http, private config: AppConfig) {}
+    constructor(private http: Http, private router: Router, private authService: AuthenticationService) { }
     title = 'app works!';
 
     // Link to our api, pointing to localhost
-    API = this.config.apiUrl + '/api';
+    API = 'https://localhost:4200/api';
 
     // Empty list of buttons
     buttons: any[] = [];
