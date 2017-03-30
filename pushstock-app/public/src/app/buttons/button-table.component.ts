@@ -27,8 +27,8 @@ import { ButtonService } from '../services/button.service';
 
 export class ButtonTableComponent implements OnInit {
 	buttonList: any[];
+    allButtons: any[];
     private showOnlyActiveButtons: boolean;
-    private allButtons: any[];
 
     constructor(private buttonService: ButtonService) {
 		this.buttonList = [];
