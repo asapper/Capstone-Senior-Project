@@ -23,10 +23,12 @@
     <div class="panel-heading">
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
       <div class="panel-title pull-right">
+        <input type="checkbox" id="filterButtons" (click)="filterButtons()" checked>
+        <label for="filterButtons" style="font-weight: normal">Show only active buttons</label>
         <!-- Button to enable add button form -->
-        <a class="btn btn-primary" [routerLink]="['/buttons/new']">Add FLIC Button</a>
+        <button type="button" class="btn btn-primary" [routerLink]="['/buttons/new']">Add FLIC Button</button>
         <!-- Enable assigning button from unassigned list -->
-        <a class="btn btn-primary" [routerLink]="['/buttons/assign']">Assign FLIC Button</a>
+        <button type="button" class="btn btn-primary" [routerLink]="['/buttons/assign']">Assign FLIC Button</button>
       </div>
       <div class="clearfix"></div>
     </div>

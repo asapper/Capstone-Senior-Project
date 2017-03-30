@@ -61,8 +61,4 @@ export class ButtonFormComponent {
 		this.active = false;
 		setTimeout(() => this.active = true, 0);
 	}
-
-    goBack(): void {
-        this.location.back();
-    }
 }

@@ -29,14 +29,19 @@ import { ButtonService } from '../services/button.service';
 
 export class ButtonTableComponent {
 	buttonList: any[];
+    private showOnlyActiveButtons: boolean;
+    private allButtons: any[];
+
     constructor(private buttonService: ButtonService) {
 		this.buttonList = [];
+        this.allButtons = [];
 	}
 
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of buttons when the component is initialized
     ngOnInit() {
         this.getAllButtons();
+        this.showOnlyActiveButtons = true;
     }
 
 	// Send request to get list of all buttons in the database
@@ -44,10 +49,20 @@ export class ButtonTableComponent {
 		// Call the API and store returned list of buttons in the array
 		this.buttonService.getAllButtons()
 			.subscribe(buttons => {
-				console.log(buttons);
 				this.buttonList = buttons;
+                this.allButtons = buttons;
+                this.filterButtons();
 			});
 	}
+
+    filterButtons(): void {
+        this.buttonList = this.allButtons;
+        if (this.showOnlyActiveButtons) {
+            this.buttonList = this.buttonList.filter(
+                button => button.isActive === true);
+        }
+        this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
+    }
 
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
