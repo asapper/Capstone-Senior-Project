@@ -9,6 +9,7 @@
 * ======	        ========        ===========
 * Saul	        03/16/17      Updated
 * Saul	    03/21/17    Self Contained. Does not use root component
+* Rapp			03/28/17		Refactored API calls into ButtonService
 */
 
 import { Component, Output, EventEmitter } from '@angular/core';
@@ -16,22 +17,26 @@ import { Button } from '../shared/models/button';
 import { Http } from '@angular/http';
 import { Location } from '@angular/common';
 
+import { ButtonService } from '../services/button.service';
 
 @Component ({
     selector: 'button-form',
-    templateUrl: './button-form.component.html'
+    templateUrl: './button-form.component.html',
+	providers: [
+		ButtonService
+	]
 })
 
 export class ButtonFormComponent {
     // For output
     @Output() buttonCreated = new EventEmitter();
 
-    API = 'https://localhost:4200/api';
 
     // Does anyone know what this does?
     constructor(
         private http: Http,
-        private location: Location
+        private location: Location,
+        private buttonService: ButtonService
     ) {}
 
     // Class used to group data added to mongoDb
@@ -39,23 +44,23 @@ export class ButtonFormComponent {
 
     active: boolean = true;
 
-    addButton(macAddr: String, description: String){
-        this.http.post(`${this.API}/addButton`, { macAddr, description })
-        .map(res => res.json())
-        .subscribe(buttons => {
-            console.log(buttons);
-        })
-        // emits event so that the table will know to update
-        this.buttonCreated.emit();
-        console.log("button added" + this.newButton);
 
-        // clears the form everytime it is submitted
-        this.newButton = new Button();
+	addButton(macAddr: String, description: String): void {
+		// Call API to add button to database
+		this.buttonService.addButton(macAddr, description)
+			.subscribe(buttons => {
+				console.log(buttons);
+			});
 
-        // clears forms and states invaled and touched
-        this.active = false;
-        setTimeout(() => this.active = true, 0);
-    }
+		// Emits event so that the table will know to update
+		this.buttonCreated.emit();
+		console.log('button added: ' + this.newButton);
+
+		// Clear the form after submitted
+		this.newButton = new Button();
+		this.active = false;
+		setTimeout(() => this.active = true, 0);
+	}
 
     goBack(): void {
         this.location.back();

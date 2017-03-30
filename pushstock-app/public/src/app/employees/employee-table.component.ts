@@ -33,13 +33,17 @@ import { Http } from '@angular/http';
 
 export class EmployeeTableComponent {
 
-  constructor(private http: Http) {}
+	employeeList: any[];
+
+  constructor(private http: Http) {
+		this.employeeList = [];
+	}
 
   // API path
   API = 'https://localhost:4200/api';
 
   // Reads in the employeeList from the API
-  employeeList: any[];
+  //employeeList: any[];
 
   employeeActive: boolean = false;
 

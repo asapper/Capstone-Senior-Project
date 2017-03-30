@@ -34,7 +34,7 @@ app.use(morgan('dev'));
 
 
 // Catch all routes and secure
-app.all('*', function(req, res, next){
+app.all('**', function(req, res, next){
 	if(req.secure){
 		return next();
 	};
@@ -65,7 +65,6 @@ const dbOptions = {
     pass: process.env.PUSHSTOCK_API_PASSWORD
 };
 
-//mongoose.connect(dbHost, dbOptions);
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbHost, dbOptions);
 

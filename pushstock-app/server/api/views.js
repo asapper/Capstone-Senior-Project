@@ -8,7 +8,6 @@
  * ------       --------        -----------
  * sapper       03/01/17        File created
  * rapp         03/13/17        Added task creation in response to singleClick call
- * rapp         03/13/17        Added task creation in response to singleClick call
  * Saul         03/16/17        Added view to get all employees in DB
  * Saul         03/20/17        Deleted all employees
  * Saul         03/27/17        Added DeleteButtonView
@@ -58,15 +57,23 @@ module.exports = {
                     }
                 });
             } else {
+                // button used, update field
+                button.dateLastUsed = Date.now();
+                button.save();
                 // Button already exists, if inactive mark as active
-                if (button.isActive == false) {
+                if (!button.isActive && button.description != "") {
                     button.isActive = true;
                     button.dateLastConfigured = Date.now();
-                    button.save();
-                    // return message
-                    res.json({ message: 'Button has been activated!' });
+                    button.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            resMessage = 'Button has been activated!';
+                        }
+                    });
+                } else {
+                    resMessage = 'Button already exists.';
                 }
-                resMessage = 'Button already exists.';
             }
         });
 
@@ -107,6 +114,19 @@ module.exports = {
         });
     },
 
+    // Handle retrieveing all unassigned buttons
+    getUnassignedButtonsView: function(req, res) {
+        // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
+        Button.find({ isActive: false, dateLastConfigured: null }, 'macAddr', function(err, buttons) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(buttons);
+            }
+        });
+    },
+
+    // Handle retrieving a single button
     getSingleButtonView: function(req, res) {
         Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
@@ -117,8 +137,33 @@ module.exports = {
         });
     },
 
+    // Handle assigning a button
+    assignButtonView: function(req, res) {
+        // Retrieve button
+        Button.findOne({ macAddr: req.body.macAddr }, function (err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                // Update description
+                button.description = req.body.description;
+                // Set last configured date
+                button.dateLastConfigured = Date.now();
+                // Set to active
+                button.isActive = true;
+                button.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json({ message: 'Button assigned!' });
+                    }
+                });
+            }
+        });
+    },
+
+    // Handle updating a single button
     updateSingleButtonView: function(req, res) {
-        button = Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
+        Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
                 res.send(err);
             } else {

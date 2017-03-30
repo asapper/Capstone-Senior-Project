@@ -5,53 +5,44 @@
  *
  * Edit history:
  *
- * Editor       Date           Description
- * ======       ========       ===========
- * Sapper       03/15/17       File created
+ * Editor       Date					Description
+ * ======       ========				===========
+ * Sapper       03/15/17				File created
+ * Rapp			03/28/17				Refactored API calls into the ButtonService
  */
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
-import { Http } from '@angular/http';
 
-
-const BUTTONS = [
-    { id: 1, macAddr: '123', description: 'asdf', isActive: false },
-    { id: 2, macAddr: '234', description: 'jklm', isActive: false }
-];
+import { ButtonService } from '../services/button.service';
 
 @Component({
     selector: 'button-detail',
-    templateUrl: './button-detail.component.html'
+    templateUrl: './button-detail.component.html',
+    providers: [ButtonService]
 })
+
 export class ButtonDetailComponent implements OnInit {
     button: any;
-
-    // API path
-    API = 'https://localhost:4200/api';
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private http: Http
+        private buttonService: ButtonService
     ) {}
 
     ngOnInit(): void {
-        let macAddr = 0;
+        let macAddr = '';
         this.route.params.subscribe(params => {
-            macAddr = +params['macAddr'];
+            macAddr = params['macAddr'];
         });
-        this.http.get(`${this.API}/buttons/${macAddr}`)
-            .map(res => res.json())
+
+		this.buttonService.getButton(macAddr)
             .subscribe(button => {
                 console.log(button);
                 this.button = button;
             });
-
-        //this.route.params.subscribe(params => {
-        //  this.button = BUTTONS.find(x => x.macAddr == params['macAddr']);
-        //  });
     }
 
     goBack(): void {
@@ -59,12 +50,12 @@ export class ButtonDetailComponent implements OnInit {
     }
 
     updateButton(description: String): void {
-        let macAddr = 0;
+        let macAddr = '';
         this.route.params.subscribe(params => {
-            macAddr = +params['macAddr'];
+            macAddr = params['macAddr'];
         });
-        this.http.put(`${this.API}/buttons/${macAddr}`, { description })
-            .map(res => res.json())
+
+		this.buttonService.updateButton(macAddr, description)
             .subscribe();
     }
 }

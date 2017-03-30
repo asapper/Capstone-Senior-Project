@@ -13,34 +13,32 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Http } from '@angular/http';
 
-const BUTTONS = [
-    { id: 1, macAddr: '123', description: 'asdf', isActive: false },
-    { id: 2, macAddr: '234', description: 'jklm', isActive: false }
-];
-
+import { ButtonService } from '../services/button.service';
 
 @Component({
     selector: 'button-assign',
-    templateUrl: './button-assign.component.html'
+    templateUrl: './button-assign.component.html',
+    providers: [ButtonService]
 })
 export class ButtonAssignComponent implements OnInit {
     buttons: any[];
     newButton: any;
 
-    // API path
-    API = 'https://localhost:4200/api';
-
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private http: Http
-    ) {}
+        private buttonService: ButtonService
+    ) {
+        this.buttons = [];
+        this.newButton = {};
+    }
 
     ngOnInit(): void {
-        this.buttons = BUTTONS;
-        this.newButton = {};
+        this.buttonService.getUnassignedButtons()
+        .subscribe(buttons => {
+            this.buttons = buttons;
+        });
     }
 
     goBack(): void {
@@ -48,8 +46,7 @@ export class ButtonAssignComponent implements OnInit {
     }
 
     assignButton(macAddr: String, description: String): void {
-        this.http.post(`${this.API}/assignbutton`, { macAddr, description })
-            .map(res => res.json())
-            .subscribe();
+        this.buttonService.assignButton(macAddr, description)
+        .subscribe();
     }
 }

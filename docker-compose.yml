@@ -15,7 +15,7 @@ services:
    build: database
    image: mongo
    volumes:
-     - /tmp/mongodb:/data/db
+     - ~/data/mongodb-docker:/data/db
    ports:
      - "27017:27017"
    command: ["--auth"]
