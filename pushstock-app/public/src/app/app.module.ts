@@ -30,34 +30,36 @@ import { ButtonAssignComponent } from './buttons/button-assign.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ButtonFormComponent,
-    ButtonTableComponent,
-    ButtonDetailComponent,
-    ButtonAssignComponent,
-    EmployeeTableComponent,
-    EmployeeFormComponent,
-    TaskTableComponent
-  ],
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    RouterModule,
-    AppRoutingModule
-  ],
-  providers: [],
-	bootstrap: [ AppComponent]
-	/*
-  bootstrap: [
-    AppComponent,
-    ButtonTableComponent,
-    EmployeeTableComponent,
-    EmployeeFormComponent
-  ]
- */
+@NgModule({
+    declarations: [
+        AppComponent,
+        ButtonFormComponent,
+        ButtonTableComponent,
+        ButtonDetailComponent,
+        ButtonAssignComponent,
+        EmployeeTableComponent,
+        EmployeeFormComponent,
+        TaskTableComponent
+    ],
+
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        RouterModule,
+        AppRoutingModule
+    ],
+    providers: [
+        {
+            provide: LocationStrategy,
+            useClass: HashLocationStrategy
+        }
+    ],
+	bootstrap: [ 
+        AppComponent
+    ]
 })
+
 export class AppModule { }

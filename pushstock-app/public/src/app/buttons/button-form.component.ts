@@ -13,10 +13,9 @@
 */
 
 import { Component, Output, EventEmitter } from '@angular/core';
-import { Button } from '../shared/models/button';
-import { Http } from '@angular/http';
 import { Location } from '@angular/common';
 
+import { Button } from '../shared/models/button';
 import { ButtonService } from '../services/button.service';
 
 @Component ({
@@ -31,10 +30,7 @@ export class ButtonFormComponent {
     // For output
     @Output() buttonCreated = new EventEmitter();
 
-
-    // Does anyone know what this does?
     constructor(
-        private http: Http,
         private location: Location,
         private buttonService: ButtonService
     ) {}
@@ -44,13 +40,10 @@ export class ButtonFormComponent {
 
     active: boolean = true;
 
-
+    // Add a new button to the database
 	addButton(macAddr: String, description: String): void {
 		// Call API to add button to database
-		this.buttonService.addButton(macAddr, description)
-			.subscribe(buttons => {
-				console.log(buttons);
-			});
+		this.buttonService.addButton(macAddr, description).subscribe();
 
 		// Emits event so that the table will know to update
 		this.buttonCreated.emit();
