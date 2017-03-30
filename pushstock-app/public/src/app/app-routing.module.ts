@@ -32,7 +32,7 @@ const routes: Routes = [
     { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },
     { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
     { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
-	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' }
+	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' },
 	{ path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
 ];
 
