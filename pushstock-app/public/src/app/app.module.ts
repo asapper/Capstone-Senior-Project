@@ -27,6 +27,7 @@ import { EmployeeFormComponent } from './employees/employee-form.component';
 import { TaskTableComponent } from './tasks/task-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
+import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -39,6 +40,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         ButtonTableComponent,
         ButtonDetailComponent,
         ButtonAssignComponent,
+        ButtonUnassignComponent,
         EmployeeTableComponent,
         EmployeeFormComponent,
         TaskTableComponent

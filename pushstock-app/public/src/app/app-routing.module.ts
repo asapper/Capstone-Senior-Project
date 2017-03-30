@@ -19,6 +19,7 @@ import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
+import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
 	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
     { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },
+    { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
     { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
 	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' }
 ];

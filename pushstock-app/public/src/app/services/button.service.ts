@@ -36,6 +36,12 @@ export class ButtonService {
 			.map(res => res.json());
 	}
 
+    // Returns all assigned buttons
+    getAssignedButtons() {
+        return this.http.get(`${this.api}/assignedbuttons`)
+            .map(res => res.json());
+    }
+
     // Returns all unassigned buttons
     getUnassignedButtons() {
         return this.http.get(`${this.api}/unassignedbuttons`)
@@ -45,6 +51,12 @@ export class ButtonService {
     // Update (i.e., assign) button
     assignButton(macAddr: String, description: String) {
         return this.http.put(`${this.api}/assignbutton`, { macAddr, description })
+            .map(res => res.json());
+    }
+
+    // Update (i.e., unassign) button
+    unassignButton(macAddr: String) {
+        return this.http.put(`${this.api}/unassignbutton`, { macAddr })
             .map(res => res.json());
     }
 
