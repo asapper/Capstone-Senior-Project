@@ -8,6 +8,7 @@
  * =====			========		===========
  * Rapp				03/21/17		File created and Routes defined
  * Rapp				03/23/17		Updated component names and paths
+ * Saul				03/28/17		Added route for EmployeeDetailComponent
  */
 
 import { NgModule } from '@angular/core';
@@ -15,11 +16,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TaskTableComponent } from './tasks/task-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
+import { EmployeeDetailComponent } from './employees/employee-detail.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
 import { ButtonUnassignComponent } from './buttons/button-unassign.component';
+
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
@@ -30,6 +33,7 @@ const routes: Routes = [
     { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
     { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
 	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' }
+	{ path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

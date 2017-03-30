@@ -12,6 +12,7 @@
  * Saul         03/20/17        Deleted all employees
  * Saul         03/27/17        Added DeleteButtonView
  * Saul         03/27/17        Added DeleteEmployeeView
+ * Saul         03/29/17        Working updateSingleEmployeeView
  */
 
 const Button = require('../app/models/button');
@@ -326,5 +327,40 @@ module.exports = {
 
             res.json({ message: 'Successfully deleted' });
         });
-    }
+    },
+
+  // Update a specific employee
+  updateSingleEmployeeView: function(req, res){
+    employee = Employee.findOne({ email: req.body.oEmail }, function(err, employee) {
+        if (err) {
+            res.send(err);
+        } else {
+            employee.email = req.body.email;
+            employee.profile.firstName = req.body.firstName;
+            employee.profile.lastName  =  req.body.lastName;
+            employee.role = req.body.role;
+            employee.save(function(err) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json({ message: 'employee updated!' });
+                }
+            });
+        }
+    });
+  },
+
+  // Retrieve a specific employee
+  getSingleEmployeeView: function(req, res) {
+
+      Employee.findOne({ email: req.params.email }, function(err, employee) {
+          if (err) {
+              res.send(err);
+          } else {
+              res.json(employee);
+              console.log("found employee: " + employee);
+          }
+      });
+  }
+
 };

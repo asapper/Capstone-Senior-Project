@@ -15,6 +15,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
+
 import { ButtonService } from '../services/button.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class ButtonDetailComponent implements OnInit {
             macAddr = params['macAddr'];
         });
 
-		this.buttonService.getButton(macAddr)
+        //get bitton through service
+		    this.buttonService.getButton(macAddr)
             .subscribe(button => {
                 console.log(button);
                 this.button = button;
