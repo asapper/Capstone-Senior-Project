@@ -17,6 +17,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskTableComponent } from './tasks/task-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeDetailComponent } from './employees/employee-detail.component';
+import { EmployeeFormComponent } from './employees/employee-form.component';
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
     { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
 	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' },
+	{ path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full' },
 	{ path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
 ];
 

@@ -10,7 +10,7 @@
 * Saul		03/16/17	File created
 * Saul      03/22/17    Calls API for the employee list
 * Saul      03/22/17    Removed unnecessary code
-* Saul      03/27/17    deleteEmployee() added 
+* Saul      03/27/17    deleteEmployee() added
 * Rapp		03/29/17	Moved API calls to EmployeeService
 */
 
@@ -42,8 +42,6 @@ export class EmployeeTableComponent {
         this.employeeList = [];
     }
 
-    employeeActive: boolean = false;
-
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of employees when the component is initialized
     ngOnInit() {
@@ -67,13 +65,6 @@ export class EmployeeTableComponent {
 
         // Update employeeList
         this.getAllEmployees();
-    }
-
-
-    // Function sets boolean to true showing the employee form
-    setTrue() {
-        this.employeeActive = true;
-        console.log("set employeeActive to true");
     }
 
     // Deletes all employees in DB (For testing)
