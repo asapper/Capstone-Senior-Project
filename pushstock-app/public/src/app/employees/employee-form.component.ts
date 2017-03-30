@@ -12,10 +12,7 @@
 */
 
 import { Component, Output, EventEmitter } from '@angular/core';
-
 import { Employee } from '../shared/models/employee';
-//import { Http } from '@angular/http';
-import { EmployeeTableComponent } from './employee-table.component';
 import { EmployeeService } from '../services/employee.service';
 
 @Component ({
@@ -30,7 +27,6 @@ import { EmployeeService } from '../services/employee.service';
     `],
     templateUrl: './employee-form.component.html',
     providers: [
-        EmployeeTableComponent,
         EmployeeService
     ]
 })
@@ -39,12 +35,9 @@ export class EmployeeFormComponent {
     // For output
     @Output() employeeCreated = new EventEmitter();
 
-    //API = 'https://localhost:4200/api';
-
     roles: String[] = [ "Admin", "Manager", "Worker" ];
 
-    constructor(private employeeService: EmployeeService,
-                private table: EmployeeTableComponent) {}
+    constructor(private employeeService: EmployeeService) {}
 
     // Class used to group data added to mongoDb
     newEmployee: Employee = new Employee();
@@ -53,19 +46,10 @@ export class EmployeeFormComponent {
     active: boolean = true;
 
     addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
-        /*
-        this.http.post(`${this.API}/addEmployee`, { email, password, firstName, lastName, role})
-        .map(res => res.json())
-        .subscribe(employees => {
-            console.log(employees);
-            this.table.employeeList = employees;
-        })
-        */
-        
+        // Add Employee using services
         this.employeeService.addEmployee(email, password, firstName, lastName, role)
             .subscribe(employees => {
                 console.log(employees);
-                this.table.employeeList = employees;
             })
 
         // Emit event so that the table will know to update

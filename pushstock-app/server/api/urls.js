@@ -59,6 +59,9 @@ api_router.delete('/employees', views.deleteAllEmployeesView);
 api_router.post('/addEmployee', views.addEmployeeView);
 // Delete a specified employee
 api_router.delete('/employees/:email', views.deleteEmployeeView);
-
+// Update a specific employee
+api_router.put('/employees/:email', views.updateSingleEmployeeView);
+// Retrieve a specific Button (ex: /api/buttons/1)
+api_router.get('/employees/:email', views.getSingleEmployeeView);
 
 module.exports = api_router;

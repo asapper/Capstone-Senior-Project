@@ -26,24 +26,28 @@ import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
 import { TaskTableComponent } from './tasks/task-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
+<<<<<<< HEAD
 import { ButtonAssignComponent } from './buttons/button-assign.component';
+=======
+import { EmployeeDetailComponent } from './employees/employee-detail.component';
+>>>>>>> editEmp
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ButtonFormComponent,
-        ButtonTableComponent,
-        ButtonDetailComponent,
-        ButtonAssignComponent,
-        EmployeeTableComponent,
-        EmployeeFormComponent,
-        TaskTableComponent
-    ],
-
+  
+  declarations: [
+    AppComponent,
+    ButtonFormComponent,
+    ButtonTableComponent,
+    ButtonDetailComponent,
+    EmployeeTableComponent,
+    EmployeeFormComponent,
+    EmployeeDetailComponent,
+    TaskTableComponent
+  ],
     imports: [
         BrowserModule,
         FormsModule,
@@ -57,7 +61,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
             useClass: HashLocationStrategy
         }
     ],
-	bootstrap: [ 
+	bootstrap: [
         AppComponent
     ]
 })
