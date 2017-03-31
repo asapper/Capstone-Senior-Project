@@ -20,8 +20,8 @@
       <div class="panel-heading">
         <div class="panel-title pull-left">Employees registered: <span class="badge">{{ employeeList?.length }} </span></div>
         <div class="panel-title pull-right">
-          <!-- Button to enable add Employee form -->
-          <button type="button" class="btn btn-primary" (click)="setTrue()">Add Employee</button>
+          <!-- Button that routes you to the add employee page-->
+            <button type="button" class="btn btn-primary" [routerLink]="['/employees/new']">Add Employee</button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -56,13 +56,5 @@
           </tbody>
 
       </table>
-    </div>
-
-    <!-- Emplyee form displayed after addEmployee button clicked -->
-    <div class="jumbotron" *ngIf="this.employeeActive">
-      <!-- Call employee-form component. employee-form component will emit an event when
-           an employee has been created so that this componet will know to update
-           the table. -->
-      <employee-form (employeeCreated)="getAllEmployees()"></employee-form>
     </div>
 </div>
