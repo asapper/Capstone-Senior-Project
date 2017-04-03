@@ -49,6 +49,7 @@ export class ButtonTableComponent implements OnInit {
 			.subscribe(buttons => {
 				this.buttonList = buttons;
                 this.allButtons = buttons;
+                this.showOnlyActiveButtons = true;
                 this.filterButtons();
 			});
 	}
@@ -65,14 +66,7 @@ export class ButtonTableComponent implements OnInit {
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
 		this.buttonService.deleteButton(macAddr).subscribe();
-        /*
-			.subscribe(buttons => {
-				console.log(buttons);
-				//this.buttonList = buttons;
-			});
-           */
-
+        this.getAllButtons();
 		console.log('Deleted button: ' + macAddr);
-		this.getAllButtons();
 	}
 }

@@ -23,7 +23,7 @@
     <div class="panel-heading">
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ allButtons?.length }} </span></div>
       <div class="panel-title pull-right">
-        <input type="checkbox" id="filterButtons" (click)="filterButtons()" checked>
+        <input type="checkbox" id="filterButtons" (click)="filterButtons()" [checked]="!showOnlyActiveButtons">
         <label for="filterButtons" style="font-weight: normal">Show only active buttons</label>
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,7 +60,8 @@
                     <button type="button" [routerLink]="['/buttons', button.macAddr]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                  <button type="button" (click)="deleteButton(button.macAddr)" class="btn btn-default">
+                    <button type="button" (click)="deleteButton(button.macAddr)" class="btn btn-default"
+                        [routerLink]="['/buttons']">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
                 </td>
@@ -68,7 +69,7 @@
             </tr>
         </tbody>
         <tbody *ngIf="buttonList?.length < 1" class="text-center">
-            No buttons have been registered to the system.
+            No active buttons are registered in the system.
         </tbody>
 
     </table>
