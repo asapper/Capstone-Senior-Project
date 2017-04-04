@@ -18,7 +18,7 @@ directive-->
 
 <!-- submit: submits and refreshes the page -->
 <!-- ngSubmit: does not refresh tht page -->
-<form #form=ngForm (ngSubmit)="onSubmit()" *ngIf="active">
+<form #form=ngForm>
   <!-- macAddr Address -->
   <div class="form-group" [ngClass]="{ 'has-error': macAddr.invalid && macAddr.touched }">
     <label for="macAddr">Button MAC Address</label>
@@ -47,3 +47,4 @@ directive-->
   [routerLink]="['/buttons']" [disabled]="form.invalid">
     Add Button
   </button>
+</form>

@@ -15,7 +15,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
-
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
 import { ButtonService } from '../services/button.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class ButtonDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-	    private buttonService: ButtonService
+        private buttonService: ButtonService,
+        private alertService: AlertService
     ) {}
 
     ngOnInit(): void {
@@ -39,22 +41,28 @@ export class ButtonDetailComponent implements OnInit {
             macAddr = params['macAddr'];
         });
 
-        //get bitton through service
-		    this.buttonService.getButton(macAddr)
-            .subscribe(button => {
-                console.log(button);
-                this.button = button;
-            });
+        //get button through service
+        this.buttonService.getButton(macAddr)
+        .subscribe(button => {
+            console.log(button);
+            this.button = button;
+        });
     }
 
     updateButton(description: String): void {
+        // retrieve mac address from url
         let macAddr = '';
         this.route.params.subscribe(params => {
             macAddr = params['macAddr'];
         });
-
+        // update button through service
 		this.buttonService.updateButton(macAddr, description)
-            .subscribe();
+        .subscribe();
+        // alert button has been updated
+        let alert = new Alert(); 
+        alert.message = "Button with MAC address " + macAddr + " has been updated successfully!";
+        alert.type = "alert-success"; 
+        this.alertService.setButtonAlert(alert);
     }
 
     goBack(): void {

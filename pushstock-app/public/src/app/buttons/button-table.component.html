@@ -13,6 +13,10 @@
 * Saul        03/27/17    Delete functionality added
 -->
 
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType]" role="alert">{{ alertMessage }}</div>
+</div>
+
 <div>
 
   <!-- Title -->
