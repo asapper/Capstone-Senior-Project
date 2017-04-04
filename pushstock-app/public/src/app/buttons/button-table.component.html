@@ -13,6 +13,7 @@
 * Saul        03/27/17    Delete functionality added
 -->
 
+<!-- Alerts displayed -->
 <div *ngIf="alertType && alertMessage">
     <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,8 +24,30 @@
     </div>
 </div>
 
-<div>
+<!-- Modal: deleting button -->
+<div class="modal fade" id="btnDeleteModal" tabindex="-1" role="dialog" aria-labelledby="btnDeleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Warning!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">Are you sure you want to delete this button?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Delete button</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<!-- Body of view -->
+<div>
   <!-- Title -->
   <h3>FLIC Buttons</h3>
 
@@ -46,6 +69,7 @@
                 <li><a [routerLink]="['/buttons/assign']">Assign FLIC Button</a></li>
                 <!-- Button to un-assign a button that has been assigned -->
                 <li><a [routerLink]="['/buttons/unassign']">UnassignFLIC Button</a></li>
+                <li><button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal" data-macaddr="button.macAddr">Modal</button></li>
             </ul>
         </div>
       </div>
@@ -70,8 +94,11 @@
                     <button type="button" [routerLink]="['/buttons', button.macAddr]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal" data-macaddr="button.macAddr">
+                    <!--
                     <button type="button" (click)="deleteButton(button.macAddr)" class="btn btn-default"
                         [routerLink]="['/buttons']">
+                    -->
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
                 </td>
@@ -86,5 +113,11 @@
   </div>
 </div>
 <script type="text/javascript">
+    $('#btnDeleteModal').on('show.bs.modal', function(event) {
+        console.log("HERE!");
+        var button = $(event.relatedTarget);
+        var macAddr = button.data('macaddr');
+        $(this).find('.modal-text').text('Delete ' + macAddr + '?');
+    });
     $('.dropdown-toggle').dropdown();
 </script>
