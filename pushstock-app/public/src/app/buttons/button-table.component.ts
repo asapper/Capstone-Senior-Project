@@ -17,7 +17,9 @@
 
 import { Component, OnInit } from '@angular/core';
 
+import { AlertService } from '../services/alert.service';
 import { ButtonService } from '../services/button.service';
+import { Alert } from '../shared/models/alert';
 
 @Component ({
 	selector: 'button-table',
@@ -28,18 +30,36 @@ import { ButtonService } from '../services/button.service';
 export class ButtonTableComponent implements OnInit {
 	buttonList: any[];
     allButtons: any[];
+    alertType: string;
+    alertTitle: string;
+    alertMessage: string;
     private showOnlyActiveButtons: boolean;
 
-    constructor(private buttonService: ButtonService) {
+    constructor(
+        private alertService: AlertService,
+        private buttonService: ButtonService
+    ) {
+        // init variables
 		this.buttonList = [];
         this.allButtons = [];
+        this.alertType = "";
+        this.alertTitle = "";
+        this.alertMessage = "";
 	}
 
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of buttons when the component is initialized
     ngOnInit(): void {
+        this.retrieveLatestAlert();
         this.getAllButtons();
         this.showOnlyActiveButtons = true;
+    }
+
+    retrieveLatestAlert(): void {
+        let alert: Alert = this.alertService.getLatestButtonAlert();
+        this.alertTitle = alert.title;
+        this.alertType = alert.type;
+        this.alertMessage = alert.message;
     }
 
 	// Send request to get list of all buttons in the database
@@ -65,8 +85,17 @@ export class ButtonTableComponent implements OnInit {
 
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
+        // delete button through service
 		this.buttonService.deleteButton(macAddr).subscribe();
-        this.getAllButtons();
+        // alert button has been unassigned
+        let alert = new Alert();
+        alert.title = "Success!"
+        alert.message = "Button with MAC address " + macAddr + " has been deleted.";
+        alert.type = "alert-success";
+        this.alertService.setButtonAlert(alert);
+        // update alerts in list of buttons in this view
+        this.retrieveLatestAlert();
+		this.getAllButtons();
 		console.log('Deleted button: ' + macAddr);
 	}
 }

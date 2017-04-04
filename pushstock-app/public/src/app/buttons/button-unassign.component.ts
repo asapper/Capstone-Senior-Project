@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
 import { ButtonService } from '../services/button.service';
 
 @Component({
@@ -28,7 +30,8 @@ export class ButtonUnassignComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private buttonService: ButtonService
+        private buttonService: ButtonService,
+        private alertService: AlertService
     ) {
         this.buttons = [];
         this.oldButton = {};
@@ -46,7 +49,14 @@ export class ButtonUnassignComponent implements OnInit {
     }
 
     unassignButton(macAddr: String): void {
+        // unassign button through service
         this.buttonService.unassignButton(macAddr)
         .subscribe();
+        // alert button has been unassigned
+        let alert = new Alert(); 
+        alert.title = "Success!"
+        alert.message = "Button with MAC address " + macAddr + " has been unassigned.";
+        alert.type = "alert-success"; 
+        this.alertService.setButtonAlert(alert);
     }
  }

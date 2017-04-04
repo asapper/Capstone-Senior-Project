@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
 import { ButtonService } from '../services/button.service';
 
 @Component({
@@ -28,8 +30,10 @@ export class ButtonAssignComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private buttonService: ButtonService
+        private buttonService: ButtonService,
+        private alertService: AlertService
     ) {
+        // init variables
         this.buttons = [];
         this.newButton = {};
     }
@@ -46,7 +50,14 @@ export class ButtonAssignComponent implements OnInit {
     }
 
     assignButton(macAddr: String, description: String): void {
+        // assign button through service
         this.buttonService.assignButton(macAddr, description)
         .subscribe();
+        // alert button has been assigned
+        let alert = new Alert();
+        alert.title = "Success!"
+        alert.message = "Button with MAC address " + macAddr + " has been assigned.";
+        alert.type = "alert-success";
+        this.alertService.setButtonAlert(alert);
     }
 }

@@ -14,50 +14,19 @@
 */
 
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-// Import rxjs map operator
 import 'rxjs/add/operator/map';
+
+import { AlertService } from './services/alert.service';
+	
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
+    providers: [AlertService]
 })
 export class AppComponent {
     title = 'PushStock';
 
     // Does anyone know what this does?
-    constructor(private http: Http) {}
-
-    // booleans used to determine which view should be displayed in the web app
-    welcomeView: boolean = true;
-    buttonView: boolean = false;
-    workerView: boolean = false;
-		taskView: boolean = false;
-
-    // Boolean flag that controls if the buttonform is displayed
-    buttonActive: boolean = false;
-
-    //  Functions called to change the current view of the client app
-    //  may be a good idea to try figure out to combine these. A fuction that
-    //  sets the passe boolean variable to true and the rest to false
-    changeToHomeView(){
-      this.welcomeView = true;
-      this.buttonView = false;
-      this.workerView = false;
-			this.taskView = false;
-    }
-
-    changeToButtonView(){
-      this.welcomeView = false;
-      this.buttonView = true;
-      this.workerView = false;
-			this.taskView = false;
-    }
-
-    changeToWorkerView(){
-      this.welcomeView = false;
-      this.buttonView = false;
-      this.workerView = true;
-			this.taskView = false;
-    }
+    constructor(alertService: AlertService) {}
 }

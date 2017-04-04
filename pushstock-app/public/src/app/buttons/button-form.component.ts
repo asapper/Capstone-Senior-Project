@@ -12,45 +12,39 @@
 * Rapp			03/28/17		Refactored API calls into ButtonService
 */
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
 import { Button } from '../shared/models/button';
 import { ButtonService } from '../services/button.service';
 
 @Component ({
     selector: 'button-form',
     templateUrl: './button-form.component.html',
-	providers: [
-		ButtonService
-	]
+	providers: [ButtonService]
 })
 
 export class ButtonFormComponent {
-    // For output
-    @Output() buttonCreated = new EventEmitter();
-
     constructor(
         private location: Location,
-        private buttonService: ButtonService
+        private buttonService: ButtonService,
+        private alertService: AlertService
     ) {}
 
     // Class used to group data added to mongoDb
     newButton: Button = new Button();
 
-    active: boolean = true;
-
     // Add a new button to the database
 	addButton(macAddr: String, description: String): void {
 		// Call API to add button to database
 		this.buttonService.addButton(macAddr, description).subscribe();
-
-		// Emits event so that the table will know to update
-		this.buttonCreated.emit();
-
-		// Clear the form after submitted
-		this.newButton = new Button();
-		this.active = false;
-		setTimeout(() => this.active = true, 0);
+        // alert button has been assigned
+        let alert = new Alert(); 
+        alert.title = "Hooray!"
+        alert.message = "New button with MAC address " + macAddr + " has been created.";
+        alert.type = "alert-success"; 
+        this.alertService.setButtonAlert(alert);
 	}
 }

@@ -13,6 +13,16 @@
 * Saul        03/27/17    Delete functionality added
 -->
 
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong *ngIf="alertTitle">{{ alertTitle }}</strong>
+        {{ alertMessage }}
+    </div>
+</div>
+
 <div>
 
   <!-- Title -->
