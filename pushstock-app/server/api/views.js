@@ -131,7 +131,7 @@ module.exports = {
     // Handle retrieveing all unassigned buttons
     getUnassignedButtonsView: function(req, res) {
         // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
-        Button.find({ isActive: false, description: "" }, 'macAddr', function(err, buttons) {
+        Button.find({ isActive: false, dateLastConfigured: null }, 'macAddr', function(err, buttons) {
             if (err) {
                 res.send(err);
             } else {
