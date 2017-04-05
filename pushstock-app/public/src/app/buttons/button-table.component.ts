@@ -33,6 +33,7 @@ export class ButtonTableComponent implements OnInit {
     alertType: string;
     alertTitle: string;
     alertMessage: string;
+    modalMacAddr: string;
     private showOnlyActiveButtons: boolean;
 
     constructor(
@@ -45,6 +46,7 @@ export class ButtonTableComponent implements OnInit {
         this.alertType = "";
         this.alertTitle = "";
         this.alertMessage = "";
+        this.modalMacAddr = "";
 	}
 
     // Angular 2 Life Cycle event whem component has been initialized
@@ -53,6 +55,10 @@ export class ButtonTableComponent implements OnInit {
         this.retrieveLatestAlert();
         this.getAllButtons();
         this.showOnlyActiveButtons = true;
+    }
+
+    setMacAddrToDelete(macAddr: string): void {
+        this.modalMacAddr = macAddr;
     }
 
     retrieveLatestAlert(): void {
@@ -65,13 +71,12 @@ export class ButtonTableComponent implements OnInit {
 	// Send request to get list of all buttons in the database
 	getAllButtons(): void {
 		// Call the API and store returned list of buttons in the array
-		this.buttonService.getAllButtons()
-			.subscribe(buttons => {
-				this.buttonList = buttons;
-                this.allButtons = buttons;
-                this.showOnlyActiveButtons = true;
-                this.filterButtons();
-			});
+        this.buttonService.getAllButtons().subscribe(buttons => {
+            this.buttonList = buttons;
+            this.allButtons = buttons;
+            this.showOnlyActiveButtons = true;
+            this.filterButtons();
+        });
 	}
 
     filterButtons(): void {
@@ -89,13 +94,11 @@ export class ButtonTableComponent implements OnInit {
 		this.buttonService.deleteButton(macAddr).subscribe();
         // alert button has been unassigned
         let alert = new Alert();
-        alert.title = "Success!"
         alert.message = "Button with MAC address " + macAddr + " has been deleted.";
-        alert.type = "alert-success";
+        alert.type = "alert-info";
         this.alertService.setButtonAlert(alert);
         // update alerts in list of buttons in this view
         this.retrieveLatestAlert();
 		this.getAllButtons();
-		console.log('Deleted button: ' + macAddr);
 	}
 }
