@@ -17,6 +17,7 @@ import { Alert } from '../shared/models/alert';
 @Injectable()
 export class AlertService {
     private buttonAlert: Alert = new Alert();
+    private taskAlert: Alert = new Alert();
 
     // set latest button alert
     setButtonAlert(alert: Alert) {
@@ -31,4 +32,19 @@ export class AlertService {
         this.buttonAlert = new Alert();
         return alert;
     }
+
+    // set latest task alert
+    setTaskAlert(alert: Alert) {
+        this.taskAlert = alert;
+    }
+
+    // get latest task alert
+    getLatestTaskAlert() {
+        // store alert
+        let alert = this.taskAlert;
+        // clear alert
+        this.taskAlert = new Alert();
+        return alert;
+    }
+
 }

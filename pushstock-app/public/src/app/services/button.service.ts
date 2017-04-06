@@ -10,14 +10,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { ApiSettings } from './api-settings';
 
 @Injectable()
 export class ButtonService {
-	api: String;
+	private api: String;
+
     constructor(
         private http: Http
     ) {

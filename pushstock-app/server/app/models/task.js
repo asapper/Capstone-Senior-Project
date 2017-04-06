@@ -12,26 +12,13 @@
  */
 
 const mongoose = require('mongoose'),
-			Schema = mongoose.Schema,
-			ObjectId = Schema.Types.ObjectId;
-
-// buttonId: {type: Number, required: true};
-// employee: {
-//		firstname: {type: String, required: true},
-//		lastname: {type: String, required: true}
-// };
+      Schema = mongoose.Schema,
+      ObjectId = Schema.Types.ObjectId;
 
 //===========================
 // Task Schema
 //==========================
 const TaskSchema = new Schema({
-	/*
-	taskId: {
-		type: Number,
-		unique: true,
-		required: true
-	},
-	*/
 	button: {
 		type: ObjectId,
 		ref: 'Button',
@@ -40,28 +27,8 @@ const TaskSchema = new Schema({
 	employee: {
 		type: ObjectId,
 		ref: 'Employee',
-		required: false
-		/*
-		set: function(newEmployee) {
-			if (this !== null) {
-				// Remove from previous employee's list of tasks
-
-			}
-			if (newEmployee !== null) {
-				// Add to newEmployee's list of tasks
-			}
-		}
-		*/
+		required: true
 	}
 });
-
-
-// Use this instead of set for updating employee's tasks list?
-/*
-TaskSchema.pre('save', function(next) {
-});
-*/
-
-// TODO save a Task document to a PastTasks collection when deleted?
 
 module.exports = mongoose.model('Task', TaskSchema);

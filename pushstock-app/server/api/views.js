@@ -36,10 +36,8 @@ module.exports = {
         // get the button's information
         reqMacAddr = req.body.macAddr;
 
-        var resMessage; // The message to send back as a response
         // Checks whether the button exists and creates it if it doesn't
-        var buttonQuery = Button.findOne({ macAddr: reqMacAddr });
-        var buttonPromise = buttonQuery.exec(function(err, button) {
+        Button.findOne({ macAddr: reqMacAddr }, function(err, button) {
             if (err) {
                 res.send(err);
             } else if (!button) {
@@ -54,7 +52,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        resMessage = 'New button created!';
+                        res.json({ message: 'New button created!' });
                     }
                 });
             } else {
@@ -71,15 +69,31 @@ module.exports = {
                         if (err) {
                             res.send(err);
                         } else {
-                            resMessage = 'Button has been activated!';
+                            res.json({ message: 'Button has been activated!' });
                         }
                     });
                 } else {
-                    resMessage = 'Button already exists.';
+                    Employee.findOne({ email: "asdasdds" }, function(err, employee) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            var newTask = new Task();
+                            newTask.button = button._id;
+                            newTask.employee = employee._id;
+                            newTask.save(function(err) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json({ message: 'Task created!' });
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });
 
+        /*
         // Once the button is found or created, create a new task if one not already open
         buttonPromise.then(function(button) {
             Task.findOne({ button: button.id }, null, function(err, task) {
@@ -103,6 +117,7 @@ module.exports = {
                 res.json({ message: resMessage });
             });
         });
+        */
     },
 
     // Handle retrieving all the buttons stored
@@ -246,13 +261,18 @@ module.exports = {
     // Handle retreiving all the tasks stored along with their assigned employee
     getAllTasksView: function(req, res) {
         // Find all tasks and populate the employee name fields
-        Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(tasks);
-            }
-        });
+        //Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
+        Task.find()
+            .populate('button')
+            .populate('employee')
+            .exec(function(err, tasks) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    console.log(tasks);
+                    res.json(tasks);
+                }
+            });
     },
 
     // Delete all tasks (for testing)

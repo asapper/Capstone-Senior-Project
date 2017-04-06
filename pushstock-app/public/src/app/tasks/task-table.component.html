@@ -28,19 +28,20 @@
           <thead>
               <tr>
                   <th>Button</th>
+                  <th>Description</th>
+                  <th>Employee</th>
               </tr>
           </thead>
           <tbody *ngIf="taskList?.length > 0">
               <tr *ngFor="let task of taskList">
-                  <td>{{ task.buttonid }}</td>
-                  <td>{{ employee.role }}</td>
+                  <td>{{ task.button.macAddr }}</td>
+                  <td>{{ task.button.description }}</td>
+                  <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
               </tr>
           </tbody>
-          <tbody *ngIf="employeeList?.length < 1" class="text-center">
+          <tbody *ngIf="taskList?.length < 1" class="text-center">
               There are no open tasks right now.
           </tbody>
-
       </table>
     </div>
-
 </div>

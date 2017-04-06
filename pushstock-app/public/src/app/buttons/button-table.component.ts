@@ -57,15 +57,24 @@ export class ButtonTableComponent implements OnInit {
         this.showOnlyActiveButtons = true;
     }
 
-    setMacAddrToDelete(macAddr: string): void {
-        this.modalMacAddr = macAddr;
-    }
-
-    retrieveLatestAlert(): void {
+    private retrieveLatestAlert(): void {
         let alert: Alert = this.alertService.getLatestButtonAlert();
         this.alertTitle = alert.title;
         this.alertType = alert.type;
         this.alertMessage = alert.message;
+    }
+
+    private filterButtons(): void {
+        this.buttonList = this.allButtons;
+        if (this.showOnlyActiveButtons) {
+            this.buttonList = this.buttonList.filter(
+                button => button.isActive === true);
+        }
+        this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
+    }
+
+    setMacAddrToDelete(macAddr: string): void {
+        this.modalMacAddr = macAddr;
     }
 
 	// Send request to get list of all buttons in the database
@@ -78,15 +87,6 @@ export class ButtonTableComponent implements OnInit {
             this.filterButtons();
         });
 	}
-
-    filterButtons(): void {
-        this.buttonList = this.allButtons;
-        if (this.showOnlyActiveButtons) {
-            this.buttonList = this.buttonList.filter(
-                button => button.isActive === true);
-        }
-        this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
-    }
 
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {

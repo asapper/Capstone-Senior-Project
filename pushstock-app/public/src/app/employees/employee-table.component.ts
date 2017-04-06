@@ -52,7 +52,6 @@ export class EmployeeTableComponent {
     getAllEmployees() {
         this.employeeService.getAllEmployees()
             .subscribe(employees => {
-                console.log(employees);
                 this.employeeList = employees;
             });
     }
@@ -61,8 +60,6 @@ export class EmployeeTableComponent {
     // Function used to delete a button
     deleteEmployee(email: String) {
         this.employeeService.deleteEmployee(email).subscribe();
-        console.log('Deleted employee: ' + email);
-
         // Update employeeList
         this.getAllEmployees();
     }
@@ -70,6 +67,5 @@ export class EmployeeTableComponent {
     // Deletes all employees in DB (For testing)
     deleteAllEmployees() {
         this.employeeService.deleteAllEmployees();
-        console.log('Deleted all employees');
     }
 }
