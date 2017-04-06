@@ -1,91 +1,34 @@
+/*
+* File:         employee-table.component.ts
+* Author:       Brennan Saul
+* Description:  The root component
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/16/17		getEmployees added
+* Saul        03/20/17    implemented Delete and Add employees functionality
+* Saul        03/21/17    Moved functionality for buttons into button components
+* Saul        03/22/17    Moved Employee functionality into employee components
+*/
+
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-import { Button } from './shared/models/button';
-// Import rxjs map operator
 import 'rxjs/add/operator/map';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 
+import { AlertService } from './services/alert.service';
+	
+
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    providers: [AlertService]
 })
 export class AppComponent {
-    userIsLoggedIn : boolean;
+    title = 'PushStock';
 
     // Does anyone know what this does?
-    constructor(private http: Http, private router: Router, private authService: AuthenticationService) { }
-    title = 'app works!';
-
-    // Link to our api, pointing to localhost
-    API = 'https://localhost:4200/api';
-
-    // Empty list of buttons
-    buttons: any[] = [];
-
-    // booleans used to determine which view should be displayed in the web app
-    welcomeView: boolean = true;
-    buttonView: boolean = false;
-    workerView: boolean = false;
-
-    // Boolean flag that controls if the buttonform is displayed
-    buttonActive: boolean = false;
-
-    /*  Functions called to change the current view of the client app
-    *   may be a good idea to try figure out to combine these. A fuction that
-    *   sets the passe boolean variable to true and the rest to false
-    */
-    changeToHomeView(){
-      this.welcomeView = true;
-      this.buttonView = false;
-      this.workerView = false;
-    }
-
-    changeToButtonView(){
-      this.welcomeView = false;
-      this.buttonView = true;
-      this.workerView = false;
-    }
-
-    changeToWorkerView(){
-      this.welcomeView = false;
-      this.buttonView = false;
-      this.workerView = true;
-    }
-
-    
-
-    // Used to set buttonActive variable to true
-    setTrue() {
-      this.buttonActive = true;
-      console.log("set buttonActive to true")
-    }
-
-    // Angular 2 Life Cycle event whem component has been initialized
-    ngOnInit() {
-        this.getAllButtons();
-    }
-
-    // Function called when a button is created
-	  onButtonCreated(buttonId: number, clickTimestamp: Date, buttonDescription: string){
-      this.http.post(`${this.API}/addButton`, { buttonId, clickTimestamp, buttonDescription })
-     .map(res => res.json())
-     .subscribe(() => {
-       this.getAllButtons();
-     })
-
-     console.log("button added");
-
-	  }
-
-
-    // Function that returns all buttons from the API
-    getAllButtons() {
-        this.http.get(`${this.API}/buttons`)
-            .map(res => res.json())
-            .subscribe(buttons => {
-                console.log(buttons);
-                this.buttons = buttons;
-            })
-    }
+    constructor(alertService: AlertService) {}
 }

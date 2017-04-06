@@ -1,29 +1,21 @@
 <!-- Bootstrap Navbar -->
 <header>
-  <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">PushStock</a>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PushStock</a>
+            </div>
+            <!-- nav bar tabs -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="nav navbar-nav">
+                    <li><a routerLink="/home/tasks">Tasks</a></li>
+                    <li><a routerLink="/home/buttons">Buttons</a></li>
+                    <li><a routerLink="/home/employees">Employees</a></li>
+                    <li><a href="#" float=right (click)=logout()>Logout</a></li>
+                </ul>
+            </div>
         </div>
-          <!-- nav bar tabs --> 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <ul class="nav navbar-nav">
-
-            <li>
-              <a href="#" (click)=changeToHomeView()> Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li>
-            <a [routerLink]="['buttons']">Buttons</a>
-            </li>
-            <li>
-            <a href="#" (click)=changeToWorkerView()>Workers</a>
-            </li>
-            <li>
-            <a href="#" float=right (click)=logout()>Logout</a>
-          </ul>
-        </div>
-      </div>
-  </nav>
-</header> 
+    </nav>
+</header>
 
 <router-outlet></router-outlet>

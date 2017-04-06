@@ -1,3 +1,4 @@
+
 // Get dependencies
 const express = require('express');
 const app = express();
@@ -7,8 +8,9 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 const brcypt = require('bcrypt-nodejs');
+const morgan = require('morgan');
 
 const HTTP_PORT = '80';
 const HTTPS_PORT = '4200';
@@ -27,10 +29,12 @@ app.use(bodyParser.json());
 
 // Point static path to dist
 app.use(express.static('../public/dist'));
+// Set logger
+app.use(morgan('dev'));
 
 
 // Catch all routes and secure
-app.all('*', function(req, res, next){
+app.all('**', function(req, res, next){
 	if(req.secure){
 		return next();
 	};
@@ -60,6 +64,8 @@ const dbOptions = {
     user: process.env.PUSHSTOCK_API_USERNAME,
     pass: process.env.PUSHSTOCK_API_PASSWORD
 };
+
+mongoose.Promise = require('bluebird');
 mongoose.connect(dbHost, dbOptions);
 
 // Create HTTP Server to redirect

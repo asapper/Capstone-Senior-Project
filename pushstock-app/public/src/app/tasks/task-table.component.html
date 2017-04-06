@@ -1,0 +1,46 @@
+<!-- 
+* File:						task-table.component.html
+* Description:    Template for the TaskTableComponent
+*
+* Edit history:
+*
+* Editor			Date				Description
+* ======			========		===========
+* Rapp			  03/23/17		File created (copied from employee-table.component.html)
+-->
+<div>
+
+  <!-- Title -->
+  <h3>Open Tasks</h3>
+  <!-- Bootstrap Table -->
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
+        <div class="panel-title pull-right">
+          <!-- Button to enable add task form -->
+          <button type="button" class="btn btn-primary" (click)="setTrue()">Add Task</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <!-- Table for the open tasks -->
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Button</th>
+              </tr>
+          </thead>
+          <tbody *ngIf="taskList?.length > 0">
+              <tr *ngFor="let task of taskList">
+                  <td>{{ task.buttonid }}</td>
+                  <td>{{ employee.role }}</td>
+              </tr>
+          </tbody>
+          <tbody *ngIf="employeeList?.length < 1" class="text-center">
+              There are no open tasks right now.
+          </tbody>
+
+      </table>
+    </div>
+
+</div>

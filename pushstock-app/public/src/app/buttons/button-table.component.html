@@ -1,8 +1,76 @@
-<!-- Bootstrap Table -->
-<div class="panel panel-default">
+<!--
+* File:           button-table.component.html
+* Author:         Brennan Saul
+* Description:    HTML for the ButtonTableComponent <button-table>
+*
+* Edit history:
+*
+* Editor            Date                Description
+* ======            ========        ===========
+* Saul            03/15/17      File created
+* Saul        03/21/17    Self contained and calls the ButtonFormComponent
+* Saul        03/22/17    Removed unnecessary code and removed clickTimestamp
+* Saul        03/27/17    Delete functionality added
+-->
+
+<!-- Alerts displayed -->
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong *ngIf="alertTitle">{{ alertTitle }}</strong>
+        {{ alertMessage }}
+    </div>
+</div>
+
+<!-- Modal: deleting button -->
+<div class="modal fade" id="btnDeleteModal" tabindex="-1" role="dialog" aria-labelledby="btnDeleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Warning!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the button with MAC address: <strong>{{ modalMacAddr }}</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteButton(modalMacAddr)">Delete button</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Body of view -->
+<div>
+  <!-- Title -->
+  <h3>FLIC Buttons</h3>
+  <!-- Bootstrap Table -->
+  <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ buttonList?.length }} </span></div>
-      <!--<div class="panel-title pull-right">Bottons Registered: {{ buttonList?.length }}</div> -->
+      <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ allButtons?.length }} </span></div>
+      <div class="panel-title pull-right">
+        <input type="checkbox" id="filterButtons" (click)="filterButtons()" [checked]="!showOnlyActiveButtons">
+        <label for="filterButtons" style="font-weight: normal">Show only active buttons</label>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <!-- Button to enable add button form -->
+                <li><a [routerLink]="['/buttons/new']">Add FLIC Button</a></li>
+                <!-- Enable assigning button from unassigned list -->
+                <li><a [routerLink]="['/buttons/assign']">Assign FLIC Button</a></li>
+                <!-- Button to un-assign a button that has been assigned -->
+                <li><a [routerLink]="['/buttons/unassign']">UnassignFLIC Button</a></li>
+            </ul>
+        </div>
+      </div>
       <div class="clearfix"></div>
     </div>
 
@@ -10,21 +78,35 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Click Timestamp</th>
+                <th>MAC Address</th>
                 <th>Description</th>
+                <th>Edit / Delete</th>
+                <th>Active?</th>
             </tr>
         </thead>
         <tbody *ngIf="buttonList?.length > 0">
             <tr *ngFor="let button of buttonList">
-                <td>{{ button.buttonId }}</td>
-                <td>{{ button.clickTimestamp }}</td>
-                <td>{{ button.buttonDescription }}</td>
+                <td>{{ button.macAddr }}</td>
+                <td>{{ button.description }}</td>
+                <td>
+                    <button type="button" [routerLink]="['/buttons', button.macAddr]" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal"
+                        (click)="setMacAddrToDelete(button.macAddr)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
+                <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
             </tr>
         </tbody>
         <tbody *ngIf="buttonList?.length < 1" class="text-center">
-            No buttons have been registered to the system.
+            No active buttons are registered in the system.
         </tbody>
 
     </table>
   </div>
+</div>
+<script type="text/javascript">
+    $('.dropdown-toggle').dropdown();
+</script>

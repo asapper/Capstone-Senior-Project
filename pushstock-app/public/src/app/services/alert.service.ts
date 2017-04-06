@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
+import { Alert } from '../shared/models/alert';
 
 @Injectable()
 export class AlertService {
     private subject = new Subject<any>();
     private keepAfterNavigationChange = false;
+    private buttonAlert: Alert = new Alert();
 
     constructor(private router: Router) {
         // clear alert message on route change
@@ -23,6 +25,20 @@ export class AlertService {
         });
     }
 
+    // set latest button alert
+    setButtonAlert(alert: Alert){
+        this.buttonAlert = alert;
+    }
+
+    //get latest button alert
+    getLatestButtonAlert(){
+        //store alert
+        let alert = this.buttonAlert;
+        //clear alert
+        this.buttonAlert = new Alert();
+        return alert;
+    }
+
     success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
@@ -36,4 +52,5 @@ export class AlertService {
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
+
 }
