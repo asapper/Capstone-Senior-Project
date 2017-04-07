@@ -132,6 +132,18 @@ module.exports = {
         });
     },
 
+    // Handle retrieving all active buttons stored
+    getAllActiveButtonsView: function(req, res) {
+        // find all active buttons
+        Button.find({ isActive: true }, function(err, buttons) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(buttons);
+            }
+        });
+    },
+
     // Handle retrieving all assigned buttons
     getAssignedButtonsView: function(req, res) {
         Button.find({ isActive: true }, 'macAddr', function(err, buttons) {
@@ -260,8 +272,7 @@ module.exports = {
 
     // Handle retreiving all the tasks stored along with their assigned employee
     getAllTasksView: function(req, res) {
-        // Find all tasks and populate the employee name fields
-        //Task.find().populate('employee', 'firstname lastname').exec(function(err, tasks) {
+        // Find all tasks and populate the employee and button fields
         Task.find()
             .populate('button')
             .populate('employee')
@@ -273,6 +284,35 @@ module.exports = {
                     res.json(tasks);
                 }
             });
+    },
+
+    // Handle creating a new task
+    addTaskView: function(req, res) {
+        // retrieve button with given mac address
+        Button.findOne({ macAddr: req.body.button_mac_addr }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else { // button exists
+                // retrieve employee with given email address
+                Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
+                    if (err) {
+                        res.send(err);
+                    } else { // employee exists
+                        // create task
+                        var newTask = new Task();
+                        newTask.button = button._id;
+                        newTask.employee = employee._id;
+                        newTask.save(function(err) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                res.json({ message: 'New task created!' });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     },
 
     // Delete all tasks (for testing)

@@ -33,6 +33,8 @@ api_router.post('/singleClick', views.singleClickView);
 
 // Retrieve all Buttons in database (ex: /api/buttons)
 api_router.get('/buttons', views.getAllButtonsView);
+// Retrieve all active Buttons in database (ex: /api/activebuttons)
+api_router.get('/activebuttons', views.getAllActiveButtonsView);
 // Retrieve a specific Button (ex: /api/buttons/1)
 api_router.get('/buttons/:macAddr', views.getSingleButtonView);
 // Update a specific Button (ex: /api/buttons/1)
@@ -52,6 +54,8 @@ api_router.put('/unassignbutton', views.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);
+// Add a task to the database
+api_router.post('/addTask', views.addTaskView);
 // Delete all open Tasks (for testing)
 api_router.delete('/tasks', views.deleteAllTasksView);
 

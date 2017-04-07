@@ -17,6 +17,7 @@ directive-->
 
 <!-- submit: submits and refreshes the page -->
 <!-- ngSubmit: does not refresh tht page -->
+<h2>Create new Employee</h2>
 <form #form=ngForm (ngSubmit)="onSubmit()">
 
   <!-- If the form is valid -->
@@ -84,7 +85,7 @@ directive-->
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addEmployee(newEmployee.email,
   newEmployee.password, newEmployee.firstName, newEmployee.lastName,
-  newEmployee.role)" class="btn btn-lg btn-block btn-primary"
+  newEmployee.role)" class="btn btn-primary"
   [disabled]="form.invalid" [routerLink]="['/employees']">
-    Add Employee
+    Create Employee
   </button>

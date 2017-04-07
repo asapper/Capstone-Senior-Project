@@ -30,4 +30,10 @@ export class TaskService {
         return this.http.get(`${this.api}/tasks`)
         .map(res => res.json());
     }
+
+    // Function to add task manually
+    addTask(employee_email: string, button_mac_addr: string) {
+        return this.http.post(`${this.api}/addTask`, { employee_email, button_mac_addr })
+        .map(res => res.json());
+    }
 }

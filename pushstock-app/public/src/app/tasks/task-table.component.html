@@ -8,6 +8,19 @@
 * ======			========		===========
 * Rapp			  03/23/17		File created (copied from employee-table.component.html)
 -->
+
+<!-- Alerts displayed -->
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong *ngIf="alertTitle">{{ alertTitle }}</strong>
+        {{ alertMessage }}
+    </div>
+</div>
+
+
 <div>
 
   <!-- Title -->
@@ -18,7 +31,7 @@
         <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
-          <button type="button" class="btn btn-primary" (click)="setTrue()">Add Task</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/tasks/new']">Add Task</button>
         </div>
         <div class="clearfix"></div>
       </div>

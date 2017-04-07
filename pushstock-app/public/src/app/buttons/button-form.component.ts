@@ -13,7 +13,6 @@
 */
 
 import { Component } from '@angular/core';
-import { Location } from '@angular/common';
 
 import { Alert } from '../shared/models/alert';
 import { AlertService } from '../services/alert.service';
@@ -28,7 +27,6 @@ import { ButtonService } from '../services/button.service';
 
 export class ButtonFormComponent {
     constructor(
-        private location: Location,
         private buttonService: ButtonService,
         private alertService: AlertService
     ) {}
@@ -40,7 +38,7 @@ export class ButtonFormComponent {
 	addButton(macAddr: String, description: String): void {
 		// Call API to add button to database
 		this.buttonService.addButton(macAddr, description).subscribe();
-        // alert button has been assigned
+        // alert button has been created
         let alert = new Alert(); 
         alert.title = "Hooray!"
         alert.message = "New button with MAC address " + macAddr + " has been created.";

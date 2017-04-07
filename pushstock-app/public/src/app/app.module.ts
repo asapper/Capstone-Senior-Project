@@ -18,21 +18,24 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { ButtonFormComponent } from './buttons/button-form.component';
-import { ButtonTableComponent } from './buttons/button-table.component';
+
+import { TaskTableComponent } from './tasks/task-table.component';
+import { TaskFormComponent } from './tasks/task-form.component';
+
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
-import { TaskTableComponent } from './tasks/task-table.component';
+import { EmployeeDetailComponent } from './employees/employee-detail.component';
+
+import { ButtonFormComponent } from './buttons/button-form.component';
+import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
 import { ButtonUnassignComponent } from './buttons/button-unassign.component';
-import { EmployeeDetailComponent } from './employees/employee-detail.component';
 
 import { AppRoutingModule } from './app-routing.module';
-
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -45,7 +48,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         EmployeeTableComponent,
         EmployeeFormComponent,
         EmployeeDetailComponent,
-        TaskTableComponent
+        TaskTableComponent,
+        TaskFormComponent
     ],
     imports: [
         BrowserModule,
