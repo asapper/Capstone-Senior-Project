@@ -52,3 +52,61 @@ Now, you can test without the Pi or the button! Go to localhost:3000/api and you
 Hooray! We have our basic dev environment. Now, we can add to the angular-client directory or the express-server directory all of our dev, and then rebuild with the same docker-compose statement above. This will look at all the images/files, see what needs to be updated, and only rebuild those things.
 
 - Ryan
+
+## Setting up mobile app dev environment
+
+**Note:** You may have to use `sudo` in order to make some or possibly all of these commands work.
+
+In order to build the mobile app, you need to have installed:
+
+* Angular 2
+* npm
+* bower
+* Ionic
+* Cordova
+
+After installing the first two, the latter three can be installed with:  
+`npm install -g bower ionic cordova`
+
+### iOS
+
+In order to build the iOS version of the app, you must be running macOS/OS X with XCode installed from the App Store. Once XCode is installed, you must install some command line tools with the command `xcode-select --install`.
+
+If you want to launch the iOS app in a simulator, you must install ios-sim by running:  
+`npm install -g ios-sim`  
+If you want to launch the iOS app on a device, you must install ios-deploy by running:  
+`npm install -g ios-deploy`
+
+### Android
+
+In order to build the Android version of the app, you must install various Java and Android utilities. First, [install the latest version of the Java Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/index.html). If you are running Windows, you will then need to [set the JAVA_HOME environment variable](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables).
+
+Next, [install Android Studio](https://developer.android.com/studio/install.html?pkg=tools) to get the Anrdoid SDK tools. The necessary packages are:
+
+* Android SDK Tools
+* Android SDK Platform-tools
+* Android SDK Build-tools
+* Android 7.1.1 (API 25)
+    * SDK Platform
+    * Sources for Android SDK
+* Extras
+    * Android Support Repository
+    * Google Repository
+
+After installing Android Studio, these packages can be checked and installed by running `android`.
+Further help can be found [here](https://developer.android.com/studio/intro/update.html).
+
+## Building the mobile app
+
+Navigate to the pushstock-app directory and run `./build_mobile_app.sh`.
+## Running the mobile app
+### On a computer
+
+Ensure that the environment is set up as described above.  
+Running a simulation of the app in a web browser is as simple as navigating to the mobile app project directory and running `ionic serve`.  
+To launch the app in an iOS simulator, run `ionic emulate ios`.  
+To launch the app in an Android simulator, run ``.
+
+### On a mobile device
+
+
