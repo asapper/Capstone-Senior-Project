@@ -28,7 +28,11 @@ const TaskSchema = new Schema({
 		type: ObjectId,
 		ref: 'Employee',
 		required: true
-	}
-});
+	},
+    isOpen: {
+        type: Boolean,
+        default: true
+    }
+}, { timestamps: true });
 
 module.exports = mongoose.model('Task', TaskSchema);

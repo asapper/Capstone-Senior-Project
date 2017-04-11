@@ -72,7 +72,21 @@ module.exports = {
                             res.json({ message: 'Button has been activated!' });
                         }
                     });
-                } else {
+                } else { // create task
+                    // if button has open task don't create another task
+                    Task.findOne({ button: button._id, isOpen: false }, function(err, task) {
+                        if (err) {
+                            res.send(err);
+                        } else if (!task) { // create task
+                            // look for employee with least assigned tasks (zero or one task)
+                            //      if tie, assign to employee with earliest assigned task
+                            //      if no employees, assign to admin
+                        } else { // open task exists for this button
+                            res.json({ message: "Task not created. Button has an open task." });
+                        }
+                    });
+                    
+
                     Employee.findOne({ email: "asdasdds" }, function(err, employee) {
                         if (err) {
                             res.send(err);
