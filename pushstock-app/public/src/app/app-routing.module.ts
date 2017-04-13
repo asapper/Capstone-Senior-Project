@@ -51,7 +51,6 @@ const routes: Routes = [
     { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
     ]},
   { path: '**', redirectTo: 'home'}
-	
 ];
 
 @NgModule({

@@ -29,25 +29,30 @@ export class AuthenticationService {
     } 
 
     login(username: string, password: string) {
-        if(username == 'user' && password == 'pass'){
-            const newUser = new User(username, password);
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-        }
-        /*
-        return this.http.post('https://localhost:4200' + '/auth/login', { username: username, password: password })
+        return this.http.post('https://localhost:4200/auth/login', { email: username, password: password })
             .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                let user = response.json();
-                if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
+                if(response.status === 401){
+                    return false;
                 }
-            });*/
+                // login successful if there's a jwt token in the response
+                let token = response.json() && response.json().token;
+                let role = response.json().employee.role;
+                if (token) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify({username: username, token: token}));
+                    localStorage.setItem('role', JSON.stringify({role: role}));
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            });
     }
 
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('role');
         this._router.navigate(['/login']);
     }
 

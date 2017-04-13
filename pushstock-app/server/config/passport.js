@@ -11,13 +11,20 @@ const localOptions = { usernameField: 'email' };
 // Setting up local login strategy
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
   Employee.findOne({ email: email }, function(err, employee) {
-    if(err) { return done(err); }
-    if(!employee) { return done(null, false, { error: 'Your email could not be found in our system. Please try again.' }); }
+    if(err) { 
+      return done(err); 
+    }
+    if(!employee) { 
+      return done(null, false, { error: 'Your email could not be found in our system. Please try again.' }); 
+    }
 
   	employee.comparePassword(password, function(err, isMatch) {
-  		if (err) { return done(err); }
-  		if (!isMatch) { return done(null, false, { error: "Your login details could not be verified. Please try again." }); }
-
+  		if (err) { 
+        return done(err); 
+      }
+  		if (!isMatch) { 
+        return done(null, false, { error: "Your login details could not be verified. Please try again." }); 
+      }
   	return done(null, employee);
   	});
   });

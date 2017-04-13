@@ -91,11 +91,18 @@ module.exports = {
 
     // Handle login view
     loginView: function(req, res, next) {
-        let employeeInfo = setEmployeeInfo(req.user);
-        res.status(200).json({
-            token: 'JWT ' + generateToken(employeeInfo),
-            employee: employeeInfo
-        });
+        if(req.user){
+            let employeeInfo = setEmployeeInfo(req.user);
+            res.status(200).json({
+                token: 'JWT ' + generateToken(employeeInfo),
+                employee: employeeInfo
+            });
+        }
+        else{
+            res.status(401).json({
+                message: 'User not found'
+            });
+        }
     },
 
     // Role authorization middleware

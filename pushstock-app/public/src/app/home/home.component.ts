@@ -9,12 +9,20 @@ import { Router } from '@angular/router';
 })
  
 export class HomeComponent {
+
+    admin: boolean = false;
  
-    constructor(
-        private authenticationService:AuthenticationService, private router:Router){}
+    constructor(private authenticationService:AuthenticationService, private router:Router){
+        if(localStorage.getItem('role') === 'Admin'){
+            this.admin = true;
+        }
+    }
  
     ngOnInit(){
-        this.authenticationService.checkCredentials();
+        //this.authenticationService.checkCredentials();
+        if(localStorage.getItem('role') === 'Admin'){
+            this.admin = true;
+        }
     }
  
     logout() {

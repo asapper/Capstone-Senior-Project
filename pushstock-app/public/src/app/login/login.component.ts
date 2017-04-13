@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { AlertService, AuthenticationService } from '../services/index';
 
 @Component({
@@ -12,6 +11,7 @@ export class LoginComponent implements OnInit {
     model: any = {};
     loading = false;
     returnUrl: string;
+    error = '';
         
     constructor(
         private route: ActivatedRoute,
@@ -29,21 +29,15 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
-        this.authenticationService.login(this.model.username, this.model.password);
-        if(this.authenticationService.checkCredentials()){
-            this.router.navigate(['/home']);
-        }
-        else{
-            this.alertService.error("Error! User not found");
-            this.loading = false;
-        }
-            /*.subscribe(
+        this.authenticationService.login(this.model.username, this.model.password)
+            .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate(['/']);
                 },
-                error => {
-                    this.alertService.error(error._body);
+                error =>{
+                    this.error = 'Email or password is incorrect';
                     this.loading = false;
-                });*/
+                }
+            );
     }
 }
