@@ -74,64 +74,141 @@ module.exports = {
                     });
                 } else { // create task
                     // if button has open task don't create another task
-                    Task.findOne({ button: button._id, isOpen: false }, function(err, task) {
+                    Task.findOne({ button: button._id, isOpen: true }, function(err, task) {
                         if (err) {
                             res.send(err);
                         } else if (!task) { // create task
-                            // look for employee with least assigned tasks (zero or one task)
-                            //      if tie, assign to employee with earliest assigned task
-                            //      if no employees, assign to admin
-                        } else { // open task exists for this button
-                            res.json({ message: "Task not created. Button has an open task." });
-                        }
-                    });
-                    
+                            // Order in criteria for assigning task:
+                            // 1. Find one(s) who have never been assigned a task
+                            // 2. Find one(s) who has finished a task the longest time ago
+                            // 3. Find admin to assign task to (in case all other employees have open tasks)
 
-                    Employee.findOne({ email: "asdasdds" }, function(err, employee) {
-                        if (err) {
-                            res.send(err);
-                        } else {
-                            var newTask = new Task();
-                            newTask.button = button._id;
-                            newTask.employee = employee._id;
-                            newTask.save(function(err) {
+                            // assign task to appropriate employee
+                            Task.distinct("employee", function(err, tasks) {
                                 if (err) {
                                     res.send(err);
-                                } else {
-                                    res.json({ message: 'Task created!' });
+                                } else if (tasks.length > 0) {
+                                    // get all non-admin employees not in task set
+                                    Employee.find({ role: { $ne: "Admin"}, _id: { $nin: tasks } },
+                                            null, { sort: { createdAt: 1 }}, function(err1, employees) {
+                                        if (err1) {
+                                            res.send(err1);
+                                        } else if (employees.length > 0) { // employees never assigned a task
+                                            // Criteria #1
+                                            // assign task to first employee (already sorted per latest update date)
+                                            var newTask = new Task();
+                                            newTask.button = button._id;
+                                            newTask.employee = employees[0]._id;
+                                            newTask.save(function(err2) {
+                                                if (err2) {
+                                                    res.send(err2);
+                                                } else {
+                                                    res.json({ message: "Task assigned to worker who has never been assigned a task." });
+                                                }
+                                            });
+                                        } else { // all have been assigned a task
+                                            // get all closed tasks
+                                            Task.find({ isOpen: false }, null, { sort: { dateClosed: -1 }}, function(err3, tasks2) {
+                                                if (err3) {
+                                                    res.send(err3);
+                                                } else if (tasks2.length > 0) { // some closed tasks
+                                                    // Criteria #2
+                                                    // assign task to first employee (already sorted)
+                                                    var newTask = new Task();
+                                                    newTask.button = button._id;
+                                                    newTask.employee = tasks2[0].employee;
+                                                    newTask.save(function(err5) {
+                                                        if (err5) {
+                                                            res.send(err5);
+                                                        } else {
+                                                            res.json({ message: "(Some tasks closed) Task assigned to worker who finished a task the longest ago." });
+                                                        }
+                                                    });
+                                                } else { // no closed tasks
+                                                    // get all open tasks
+                                                    res.json({ message: "(All workers have open tasks) Task assigned to worker with task assigned the longest ago." });
+
+                                                    /*
+                                                    Task.distinct("employee", { isOpen: true }, function(err6, employeesOpen) {
+                                                        if (err6) {
+                                                            res.send(err6);
+                                                        } else { // at this point there ought to be at least a task created
+                                                            // assign task to employee who was assigned a task the longest ago
+                                                            Task.find({ employee: { $in: employeesOpen }}, null, { sort: { updatedAt: 1 }}, function(err9, employees4) {
+                                                                if (err9) {
+                                                                    res.send(err9);
+                                                                } else {
+                                                                    // Criteria #2 - assign task to first employee (already sorted)
+                                                                    var newTask = new Task();
+                                                                    newTask.button = button._id;
+                                                                    newTask.employee = employees4[0].employee;
+                                                                    newTask.save(function(err10) {
+                                                                        if (err10) {
+                                                                            res.send(err10);
+                                                                        } else {
+                                                                            res.json({ message: "(All workers have open tasks) Task assigned to worker with task assigned the longest ago." });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    */
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else { // no tasks have ever been created
+                                    // criteria #1
+                                    Employee.find({ role: { $ne: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err11, employees5) {
+                                        if (err11) {
+                                            res.send(err11);
+                                        } else if (employees5.length > 0) {
+                                            // assign task to first employee
+                                            var newtask = new Task();
+                                            newtask.button = button._id;
+                                            newtask.employee = employees5[0]._id;
+                                            newtask.save(function(err12) {
+                                                if (err12) {
+                                                    res.send(err12);
+                                                } else {
+                                                    res.json({ message: "(No tasks ever) Task assigned to worker who has never been assigned a task." });
+                                                }
+                                            });
+                                        } else { // no non-admin employees
+                                            // else, no worker available for task
+                                            // assign task to admin
+                                            Employee.find({ role: { $eq: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err13, employees6) {
+                                                if (err13) {
+                                                    res.send(err13);
+                                                } else if (employees6.length > 0) { // there should always be at least one admin
+                                                    // Criteria #3
+                                                    // assign task to first employee (already sorted)
+                                                    var newTask = new Task();
+                                                    newTask.button = button._id;
+                                                    newTask.employee = employees6[0]._id;
+                                                    newTask.save(function(err14) {
+                                                        if (err14) {
+                                                            res.send(err14);
+                                                        } else {
+                                                            res.json({ message: "(No tasks ever) Task assigned to admin." });
+                                                        }
+                                                    });
+                                                } else {
+                                                    res.json({ message: "ERROR: No admin account." });
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             });
+                        } else { // open task exists for this button
+                            res.json({ message: "Task not created, open task already exists." });
                         }
                     });
                 }
             }
         });
-
-        /*
-        // Once the button is found or created, create a new task if one not already open
-        buttonPromise.then(function(button) {
-            Task.findOne({ button: button.id }, null, function(err, task) {
-                if (err) {
-                    res.send(err);
-                } else if (!task) {
-                    // No open task found, so create one
-                    var newTask = new Task({ button: button.id });
-                    newTask.save(function(err) {
-                        if (err) {
-                            res.send(err);
-                        }
-                    });
-                    resMessage += " New task created!";
-                } else {
-                    // A task is already open for this button
-                    resMessage += " There is already an open task for button " + button.id;
-                }
-            })
-            .then(function(task) {
-                res.json({ message: resMessage });
-            });
-        });
-        */
     },
 
     // Handle retrieving all the buttons stored
@@ -294,7 +371,6 @@ module.exports = {
                 if (err) {
                     res.send(err);
                 } else {
-                    console.log(tasks);
                     res.json(tasks);
                 }
             });
@@ -432,7 +508,6 @@ module.exports = {
               res.send(err);
           } else {
               res.json(employee);
-              console.log("found employee: " + employee);
           }
       });
   }

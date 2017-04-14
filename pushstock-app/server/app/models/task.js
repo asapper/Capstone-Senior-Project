@@ -19,19 +19,31 @@ const mongoose = require('mongoose'),
 // Task Schema
 //==========================
 const TaskSchema = new Schema({
-	button: {
+    // button associated with this task
+	button:
+    {
 		type: ObjectId,
 		ref: 'Button',
 		required: true
 	},
-	employee: {
+    // employee associated with this task
+	employee: 
+    {
 		type: ObjectId,
 		ref: 'Employee',
 		required: true
 	},
-    isOpen: {
+    // upon creation tasks are open
+    isOpen:
+    {
         type: Boolean,
         default: true
+    },
+    // date when task was marked as closed
+    dateClosed:
+    { 
+        type: Date,
+        default: null 
     }
 }, { timestamps: true });
 
