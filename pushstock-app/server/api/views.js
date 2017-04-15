@@ -126,34 +126,39 @@ module.exports = {
                                                     });
                                                 } else { // no closed tasks
                                                     // get all open tasks
-                                                    res.json({ message: "(All workers have open tasks) Task assigned to worker with task assigned the longest ago." });
-
-                                                    /*
-                                                    Task.distinct("employee", { isOpen: true }, function(err6, employeesOpen) {
-                                                        if (err6) {
-                                                            res.send(err6);
-                                                        } else { // at this point there ought to be at least a task created
-                                                            // assign task to employee who was assigned a task the longest ago
-                                                            Task.find({ employee: { $in: employeesOpen }}, null, { sort: { updatedAt: 1 }}, function(err9, employees4) {
-                                                                if (err9) {
-                                                                    res.send(err9);
+                                                    Task.aggregate([
+                                                        { 
+                                                            $group:
+                                                            {
+                                                                _id: "$employee",
+                                                                count: { $sum:1 },
+                                                                maxDate: { $max: "$createdAt" }
+                                                            }
+                                                        },
+                                                        {
+                                                            $sort:
+                                                            {
+                                                                count: 1,
+                                                                maxDate: 1
+                                                            }
+                                                        }
+                                                    ], function(err9, employeesOpen) {
+                                                        if (err9) {
+                                                            res.send(err9);
+                                                        } else {
+                                                            // Criteria #2 - assign task to first employee (already sorted)
+                                                            var newTask = new Task();
+                                                            newTask.button = button._id;
+                                                            newTask.employee = employeesOpen[0]._id;;
+                                                            newTask.save(function(err10) {
+                                                                if (err10) {
+                                                                    res.send(err10);
                                                                 } else {
-                                                                    // Criteria #2 - assign task to first employee (already sorted)
-                                                                    var newTask = new Task();
-                                                                    newTask.button = button._id;
-                                                                    newTask.employee = employees4[0].employee;
-                                                                    newTask.save(function(err10) {
-                                                                        if (err10) {
-                                                                            res.send(err10);
-                                                                        } else {
-                                                                            res.json({ message: "(All workers have open tasks) Task assigned to worker with task assigned the longest ago." });
-                                                                        }
-                                                                    });
+                                                                    res.json({ message: "(All workers have open tasks) Task assigned to worker with least tasks or task assigned the longest ago." });
                                                                 }
                                                             });
                                                         }
                                                     });
-                                                    */
                                                 }
                                             });
                                         }
