@@ -19,6 +19,8 @@ const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
 
+const CREATED_STATUS = '201';
+const BAD_REQUEST_STATUS = '400';
 
 module.exports = {
     // Handle API authentication
@@ -52,7 +54,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json({ message: 'New button created!' });
+                        res.status(CREATED_STATUS).send({ message: 'New button created!' });
                     }
                 });
             } else {
@@ -350,7 +352,7 @@ module.exports = {
             if (err) {
                 res.send(err);
             } else {
-                res.json({ message: 'New button created!' });
+                res.status(CREATED_STATUS).send({ message: 'New button created!' });
             }
         });
     },
@@ -359,10 +361,11 @@ module.exports = {
       Button.remove({
         macAddr: req.params.macAddr
       }, function(err, button) {
-            if (err)
+            if (err) {
                 res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
+            } else {
+                res.json({ message: 'Successfully deleted' });
+            }
         });
     },
 
@@ -383,29 +386,45 @@ module.exports = {
 
     // Handle creating a new task
     addTaskView: function(req, res) {
+        // check if both required parameters exist
+        if (typeof req.body.button_mac_addr === 'undefined' ||
+                typeof req.body.employee_email === 'undefined' ||
+                req.body.button_mac_addr === '' ||
+                req.body.employee_email === '') {
+            res.status(BAD_REQUEST_STATUS).send({ error: 'Request missing required parameter(s).' });
+            return;
+        } else if (req.body.button_mac_addr === null || req.body.employee_email === null) {
+            res.status(BAD_REQUEST_STATUS).send({ error: 'Request with null required parameter(s).' });
+            return;
+        }
+
         // retrieve button with given mac address
         Button.findOne({ macAddr: req.body.button_mac_addr }, function(err, button) {
             if (err) {
                 res.send(err);
             } else { // button exists
-                // retrieve employee with given email address
-                Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
-                    if (err) {
-                        res.send(err);
-                    } else { // employee exists
-                        // create task
-                        var newTask = new Task();
-                        newTask.button = button._id;
-                        newTask.employee = employee._id;
-                        newTask.save(function(err) {
-                            if (err) {
-                                res.send(err);
-                            } else {
-                                res.json({ message: 'New task created!' });
-                            }
-                        });
-                    }
-                });
+                if (button.isActive !== true) {
+                    res.status(BAD_REQUEST_STATUS).send({ error: 'Button not active.' });
+                } else {
+                    // retrieve employee with given email address
+                    Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
+                        if (err) {
+                            res.send(err);
+                        } else { // employee exists
+                            // create task
+                            var newTask = new Task();
+                            newTask.button = button._id;
+                            newTask.employee = employee._id;
+                            newTask.save(function(err) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.status(CREATED_STATUS).send({ message: 'New task created!' });
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
     },
