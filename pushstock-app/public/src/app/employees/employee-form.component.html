@@ -85,7 +85,5 @@ directive-->
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addEmployee(newEmployee.email,
   newEmployee.password, newEmployee.firstName, newEmployee.lastName,
-  newEmployee.role)" class="btn btn-primary"
-  [disabled]="form.invalid" [routerLink]="['/employees']">
-    Create Employee
-  </button>
+  newEmployee.role)" class="btn btn-lg btn-block btn-primary"
+  [disabled]="form.invalid">Add Employee</button>

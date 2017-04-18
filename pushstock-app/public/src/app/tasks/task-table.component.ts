@@ -18,7 +18,7 @@ import { AlertService } from '../services/alert.service';
 import { TaskService } from '../services/task.service';
 
 const TASKS = [
-    { 
+    {
         button: { macAddr: '1', description: 'asd', isActive: true },
         employee: { firstName: 'a', lastName: 'v', email: 'v', password: 'sd', role: 's', resetPasswordToken: 'df', resetPasswordExpires: null }
     },
@@ -54,7 +54,7 @@ export class TaskTableComponent implements OnInit {
     }
 
     private retrieveLatestAlert(): void {
-        let alert: Alert = this.alertService.getLatestTaskAlert();
+        let alert: Alert = this.alertService.getLatestAlert();
         this.alertTitle = alert.title;
         this.alertType = alert.type;
         this.alertMessage = alert.message;

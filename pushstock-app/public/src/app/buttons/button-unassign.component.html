@@ -9,8 +9,7 @@
         </select>
     </div><br>
     <button class="btn btn-info" (click)="goBack()">Cancel</button>
-    <button class="btn btn-primary" (click)="unassignButton(oldButton.macAddr)"
-    [routerLink]="['/buttons']">Unassign Button</button>
+    <button class="btn btn-primary" (click)="unassignButton(oldButton.macAddr)">Unassign Button</button>
 </div>
 
 <ng-template #noButtonsPanel>
