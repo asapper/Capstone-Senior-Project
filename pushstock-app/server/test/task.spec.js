@@ -121,6 +121,20 @@ describe('Tasks', function() {
         });
     });
 
+    // Test the route /tasks with DELETE method
+    describe('DELETE /tasks', function() {
+        it('should fail to reach DELETE /tasks');
+        //it('should fail to reach DELETE /tasks', function(done) {
+        //    chai.request(API_URL)
+        //    .delete('/tasks')
+        //    .end(function(err, res) {
+        //        should.exist(err);
+        //        res.should.have.status(404);
+        //        done();
+        //    });
+        //});
+    });
+
     // Test the POST /addTask
     describe('POST /addTask', function() {
         // pass all valid values
@@ -293,5 +307,15 @@ describe('Tasks', function() {
                 done();
             });
         });
+    });
+
+    describe('adding a task through clicking of FLIC button', function() {
+        it('should add task if button is active and has no tasks open');
+        it('should fail to add task if button is not configured');
+        it('should fail to add task if button is has been configured but is inactive');
+        it('should fail to add task if button has an open task');
+        it('should assign task to admin if there are no workers');
+        it('should assign task to first created worker if there are no tasks ever created');
+        it('should assign task to worker with no open tasks');
     });
 });
