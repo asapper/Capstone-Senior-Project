@@ -13,6 +13,9 @@
  * Saul         03/27/17        Added DeleteButtonView
  * Saul         03/27/17        Added DeleteEmployeeView
  * Saul         03/29/17        Working updateSingleEmployeeView
+ * Saul         04/11/17        Notifications change for success and failure
+ * Saul         04/18/17        If an error occurs deleting an employee null is
+ *                              null is returned.
  */
 
 const Button = require('../app/models/button');
@@ -111,8 +114,10 @@ module.exports = {
         Button.find(function(err, buttons) {
             if (err) {
                 res.send(err);
+                //console.log(err);
             } else {
                 res.json(buttons);
+                //console.log(buttons);
             }
         });
     },
@@ -168,7 +173,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json({ message: 'Button assigned!' });
+                        res.json(null);
                     }
                 });
             }
@@ -192,7 +197,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json({ message: 'Button unassigned!' });
+                        res.json(null);
                     }
                 });
             }
@@ -210,7 +215,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json({ message: 'Button updated!' });
+                        res.json(null);
                     }
                 });
             }
@@ -225,9 +230,10 @@ module.exports = {
         // save the Button and check for errors
         newBtn.save(function(err) {
             if (err) {
-                res.send(err);
+                res.json( { message: err.message });
             } else {
-                res.json({ message: 'New button created!' });
+                res.json(null);
+                console.log("new button created");
             }
         });
     },
@@ -237,9 +243,10 @@ module.exports = {
         macAddr: req.params.macAddr
       }, function(err, button) {
             if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
+                res.json(null);
+            else{
+                res.json({ message: 'Successfully deleted' });
+            }
         });
     },
 
@@ -298,7 +305,7 @@ module.exports = {
         // save the Button and check for errors
         newEmployee.save(function(err) {
             if (err) {
-                res.send(err);
+                res.json({ message: err.message });
             } else {
                 res.json({ message: "New employee created!" });
             }
@@ -323,7 +330,7 @@ module.exports = {
         email: req.params.email
       }, function(err, email) {
             if (err)
-                res.send(err);
+                res.json(null);
 
             res.json({ message: 'Successfully deleted' });
         });
@@ -341,7 +348,7 @@ module.exports = {
             employee.role = req.body.role;
             employee.save(function(err) {
                 if (err) {
-                    res.send(err);
+                    res.json({message: err.message});
                 } else {
                     res.json({ message: 'employee updated!' });
                 }

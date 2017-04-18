@@ -8,7 +8,9 @@
  * Editor   Date		Description
  * ======   ========	===========
  * Sapper   03/15/17	File created
- * Rapp		03/28/17	Refactored API calls into the ButtonService
+ * Rapp		  03/28/17	Refactored API calls into the ButtonService
+ * Saul     04/11/17  Alerts reprt error and success
+ * Saul     04/12/17  Smart alerts bug fixed!
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -56,16 +58,28 @@ export class ButtonDetailComponent implements OnInit {
             macAddr = params['macAddr'];
         });
         // update button through service
-		this.buttonService.updateButton(macAddr, description)
-        .subscribe();
-        // alert button has been updated
-        let alert = new Alert(); 
-        alert.title = "Success!"
-        alert.message = "Button with MAC address " + macAddr + " has been updated.";
-        alert.type = "alert-success"; 
-        this.alertService.setButtonAlert(alert);
+		  this.buttonService.updateButton(macAddr, description).subscribe( err => {
+        // Create new alert
+        let alert = new Alert();
+        // Button update failed
+        if(err){
+          alert.title = "Failed: ";
+          alert.message = "Button Edit failed";
+          alert.type = "alert-danger";
+        }
+        // Button update was successful
+        else{
+          alert.title = "Success!";
+          alert.message = "Button with MAC address " + macAddr + " has been updated.";
+          alert.type = "alert-success";
+        }
+        // Set the alert
+        this.alertService.setAlert(alert);
+        this.goBack();
+      });
     }
 
+    // Route back to buttons table
     goBack(): void {
         this.location.back();
     }

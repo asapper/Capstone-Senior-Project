@@ -7,9 +7,13 @@
 *
 * Editor	        Date                Description
 * ======	        ========        ===========
-* Saul	        03/16/17      Updated
-* Saul	    03/21/17    Self Contained. Does not use root component
-* Rapp			03/28/17		Refactored API calls into ButtonService
+* Saul	        03/16/17           Updated
+* Saul	        03/21/17           Self Contained. Does not use root component
+* Rapp			    03/28/17		       Refactored API calls into ButtonService
+* Saul          04/6/17            alerts now depend on the successfulness
+*                                  of the operation
+* Saul          04/12/17           Alerts report error and success
+* Saul          04/12/17           Smart alerts bug fixed
 */
 
 import { Component } from '@angular/core';
@@ -27,24 +31,35 @@ import { ButtonService } from '../services/button.service';
 })
 
 export class ButtonFormComponent {
+   message: String;
     constructor(
         private location: Location,
         private buttonService: ButtonService,
-        private alertService: AlertService
+        private alertService: AlertService,
     ) {}
 
     // Class used to group data added to mongoDb
     newButton: Button = new Button();
 
-    // Add a new button to the database
+  // Add a new button to the database
 	addButton(macAddr: String, description: String): void {
-		// Call API to add button to database
-		this.buttonService.addButton(macAddr, description).subscribe();
-        // alert button has been assigned
-        let alert = new Alert(); 
-        alert.title = "Hooray!"
-        alert.message = "New button with MAC address " + macAddr + " has been created.";
-        alert.type = "alert-success"; 
-        this.alertService.setButtonAlert(alert);
-	}
+    // Call API to add button to database
+    this.buttonService.addButton(macAddr, description).subscribe( err => {
+      let alert = new Alert();
+      if (err) {
+          //console.log(this.message);
+          alert.title = "Failed: ";
+          alert.message = err.message;
+          alert.type = "alert-danger";
+
+      } else {
+          //console.log("successful add");
+          alert.title = "Success: ";
+          alert.message = "New button with MAC address " + this.newButton.macAddr + " has been created.";
+          alert.type = "alert-success";
+      }
+      this.alertService.setAlert(alert);
+      this.location.back(); // Route back to buttons table
+    });
+  }
 }

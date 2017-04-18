@@ -29,7 +29,7 @@ export class ButtonService {
 		return this.http.get(`${this.api}/buttons/${macAddr}`)
         .map(res => res.json());
 	}
-	
+
 	// Function that returns all buttons from the API
 	getAllButtons() {
 		return this.http.get(`${this.api}/buttons`)
@@ -77,5 +77,5 @@ export class ButtonService {
 		return this.http.post(`${this.api}/addButton`, { macAddr, description })
         .map(res => res.json());
 	}
-		
+
 }

@@ -7,6 +7,7 @@
  * Editor		Date		Description
  * ======		========	===========
  * Rapp			03/29/17	File created
+ * Saul			04/18/17	UpdateEmployee service added
  */
 
 import { Injectable } from '@angular/core';
@@ -41,9 +42,15 @@ export class EmployeeService {
 			.map(res => res.json());
 	}
 
-    // Add a new employee with all fields to the database
-    addEmployee(email: String, password: String, firstName: String, lastName: String, role: String) {
-        return this.http.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role })
-            .map(res => res.json());
-    }
+  // Add a new employee with all fields to the database
+  addEmployee(email: String, password: String, firstName: String, lastName: String, role: String) {
+      return this.http.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role })
+          .map(res => res.json());
+  }
+
+	// Update the information of an employee
+	updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String) {
+			return this.http.put(`${this.api}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role })
+			.map(res => res.json());
+	}
 }

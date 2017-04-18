@@ -8,9 +8,10 @@
  * Editor       Date        Description
  * =====        =====       =====
  * Sapper       03/28/17    File created
+ * Saul         04/12/17    Smart alerts working correctly
  */
 
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -45,19 +46,31 @@ export class ButtonAssignComponent implements OnInit {
         });
     }
 
+    // Route back to buttons table
     goBack(): void {
         this.location.back();
     }
 
     assignButton(macAddr: String, description: String): void {
         // assign button through service
-        this.buttonService.assignButton(macAddr, description)
-        .subscribe();
-        // alert button has been assigned
-        let alert = new Alert();
-        alert.title = "Success!"
-        alert.message = "Button with MAC address " + macAddr + " has been assigned.";
-        alert.type = "alert-success";
-        this.alertService.setButtonAlert(alert);
+        this.buttonService.assignButton(macAddr, description).subscribe(err => {
+          // Create alert
+          let alert = new Alert();
+          // Error has occured
+          if (err) {
+              alert.title = "Failed: ";
+      				alert.message = "Button with MAC address " + macAddr + " has not been assigned";
+      				alert.type = "alert-danger";
+          }
+          // Unassign successful
+          else {
+            alert.title = "Success: "
+            alert.message = "Button with MAC address " + macAddr + " has been assigned.";
+            alert.type = "alert-success";
+          }
+          // Send alert
+          this.alertService.setAlert(alert);
+          this.goBack();
+        });
     }
 }
