@@ -8,12 +8,16 @@
 * Editor	Date		Description
 * ======	========	===========
 * Saul		03/22/17	File created / Working EmployeeFormComponent
-* Rapp      03/29/17    Moved API calls to EmployeeService
+* Rapp    03/29/17  Moved API calls to EmployeeService
+* Saul    04/18/17  Smart notifications added    
 */
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { Employee } from '../shared/models/employee';
 import { EmployeeService } from '../services/employee.service';
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
+import { Location } from '@angular/common';
 
 @Component ({
     selector: 'employee-form',
@@ -33,11 +37,15 @@ import { EmployeeService } from '../services/employee.service';
 
 export class EmployeeFormComponent {
     // For output
-    @Output() employeeCreated = new EventEmitter();
+    //@Output() employeeCreated = new EventEmitter();
 
     roles: String[] = [ "Admin", "Manager", "Worker" ];
 
-    constructor(private employeeService: EmployeeService) {}
+    constructor(
+      private employeeService: EmployeeService,
+      private alertService: AlertService,
+      private location: Location
+    ) {}
 
     // Class used to group data added to mongoDb
     newEmployee: Employee = new Employee();
@@ -49,18 +57,23 @@ export class EmployeeFormComponent {
         // Add Employee using services
         this.employeeService.addEmployee(email, password, firstName, lastName, role)
             .subscribe(employees => {
-                console.log(employees);
-            })
+              let alert = new Alert();
 
-        // Emit event so that the table will know to update
-        this.employeeCreated.emit();
-        console.log("Employee added" + this.newEmployee);
-
-        // clears the form everytime it is submitted
-        this.newEmployee = new Employee();
-
-        // clears forms and states invaled and touched
-        this.active = false;
-        setTimeout(() => this.active = true, 0);
+              if(employees.message == "New employee created!"){
+                //console.log("successful add");
+                alert.title = "Success: ";
+                alert.message = "New Employee added: " + firstName + " " + lastName;
+                alert.type = "alert-success";
+              }
+              else{
+                //console.log(this.message);
+                alert.title = "Failed: ";
+                alert.message = employees.message;
+                alert.type = "alert-danger";
+              }
+              // update alert and route back to table
+              this.alertService.setAlert(alert);
+              this.location.back(); // Route back to buttons table
+            });
     }
 }

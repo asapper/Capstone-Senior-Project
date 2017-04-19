@@ -8,6 +8,8 @@
  * Editor       Date        Description
  * =====        =====       =====
  * Sapper       03/30/17    File created
+ * Saul         04/11/17    Smart alerts for unassign button
+ * Saul         04/12/17    Smart alerts bug fixed
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -44,19 +46,31 @@ export class ButtonUnassignComponent implements OnInit {
         });
     }
 
+    // Route back to buttons table
     goBack(): void {
         this.location.back();
     }
 
     unassignButton(macAddr: String): void {
         // unassign button through service
-        this.buttonService.unassignButton(macAddr)
-        .subscribe();
-        // alert button has been unassigned
-        let alert = new Alert(); 
-        alert.title = "Success!"
-        alert.message = "Button with MAC address " + macAddr + " has been unassigned.";
-        alert.type = "alert-success"; 
-        this.alertService.setButtonAlert(alert);
+        this.buttonService.unassignButton(macAddr).subscribe(err => {
+          // Create alert
+          let alert = new Alert();
+          // Error has occured
+          if (err) {
+              alert.title = "Failed: ";
+      				alert.message = "Button with MAC address " + macAddr + " has not been unassigned";
+      				alert.type = "alert-danger";
+          }
+          // Unassign successful
+          else {
+            alert.title = "Success: "
+            alert.message = "Button with MAC address " + macAddr + " has been unassigned.";
+            alert.type = "alert-success";
+          }
+          // Send alert
+          this.alertService.setAlert(alert);
+          this.goBack();
+        });
     }
  }

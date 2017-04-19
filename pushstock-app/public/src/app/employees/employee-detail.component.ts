@@ -9,6 +9,7 @@
  * ======       ========       ===========
  * Saul         03/28/17       File created
  * Saul         03/30/17       Edit employee now works
+ * Saul         04/18/17       notifications for edit employee added
  */
 
  import 'rxjs/add/operator/switchMap';
@@ -18,10 +19,14 @@
  import { Http } from '@angular/http';
 
  import { Employee } from '../shared/models/employee';
+ import { Alert } from '../shared/models/alert';
+ import { AlertService } from '../services/alert.service';
+ import { EmployeeService } from '../services/employee.service';
 
  @Component({
      selector: 'employee-detail',
-     templateUrl: './employee-detail.component.html'
+     templateUrl: './employee-detail.component.html',
+     providers: [EmployeeService]
  })
  export class EmployeeDetailComponent implements OnInit {
      employee: any;
@@ -34,7 +39,9 @@
      constructor(
          private route: ActivatedRoute,
          private location: Location,
-         private http: Http
+         private http: Http,
+         private alertService: AlertService,
+         private employeeService: EmployeeService,
      ) {}
 
      // On initilization of the component get the employee that we are editing
@@ -61,8 +68,25 @@
 
      // Update the information of an employee
      updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String): void {
-         this.http.put(`${this.API}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role })
-         .map(res => res.json())
-         .subscribe();
+      this.employeeService.updateEmployee(oEmail, email, firstName, lastName, role).subscribe( ret => {
+         // Create new alert
+         let alert = new Alert();
+
+         // Employee update failed
+         // Button update was successful
+         if(ret.message == "employee updated!"){
+           alert.title = "Success!";
+           alert.message = "Employee " + firstName + " " + lastName + " has been updated.";
+           alert.type = "alert-success";
+         }
+         else{
+           alert.title = "Failed: ";
+           alert.message = ret.message;
+           alert.type = "alert-danger";
+         }
+         // Set the alert
+         this.alertService.setAlert(alert);
+         this.goBack();
+      });
      }
  }

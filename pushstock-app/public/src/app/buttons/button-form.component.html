@@ -45,7 +45,7 @@ directive-->
   <button class="btn btn-danger" [routerLink]="['/buttons']">Cancel</button>
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addButton(newButton.macAddr, newButton.description)" class="btn btn-primary"
-  [routerLink]="['/buttons']" [disabled]="form.invalid">
-    Create Button
+  [disabled]="form.invalid">
+    Add Button
   </button>
 </form>

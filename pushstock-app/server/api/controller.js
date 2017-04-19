@@ -28,8 +28,10 @@ module.exports = {
         // save the Button and check for errors
         newBtn.save(function(err) {
             if (err) {
-                return err;
+                return "error";
+                res.send(err);
             } else {
+                res.send("New Button created");
                 return { message: 'New button created!' };
             }
         });

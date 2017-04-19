@@ -13,8 +13,7 @@
         <input [(ngModel)]="newButton.description" placeholder="Description" />
     </div><br>
     <button class="btn btn-info" (click)="goBack()">Cancel</button>
-    <button class="btn btn-primary" (click)="assignButton(newButton.macAddr, newButton.description)"
-    [routerLink]="['/buttons']">Assign Button</button>
+    <button class="btn btn-primary" (click)="assignButton(newButton.macAddr, newButton.description)">Assign Button</button>
 </div>
 
 <ng-template #noButtonsPanel>
