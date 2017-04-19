@@ -310,12 +310,182 @@ describe('Tasks', function() {
     });
 
     describe('adding a task through clicking of FLIC button', function() {
-        it('should add task if button is active and has no tasks open');
-        it('should fail to add task if button is not configured');
-        it('should fail to add task if button is has been configured but is inactive');
-        it('should fail to add task if button has an open task');
+        // expected functionality
+        it('should add task if button is active and has no tasks open', function(done) {
+            // request body
+            let data = { macAddr: BTN_MAC_ADDR };
+            chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('(No tasks ever) Task assigned to worker who has never been assigned a task.');
+                done();
+            });
+        });
+
+        // button added through single click
+        it('should fail to add task if button is not configured', function(done) {
+            // request body (new button)
+            let data = { macAddr: NEW_BTN_MAC_ADDR };
+            chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // try to single click again, no task should be created
+                chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('Button has not been configured.');
+                    // check number of tasks
+                    chai.request(API_URL).get('/tasks').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(0);
+                    });
+                    // remove new button
+                    Button.remove({ macAddr: NEW_BTN_MAC_ADDR }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+
+        // button added through web interface
+        it('should fail to add task if button has been configured but is inactive', function(done) {
+            // request body (new button)
+            let data = { macAddr: NEW_BTN_MAC_ADDR, description: 'just testing...' };
+            chai.request(API_URL).post('/addButton').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // try to single click, no task should be created
+                chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('Button has been activated!');
+                    // check number of tasks
+                    chai.request(API_URL).get('/tasks').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(0);
+                    });
+                    // remove new button
+                    Button.remove({ macAddr: NEW_BTN_MAC_ADDR }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+
+        // create and activate button, create task, then single click should not create another task
+        it('should fail to add task if button has an open task', function(done) {
+            // request body
+            let data = { macAddr: BTN_MAC_ADDR };
+            chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('(No tasks ever) Task assigned to worker who has never been assigned a task.');
+                // verify number of tasks
+                chai.request(API_URL).get('/tasks').end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(1);
+                    // try to single click again, no task should be created
+                    chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                        should.not.exist(err);
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('message').eql('Task not created, open task already exists.');
+                        // verify number of tasks
+                        chai.request(API_URL).get('/tasks').end(function(err, res) {
+                            res.should.have.status(200);
+                            res.body.should.be.a('array');
+                            res.body.length.should.be.eql(1);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
         it('should assign task to admin if there are no workers');
         it('should assign task to first created worker if there are no tasks ever created');
         it('should assign task to worker with no open tasks');
     });
+
+    // Test the GET /unassignedbuttons route
+    describe('GET /unassignedbuttons', function() {
+        // expected functionality
+        it('should get list if button added through clicking FLIC button', function(done) {
+            chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+                // single click
+                let data = { macAddr: NEW_BTN_MAC_ADDR }; // request body
+                chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('New button created!');
+                    // get all unassigned buttons
+                    chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(1);
+                        // remove new button
+                        Button.remove({ macAddr: NEW_BTN_MAC_ADDR }, function(err) {
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        // return no unassigned buttons if no buttons exist
+        it('should get empty list if no buttons', function(done) {
+            chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+                done();
+            });
+        });
+
+        // return no unassigned buttons if only buttons were added through web
+        it('should get empty list if button added through web interface', function(done) {
+            // request body (new button)
+            let data = { macAddr: NEW_BTN_MAC_ADDR, description: 'just testing...' };
+            chai.request(API_URL).post('/addButton').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // get unassigned buttons
+                chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(0);
+                    // remove new button
+                    Button.remove({ macAddr: NEW_BTN_MAC_ADDR }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    // Test the GET /assignedbuttons route
+    describe('GET /assignedbuttons', function() {
+        it('should get empty list if no buttons');
+        it('should get list if button is configured through FLIC click first');
+        it('should get list if button is configured thorugh web interface first');
+        it('should get empty list if new FLIC button clicked');
+        it('should get empty list if new button added through web interface');
+    });
+
 });

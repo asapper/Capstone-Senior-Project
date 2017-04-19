@@ -74,7 +74,7 @@ module.exports = {
                             res.json({ message: 'Button has been activated!' });
                         }
                     });
-                } else { // create task
+                } else if (button.isActive) { // button is active, create task
                     // if button has open task don't create another task
                     Task.findOne({ button: button._id, isOpen: true }, function(err, task) {
                         if (err) {
@@ -83,7 +83,7 @@ module.exports = {
                             // Order in criteria for assigning task:
                             // 1. Find one(s) who have never been assigned a task
                             // 2. Find one(s) who has finished a task the longest time ago
-                            // 3. Find admin to assign task to (in case all other employees have open tasks)
+                            // 3. Find admin to assign task to
 
                             // assign task to appropriate employee
                             Task.distinct("employee", function(err, tasks) {
@@ -105,7 +105,7 @@ module.exports = {
                                                 if (err2) {
                                                     res.send(err2);
                                                 } else {
-                                                    res.json({ message: "Task assigned to worker who has never been assigned a task." });
+                                                    res.status(CREATED_STATUS).send({ message: "Task assigned to worker who has never been assigned a task." });
                                                 }
                                             });
                                         } else { // all have been assigned a task
@@ -123,7 +123,7 @@ module.exports = {
                                                         if (err5) {
                                                             res.send(err5);
                                                         } else {
-                                                            res.json({ message: "(Some tasks closed) Task assigned to worker who finished a task the longest ago." });
+                                                            res.status(CREATED_STATUS).send({ message: "(Some tasks closed) Task assigned to worker who finished a task the longest ago." });
                                                         }
                                                     });
                                                 } else { // no closed tasks
@@ -156,7 +156,7 @@ module.exports = {
                                                                 if (err10) {
                                                                     res.send(err10);
                                                                 } else {
-                                                                    res.json({ message: "(All workers have open tasks) Task assigned to worker with least tasks or task assigned the longest ago." });
+                                                                    res.status(CREATED_STATUS).send({ message: "(All workers have open tasks) Task assigned to worker with least tasks or task assigned the longest ago." });
                                                                 }
                                                             });
                                                         }
@@ -179,7 +179,7 @@ module.exports = {
                                                 if (err12) {
                                                     res.send(err12);
                                                 } else {
-                                                    res.json({ message: "(No tasks ever) Task assigned to worker who has never been assigned a task." });
+                                                    res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to worker who has never been assigned a task." });
                                                 }
                                             });
                                         } else { // no non-admin employees
@@ -198,7 +198,7 @@ module.exports = {
                                                         if (err14) {
                                                             res.send(err14);
                                                         } else {
-                                                            res.json({ message: "(No tasks ever) Task assigned to admin." });
+                                                            res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to admin." });
                                                         }
                                                     });
                                                 } else {
@@ -213,6 +213,8 @@ module.exports = {
                             res.json({ message: "Task not created, open task already exists." });
                         }
                     });
+                } else { // button has not been configured yet
+                    res.json({ message: "Button has not been configured." });
                 }
             }
         });
@@ -230,15 +232,17 @@ module.exports = {
         });
     },
 
-    // Handle retrieving all active buttons stored
+    // Handle retrieving all active buttons stored (without an open task)
     getAllActiveButtonsView: function(req, res) {
-        // find all active buttons
-        Button.find({ isActive: true }, function(err, buttons) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(buttons);
-            }
+        // find all active buttons without an open task
+        Task.distinct("button", { isOpen: true }, function(err, openTasksButtons) {
+            Button.find({ isActive: true, _id: { $nin: openTasksButtons } }, function(err, buttons) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json(buttons);
+                }
+            });
         });
     },
 
@@ -256,7 +260,7 @@ module.exports = {
     // Handle retrieveing all unassigned buttons
     getUnassignedButtonsView: function(req, res) {
         // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
-        Button.find({ isActive: false, dateLastConfigured: null }, 'macAddr', function(err, buttons) {
+        Button.find({ isActive: false, dateLastConfigured: null, dateLastUsed: { $ne: null } }, 'macAddr', function(err, buttons) {
             if (err) {
                 res.send(err);
             } else {
