@@ -302,7 +302,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json(null);
+                        res.json({ message: 'Button has been assigned!' });
                     }
                 });
             }
@@ -326,7 +326,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json(null);
+                        res.json({ message: 'Button has been unassigned.' });
                     }
                 });
             }
@@ -344,7 +344,7 @@ module.exports = {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json(null);
+                        res.json({ message: 'Button updated successfully' });
                     }
                 });
             }
@@ -361,23 +361,20 @@ module.exports = {
             if (err) {
                 res.json( { message: err.message });
             } else {
-                //res.status(CREATED_STATUS).send({ message: 'New button created!' });
-                res.json(null);
-                console.log("new button created");
-
+                res.status(CREATED_STATUS).send({ message: 'New button created!' });
             }
         });
     },
 
     deleteButtonView: function(req, res){
-      Button.remove({
-        macAddr: req.params.macAddr
-      }, function(err, button) {
-          if (err)
-            res.json(null);
-          else{
-            res.json({ message: 'Successfully deleted' });
-          }
+        Button.remove({
+            macAddr: req.params.macAddr
+        }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: 'Successfully deleted' });
+            }
         });
     },
 
@@ -508,10 +505,11 @@ module.exports = {
       Employee.remove({
         email: req.params.email
       }, function(err, email) {
-            if (err)
-                res.json(null);
-
-            res.json({ message: 'Successfully deleted' });
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: 'Successfully deleted' });
+            }
         });
     },
 

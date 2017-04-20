@@ -161,7 +161,10 @@ describe('Buttons', function() {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
                     res.body.length.should.be.eql(0);
-                    done();
+                    // remove new button
+                    Button.remove({ macAddr: TMP_MAC_ADDR_2 }, function(err) {
+                        done();
+                    });
                 });
             });
         });
@@ -200,6 +203,200 @@ describe('Buttons', function() {
             });
         });
 
+    });
+
+    // Test the GET /unassignedbuttons route
+    describe('GET /unassignedbuttons', function() {
+        // expected functionality
+        it('should get list if button added through clicking FLIC button', function(done) {
+            chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+                // single click
+                let data = { macAddr: TMP_MAC_ADDR_2 }; // request body
+                chai.request(API_URL).post('/singleClick').send(data).end(function(err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('New button created!');
+                    // get all unassigned buttons
+                    chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(1);
+                        // remove new button
+                        Button.remove({ macAddr: TMP_MAC_ADDR_2 }, function(err) {
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        // return no unassigned buttons if no buttons exist
+        it('should get empty list if no buttons', function(done) {
+            chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+                done();
+            });
+        });
+
+        // return no unassigned buttons if only buttons were added through web
+        it('should get empty list if button added through web interface', function(done) {
+            // request body (new button)
+            let data = { macAddr: TMP_MAC_ADDR_2, description: 'just testing...' };
+            chai.request(API_URL).post('/addButton').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // get unassigned buttons
+                chai.request(API_URL).get('/unassignedbuttons').end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(0);
+                    // remove new button
+                    Button.remove({ macAddr: TMP_MAC_ADDR_2 }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    // Test the GET /assignedbuttons route
+    describe('GET /assignedbuttons', function() {
+        // return no unassigned buttons if no buttons exist
+        it('should get empty list if no buttons', function(done) {
+            chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+                done();
+            });
+        });
+
+        // button added through web interface AND clicked (throguh single click route)
+        it('should get list if button is configured thorugh web interface first', function(done) {
+            // create button through add button route
+            let data = { macAddr: TMP_MAC_ADDR_1, description: 'just testing...' }; // request body
+            chai.request(API_URL).post('/addButton').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201); // button created
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // click that button
+                let click_data = { macAddr: TMP_MAC_ADDR_1 };
+                chai.request(API_URL).post('/singleClick').send(click_data).end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('Button has been activated!');
+                    // check number of assigned buttons
+                    chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(1);
+                        // remove new button
+                        Button.remove({ macAddr: TMP_MAC_ADDR_1 }, function(err) {
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        // button clicked AND then assigned through web interface
+        it('should get list if button is configured through FLIC click first', function(done) {
+            // click button
+            let click_data = { macAddr: TMP_MAC_ADDR_1 };
+            chai.request(API_URL).post('/singleClick').send(click_data).end(function(err, res) {
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // assign button through web interface
+                let data = { macAddr: TMP_MAC_ADDR_1, description: 'testing...' };
+                chai.request(API_URL).put('/assignbutton').send(data).end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eql('Button has been assigned!');
+                    // check number of assigned buttons
+                    chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(1);
+                        // remove new button
+                        Button.remove({ macAddr: TMP_MAC_ADDR_1 }, function(err) {
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        // button only clicked and never assigned in web interface
+        it('should get empty list if new FLIC button clicked', function(done) {
+            // click button
+            let click_data = { macAddr: TMP_MAC_ADDR_1 };
+            chai.request(API_URL).post('/singleClick').send(click_data).end(function(err, res) {
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // check number of assigned buttons
+                chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(0);
+                    // remove new button
+                    Button.remove({ macAddr: TMP_MAC_ADDR_1 }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+
+        // button created in web interface and never clicked
+        it('should get empty list if new button added through web interface', function(done) {
+            // create button through add button route
+            let data = { macAddr: TMP_MAC_ADDR_1, description: 'just testing...' }; // request body
+            chai.request(API_URL).post('/addButton').send(data).end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(201); // button created
+                res.body.should.be.a('object');
+                res.body.should.have.property('message').eql('New button created!');
+                // check number of assigned buttons
+                chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(0);
+                    // remove new button
+                    Button.remove({ macAddr: TMP_MAC_ADDR_1 }, function(err) {
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    // Test the PUT /assignbutton route
+    describe('PUT /assignbutton', function() {
+        it('should throw error if no mac address parameter is given');
+        it('should fail to assign button if no description is given');
+        it('should fail to assign button if empty string is given for description');
+        it('should throw error if you try to assign non-existent button');
+        it('should thorw error if you try to assign a button that was added through web interface');
+        it('should fail to assign button already assigned');
+    });
+
+    // Test the PUT /unassignbutton route
+    describe('PUT /unassignbutton', function() {
+        it('should fail to unassign a button that does not exist');
+        it('should fail to unassign a button that was only clicked and never assigned');
+        it('should fail to unassign a button that was added through web and never clicked');
+        it('should throw error if no mac address parameter is given');
+        it('should fail to unassign already unassigned button');
     });
 
 });

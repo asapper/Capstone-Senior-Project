@@ -18,16 +18,12 @@ directive-->
 <!-- submit: submits and refreshes the page -->
 <!-- ngSubmit: does not refresh tht page -->
 <h2>Create new Employee</h2>
-<form #form=ngForm (ngSubmit)="onSubmit()">
-
-  <!-- If the form is valid -->
-  {{ form.valid }}
-
+<form #form=ngForm>
   <!-- First name field -->
   <div class="form-group" [ngClass]="{ 'has-error': firstName.invalid && firstName.touched }">
     <label for="firstName">First Name</label>
     <input type="text" class="form-control" name="firstName" required
-    [(ngModel)]="newEmployee.firstName" #firstName="ngModel" placeholder="firstName">
+    [(ngModel)]="newEmployee.firstName" #firstName="ngModel" placeholder="Employee's first name">
 
     <!-- Shows "Required" if first name field is empty & been touched -->
     <span style="color:red" class="help-block"
@@ -38,7 +34,7 @@ directive-->
   <div class="form-group" [ngClass]="{ 'has-error': lastName.invalid && lastName.touched }">
     <label for="lastName">Last Name</label>
     <input type="text" class="form-control" name="lastName" required
-    [(ngModel)]="newEmployee.lastName" #lastName="ngModel" placeholder="lastName">
+    [(ngModel)]="newEmployee.lastName" #lastName="ngModel" placeholder="Employee's last name">
 
     <!-- Shows "Required" if last name field is empty & been touched -->
     <span style="color:red" class="help-block"
@@ -49,7 +45,7 @@ directive-->
   <div class="form-group" [ngClass]="{ 'has-error': email.invalid && email.touched }">
   <label for="email">Email</label>
     <input type="text" class="form-control" name="email" required
-    [(ngModel)]="newEmployee.email" #email="ngModel" placeholder="Email:">
+    [(ngModel)]="newEmployee.email" #email="ngModel" placeholder="Employee's email">
 
     <!-- Shows "Required" if email field is empty -->
     <span style="color:red" class="help-block"
@@ -59,7 +55,7 @@ directive-->
   <!-- password field -->
   <div class="form-group" [ngClass]="{ 'has-error': password.invalid && password.touched }">
   <label for="password">Password</label>
-    <input type="text" class="form-control" name="password" required
+    <input type="password" class="form-control" name="password" required
     [(ngModel)]="newEmployee.password" #password="ngModel" placeholder="Password">
 
     <!-- Shows "Required" if first name field is empty -->
@@ -85,5 +81,5 @@ directive-->
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addEmployee(newEmployee.email,
   newEmployee.password, newEmployee.firstName, newEmployee.lastName,
-  newEmployee.role)" class="btn btn-lg btn-block btn-primary"
+  newEmployee.role)" class="btn btn-primary"
   [disabled]="form.invalid">Add Employee</button>

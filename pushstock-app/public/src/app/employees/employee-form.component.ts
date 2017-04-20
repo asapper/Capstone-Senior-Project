@@ -21,14 +21,6 @@ import { Location } from '@angular/common';
 
 @Component ({
     selector: 'employee-form',
-    styles: [`
-        form {
-          padding: 10px;
-          background: #ECF0F1;
-          border-radius: 3px;
-          margin-bottom: 30px;
-        }
-    `],
     templateUrl: './employee-form.component.html',
     providers: [
         EmployeeService
