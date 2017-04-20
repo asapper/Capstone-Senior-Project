@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 
 import { TaskTableComponent } from './tasks/task-table.component';
 import { TaskFormComponent } from './tasks/task-form.component';
+import { TaskReassignComponent } from './tasks/task-reassign.component';
 
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
@@ -49,7 +50,8 @@ import { AppRoutingModule } from './app-routing.module';
         EmployeeFormComponent,
         EmployeeDetailComponent,
         TaskTableComponent,
-        TaskFormComponent
+        TaskFormComponent,
+        TaskReassignComponent
     ],
     imports: [
         BrowserModule,

@@ -43,6 +43,7 @@
                   <th>Button</th>
                   <th>Description</th>
                   <th>Employee</th>
+                  <th>Edit</th>
               </tr>
           </thead>
           <tbody *ngIf="taskList?.length > 0">
@@ -50,6 +51,7 @@
                   <td>{{ task.button.macAddr }}</td>
                   <td>{{ task.button.description }}</td>
                   <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
+                  <td><i class="fa fa-pencil" aria-hidden="true"></i></td>
               </tr>
           </tbody>
           <tbody *ngIf="taskList?.length < 1" class="text-center">

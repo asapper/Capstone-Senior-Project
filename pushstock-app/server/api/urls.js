@@ -58,6 +58,8 @@ api_router.get('/tasks', views.getAllTasksView);
 api_router.post('/addTask', views.addTaskView);
 // Delete all open Tasks (for testing)
 api_router.delete('/tasks', views.deleteAllTasksView);
+// Update a task
+api_router.put('/reassigntask', views.reassignTaskView);
 
 // Retrieve all Employees in database (ex: /api/employees)
 api_router.get('/employees', views.getAllEmployeesView);

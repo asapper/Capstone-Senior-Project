@@ -449,6 +449,33 @@ module.exports = {
         });
     },
 
+    // Update a task
+    reassignTaskView: function(req, res) {
+        // find task
+        Task.findOne({ button: res.body.button_mac_addr }, function(err, task) {
+            if (err) {
+                res.send(err);
+            } else {
+                // find employee
+                Employee.findOne({ email: res.body.employee_email }, function(err, employee) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        // update employee in task
+                        task.employee = employee._id;
+                        task.save(function(err) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                res.json({ message: 'Task reassigned successfully!' });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
     // Handle retrieving all the employees stored
     getAllEmployeesView: function(req, res) {
         // Find all employees

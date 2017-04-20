@@ -36,4 +36,10 @@ export class TaskService {
         return this.http.post(`${this.api}/addTask`, { employee_email, button_mac_addr })
         .map(res => res.json());
     }
+
+    // Function to reassign task to another employee
+    reassignTask(button_mac_addr: string, employee_email: string) {
+        return this.http.put(`${this.api}/reassigntask`, { button_mac_addr, employee_email })
+        .map(res => res.json());
+    }
 }
