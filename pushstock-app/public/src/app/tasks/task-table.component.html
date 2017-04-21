@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * File:						task-table.component.html
 * Description:    Template for the TaskTableComponent
 *
@@ -7,6 +7,7 @@
 * Editor			Date				Description
 * ======			========		===========
 * Rapp			  03/23/17		File created (copied from employee-table.component.html)
+* Saul        04/20/17    Mark task complete and modal added
 -->
 
 <!-- Alerts displayed -->
@@ -20,18 +21,46 @@
     </div>
 </div>
 
+<!-- Modal: deleting button -->
+<div class="modal fade" id="taskCompleteModal" tabindex="-1" role="dialog" aria-labelledby="taskCompleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirm!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Submit task as complete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="markTaskComplete(taskId)">Mark Complete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div>
 
-  <!-- Title -->
-  <h3>Open Tasks</h3>
+  <!-- Select what tasks are to be displayed -->
+  <h3>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default" autofocus="true" (click)="getOpenTasks()">Open</button>
+      <button type="button" class="btn btn-default" (click)="getCompletedTasks()">Completed</button>
+      <button type="button" class="btn btn-default"(click)="getAllTasks()">All</button>
+    </div>
+  </h3>
+
   <!-- Bootstrap Table -->
-  <div class="panel panel-default">
+  <div class="panel panel-primary">
       <div class="panel-heading">
         <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
-          <button type="button" class="btn btn-primary" [routerLink]="['/tasks/new']">Add Task</button>
+          <button type="button" class="btn btn-default" [routerLink]="['/tasks/new']">Add Task</button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -43,6 +72,7 @@
                   <th>Button</th>
                   <th>Description</th>
                   <th>Employee</th>
+                  <th>Mark Complete</th>
               </tr>
           </thead>
           <tbody *ngIf="taskList?.length > 0">
@@ -50,6 +80,15 @@
                   <td>{{ task.button.macAddr }}</td>
                   <td>{{ task.button.description }}</td>
                   <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
+                  <td *ngIf="task.isOpen == true">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskCompleteModal"
+                        (click)="taskId = task._id">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="task.isOpen == false">
+                    Completed on: {{ task.dateClosed }}
+                  </td>
               </tr>
           </tbody>
           <tbody *ngIf="taskList?.length < 1" class="text-center">
