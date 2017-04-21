@@ -16,6 +16,9 @@
  * Saul         04/11/17        Notifications change for success and failure
  * Saul         04/18/17        If an error occurs deleting an employee null is
  *                              null is returned.
+ * Saul         04/20/17        markTaskCompleteView implemented
+ * Saul         04/20/17        getOpenTasksView implemented
+ * Saul         04/20/17        getComnpleteTasksView implemented
  */
 
 const Button = require('../app/models/button');
@@ -393,6 +396,36 @@ module.exports = {
             });
     },
 
+    // Handle retrieveing all ope tasks
+    getOpenTasksView: function(req, res) {
+        // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
+        Task.find({ isOpen: true })
+        .populate('button')
+        .populate('employee')
+        .exec(function(err, tasks) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(tasks);
+            }
+        });
+    },
+
+    // Handle retrieveing all Completed Tasks
+    getCompletedTasksView: function(req, res) {
+        // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
+        Task.find({ isOpen: false })
+        .populate('button')
+        .populate('employee')
+        .exec(function(err, tasks) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(tasks);
+            }
+        });
+    },
+
     // Handle creating a new task
     addTaskView: function(req, res) {
         // check if both required parameters exist
@@ -447,6 +480,26 @@ module.exports = {
                 res.json({ message: 'All tasks removed.'});
             }
         });
+    },
+
+    // Marks a task as completed
+    markTaskCompleteView: function(req, res) {
+      Task.findOne({ _id: req.params._id }, function(err, task){
+        if(err){
+          res.json({ message: "Error occured.. task not found"});
+        }
+        else{
+          task.isOpen = false;
+          task.dateClosed = new Date();
+          task.save(function(err) {
+              if (err) {
+                  res.json({ message: "Error occured.. task found but not set to complete"});
+              } else {
+                  res.json({ message: "Task marked complete"});
+              }
+          });
+        }
+      });
     },
 
     // Handle retrieving all the employees stored
