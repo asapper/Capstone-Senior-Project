@@ -2,7 +2,7 @@
 
 ### Script runs under the assumption of proper environment (ie has all dependencies) ###
 
-cd ./pushstock-app
+#cd ./pushstock-app
 
 # If mobile-app directory doesn't exist, make Ionic project
 if [[ ! -d "mobile-app" ]]; then
