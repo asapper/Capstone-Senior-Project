@@ -93,20 +93,29 @@ Next, [install Android Studio](https://developer.android.com/studio/install.html
     * Android Support Repository
     * Google Repository
 
-After installing Android Studio, these packages can be checked and installed by running `android`.
 Further help can be found [here](https://developer.android.com/studio/intro/update.html).
+
+You must then install the necessary System Images by running   
+`/Users/<username>/Library/Android/sdk/tools/android sdk`.  
+Next, create a virtual device by running   
+`/Users/<username>/Library/Android/sdk/tools/android avd`.  
+This will open a GUI for creating a device. Choose any.
 
 ## Building the mobile app
 
-Navigate to the pushstock-app directory and run `./build_mobile_app.sh`.
+Navigate to the project root directory and run `./build_mobile_app.sh`.
+
 ## Running the mobile app
 ### On a computer
 
 Ensure that the environment is set up as described above.  
 Running a simulation of the app in a web browser is as simple as navigating to the mobile app project directory and running `ionic serve`.  
+To run a simulation in the browser with all mobile platforms side-by-side, run `ionic serve --lab`.  
 To launch the app in an iOS simulator, run `ionic emulate ios`.  
-To launch the app in an Android simulator, run ``.
+To launch the app in an Android simulator, run `ionic emulate android`.
 
 ### On a mobile device
 
-
+Ensure that the device is properly attached, and can be detected by the system.  
+To run the app on an iOS device, run `ionic run ios`.  
+To run the app on an Android device, run `ionic run android`.

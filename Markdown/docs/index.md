@@ -38,4 +38,4 @@ vs
     docs/
         index.md  # The documentation homepage.
 		about.md  # The about section.
-        ...       # Other markdown pages, images and other files.
+        setup.md  # Instructions for setting up a dev environment.

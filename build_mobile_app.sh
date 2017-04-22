@@ -1,14 +1,22 @@
 #!/bin/bash
 
-direxists=`ls ./pushstock-app | grep -c -E "^mobile-app$"`
-if [[ "$direxists" -eq "0" ]] then
-    ionic start --v2 --ts --appname "PushStock" mobile-app
+### Script runs under the assumption of proper environment (ie has all dependencies) ###
+
+cd ./pushstock-app
+
+# If mobile-app directory doesn't exist, make Ionic project
+if [[ ! -d "mobile-app" ]]; then
+    ionic start --v2 --ts --appname "PushStock" mobile-app blank
 fi
 
 cd mobile-app
 
-# TODO check for ios and android first
-# Script is being run in bash shell so assume it's on macOS w/ XCode
-ionic platform add ios android
+if [[ ! -d "platforms/ios" ]]; then
+    ionic platform add ios
+fi
 
-#cp -R
+if [[ ! -d "platforms/android" ]]; then
+    ionic platform add android
+fi
+
+cp -R ../public/src/ ./www/
