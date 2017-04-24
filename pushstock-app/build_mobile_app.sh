@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### Script runs under the assumption of proper environment (ie has all dependencies) ###
+### Script runs under the assumption of proper environment (i.e. has all dependencies) ###
 
 #cd ./pushstock-app
 
@@ -9,14 +9,27 @@ if [[ ! -d "mobile-app" ]]; then
     ionic start --v2 --ts --appname "PushStock" mobile-app blank
 fi
 
+# Ensure that all intended platforms added
 cd mobile-app
-
 if [[ ! -d "platforms/ios" ]]; then
     ionic platform add ios
 fi
-
 if [[ ! -d "platforms/android" ]]; then
     ionic platform add android
 fi
 
-cp -R ../public/src/ ./www/
+# Delete all old source files except theme/variables.scss
+cd src
+rm -rf `ls | grep -v "theme"`
+# Copy over all website source files
+cp -R ../../public/src/ .
+# Move main.ts to app/
+mv main.ts app/
+
+# Run python script to change source files
+../../make_mobile_files.py
+
+
+
+#cd ?/mobile-app
+#npm install

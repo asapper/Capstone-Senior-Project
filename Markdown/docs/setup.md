@@ -108,14 +108,15 @@ Navigate to the project root directory and run `./build_mobile_app.sh`.
 ## Running the mobile app
 ### On a computer
 
-Ensure that the environment is set up as described above.  
-Running a simulation of the app in a web browser is as simple as navigating to the mobile app project directory and running `ionic serve`.  
-To run a simulation in the browser with all mobile platforms side-by-side, run `ionic serve --lab`.  
+Ensure that the environment is set up as described above.
+
+Running a simulation of the app in a web browser is as simple as navigating to the mobile app project directory and running `ionic serve`. To compare all mobile platforms, append `--lab` to the command.  
 To launch the app in an iOS simulator, run `ionic emulate ios`.  
 To launch the app in an Android simulator, run `ionic emulate android`.
 
 ### On a mobile device
 
 Ensure that the device is properly attached, and can be detected by the system.  
+
 To run the app on an iOS device, run `ionic run ios`.  
 To run the app on an Android device, run `ionic run android`.
