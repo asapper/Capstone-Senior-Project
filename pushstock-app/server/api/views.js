@@ -588,7 +588,7 @@ module.exports = {
             if (err) {
                 res.send(err);
 			} else {
-                res.send('DELETE request to homepage');
+                //res.send('DELETE request to homepage');
 				res.json({ message: 'All employees removed.'});
 			}
 		});
