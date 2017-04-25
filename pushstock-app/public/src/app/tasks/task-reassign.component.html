@@ -5,14 +5,14 @@
     </div>
     <div>
         <label>Employees:</label>
-        <select name="employee_email" [(ngModel)]="task.new_employee_email">
+        <select name="employee" [(ngModel)]="newTask.employee">
             <option *ngFor="let employee of employees" [value]="employee.email">
             {{ employee.profile.firstName }} {{ employee.profile.lastName }}
             </option>
         </select>
-    </div>
+    </div><br>
     <button class="btn btn-danger" (click)="goBack()">Cancel</button>
-    <button class="btn btn-primary" (click)="reassignTask(task.macAddr, task.new_employee_email)">Reassign task</button>
+    <button class="btn btn-primary" (click)="reassignTask(newTask.employee)">Reassign task</button>
 </div>
 
 <div *ngIf="employees.length < 1">

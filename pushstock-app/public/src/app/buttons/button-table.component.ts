@@ -54,7 +54,6 @@ export class ButtonTableComponent implements OnInit {
     // Angular 2 Life Cycle event whem component has been initialized
     // Get the array of buttons when the component is initialized
     ngOnInit(): void {
-				console.log("refreshed table");
         this.retrieveLatestAlert();
         this.getAllButtons();
         this.showOnlyActiveButtons = true;

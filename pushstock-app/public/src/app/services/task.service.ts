@@ -25,6 +25,11 @@ export class TaskService {
         this.api = ApiSettings.API;
     }
 
+    getTask(taskId: string) {
+        return this.http.get(`${this.api}/tasks/${taskId}`)
+        .map(res => res.json());
+    }
+
     // Function that returns all tasks from the API
     getAllTasks() {
         return this.http.get(`${this.api}/tasks`)
@@ -38,8 +43,8 @@ export class TaskService {
     }
 
     // Function to reassign task to another employee
-    reassignTask(button_mac_addr: string, employee_email: string) {
-        return this.http.put(`${this.api}/reassigntask`, { button_mac_addr, employee_email })
+    reassignTask(task_id: string, employee_email: string) {
+        return this.http.put(`${this.api}/reassigntask`, { task_id, employee_email })
         .map(res => res.json());
     }
 }

@@ -33,7 +33,7 @@ const routes: Routes = [
 	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
 	{ path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
     { path: 'tasks/new', component: TaskFormComponent, pathMatch: 'full' },
-    { path: 'tasks/reassign', component: TaskReassignComponent, pathMatch: 'full' },
+    { path: 'tasks/:taskId/reassign', component: TaskReassignComponent, pathMatch: 'full' },
 	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
     { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },

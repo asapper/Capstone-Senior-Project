@@ -12,52 +12,75 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Alert } from '../shared/models/alert';
 import { AlertService } from '../services/alert.service';
+import { EmployeeService } from '../services/employee.service';
 import { TaskService } from '../services/task.service';
 
 @Component({
     selector: 'task-reassign',
     templateUrl: './task-reassign.component.html',
-    providers: [TaskService]
+    providers: [EmployeeService, TaskService]
 })
 export class TaskReassignComponent implements OnInit {
     employees: any[];
     task: any;
+    newTask: any;
 
-     constructor(
-         private location: Location,
-         private taskService: TaskService,
-         private alertService: AlertService
-     ) {
-         this.employees = [];
-     }
+    constructor(
+        private route: ActivatedRoute,
+        private location: Location,
+        private taskService: TaskService,
+        private alertService: AlertService,
+        private employeeService: EmployeeService
+    ) {
+        this.employees = [];
+        this.task = {};
+        this.newTask = {};
+        this.newTask.employee = "";
+    }
 
-     ngOnInit(): void {
-     }
+    ngOnInit(): void {
+        let taskId = 0;
+        this.route.params.subscribe(params => {
+            taskId = params['taskId'];
+        });
+        // get task information
+        this.taskService.getTask(taskId.toString()).subscribe(task => {
+            this.task.description = task.button.description;
+            this.task.id = task._id;
+            this.task.employee_email = task.employee.email;
+            // get employees
+            this.employeeService.getAllEmployees().subscribe(employees => {
+                // remove currently assigned employee
+                this.employees = employees.filter(emp => emp.email !== this.task.employee_email);
+            });
+        });
+    }
 
-     // Route back to tasks table
-     goBack(): void { 
-         this.location.back();
-     }
+    // Route back to tasks table
+    goBack(): void { 
+        this.location.back();
+    }
 
-     reassignTask(macAddr: string, employee_email: string): void {
-         this.taskService.reassignTask(macAddr, employee_email).subscribe(err => {
+    reassignTask(employee_email: string): void {
+        this.taskService.reassignTask(this.task.id, employee_email).subscribe(err => {
             let alert = new Alert();
             if (err) {
-                alert.title = 'Failed: ';
+                alert.title = 'Error: ';
                 alert.message = err.message;
                 alert.type = 'alert-danger';
             } else {
                 alert.title = 'Success: ';
-                alert.message = 'task has been reassigned!';
+                alert.message = data.message;
                 alert.type = 'alert-success';
             }
             this.alertService.setAlert(alert);
             this.location.back(); // route back to tasks table
-         });
-     }
+        });
+    }
 
 }

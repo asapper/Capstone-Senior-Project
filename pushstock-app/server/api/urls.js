@@ -54,6 +54,8 @@ api_router.put('/unassignbutton', views.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', views.getAllTasksView);
+// Retrieve a specific task (ex: /tasks/1)
+api_router.get('/tasks/:taskId', views.getSingleTaskView);
 // Add a task to the database
 api_router.post('/addTask', views.addTaskView);
 // Delete all open Tasks (for testing)

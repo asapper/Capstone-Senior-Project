@@ -393,6 +393,20 @@ module.exports = {
             });
     },
 
+    // Handle retrieving a single task
+    getSingleTaskView: function(req, res) {
+        Task.findById(req.params.taskId)
+            .populate('button')
+            .populate('employee')
+            .exec(function(err, task) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(task);
+            }
+        });
+    },
+
     // Handle creating a new task
     addTaskView: function(req, res) {
         // check if both required parameters exist
@@ -452,12 +466,12 @@ module.exports = {
     // Update a task
     reassignTaskView: function(req, res) {
         // find task
-        Task.findOne({ button: res.body.button_mac_addr }, function(err, task) {
+        Task.findOne({ _id: req.body.task_id }, function(err, task) {
             if (err) {
                 res.send(err);
             } else {
                 // find employee
-                Employee.findOne({ email: res.body.employee_email }, function(err, employee) {
+                Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
                     if (err) {
                         res.send(err);
                     } else {

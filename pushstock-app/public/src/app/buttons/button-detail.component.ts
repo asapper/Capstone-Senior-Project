@@ -46,7 +46,6 @@ export class ButtonDetailComponent implements OnInit {
         //get button through service
         this.buttonService.getButton(macAddr)
         .subscribe(button => {
-            console.log(button);
             this.button = button;
         });
     }
