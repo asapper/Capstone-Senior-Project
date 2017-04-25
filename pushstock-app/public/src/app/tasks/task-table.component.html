@@ -44,23 +44,27 @@
 
 
 <div>
-
+    <h3>Tasks</h3>
   <!-- Select what tasks are to be displayed -->
-  <h3>
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-default" autofocus="true" (click)="getOpenTasks()">Open</button>
-      <button type="button" class="btn btn-default" (click)="getCompletedTasks()">Completed</button>
-      <button type="button" class="btn btn-default"(click)="getAllTasks()">All</button>
-    </div>
-  </h3>
+    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons">
+        <label class="btn btn-default active" (click)="getOpenTasks()">
+            <input type="radio" autocomplete="off" checked>Open
+        </label>
+        <label class="btn btn-default" (click)="getCompletedTasks()">
+            <input type="radio" autocomplete="off">Completed
+        </label>
+        <label class="btn btn-default" (click)="getAllTasks()">
+            <input type="radio" autocomplete="off">All
+        </label>
+  </div><br><br>
 
   <!-- Bootstrap Table -->
-  <div class="panel panel-primary">
+  <div class="panel panel-info">
       <div class="panel-heading">
         <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
-          <button type="button" class="btn btn-default" [routerLink]="['/tasks/new']">Add Task</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/tasks/new']">Add Task</button>
         </div>
         <div class="clearfix"></div>
       </div>
