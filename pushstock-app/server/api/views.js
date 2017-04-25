@@ -402,10 +402,14 @@ module.exports = {
             .populate('button')
             .populate('employee')
             .exec(function(err, task) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(task);
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json(task);
+                }
+            });
+    },
+
     // Handle retrieveing all ope tasks
     getOpenTasksView: function(req, res) {
         // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses

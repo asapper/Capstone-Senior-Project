@@ -75,7 +75,7 @@ export class TaskReassignComponent implements OnInit {
                 alert.type = 'alert-danger';
             } else {
                 alert.title = 'Success: ';
-                alert.message = data.message;
+                alert.message = "task has been reassigned!";
                 alert.type = 'alert-success';
             }
             this.alertService.setAlert(alert);
