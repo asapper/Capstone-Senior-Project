@@ -15,6 +15,7 @@
 * Rapp      04/22/17    Alter navbar to be collapsible on smaller screens
 *                       Now highlights tab of current page
 * Rapp      04/24/17    Sticky navbar stays at top of screen when scrolling
+*                       Menu now collapses into navbar when an element is selected
 -->
 
 <!-- Bootstrap Navbar -->
@@ -32,9 +33,9 @@
             <!-- nav bar tabs -->
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="nav navbar-nav">
-                    <li [routerLinkActive]="['active']"><a routerLink="/tasks">Tasks</a></li>
-                    <li [routerLinkActive]="['active']"><a routerLink="/buttons">Buttons</a></li>
-                    <li [routerLinkActive]="['active']"><a routerLink="/employees">Employees</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/tasks">Tasks</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/buttons">Buttons</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/employees">Employees</a></li>
                 </ul>
             </div>
         </div>
