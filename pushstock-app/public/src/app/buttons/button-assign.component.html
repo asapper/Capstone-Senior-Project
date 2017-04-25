@@ -1,4 +1,4 @@
-<div *ngIf="buttons.length > 0; else noButtonsPanel">
+<div *ngIf="buttons.length > 0">
     <h2>Assign Buttons</h2>
     <div>
         <label>Unassigned MAC addresses:</label>
@@ -16,7 +16,7 @@
     <button class="btn btn-primary" (click)="assignButton(newButton.macAddr, newButton.description)">Assign Button</button>
 </div>
 
-<ng-template #noButtonsPanel>
-<h3>No unassigned buttons :(</h3>
-<button class="btn btn-info" (click)="goBack()">Go Back</button>
-</ng-template>
+<div *ngIf="buttons.length < 1">
+    <h3>No unassigned buttons :(</h3>
+    <button class="btn btn-info" (click)="goBack()">Go Back</button>
+</div>
