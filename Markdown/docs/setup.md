@@ -103,7 +103,7 @@ This will open a GUI for creating a device. Choose any.
 
 ## Building the mobile app
 
-Navigate to the project root directory and run `./build_mobile_app.sh`.
+To build the latest version of the mobile app based on the website, navigate to the project root directory and run `./build_mobile_app.sh`.
 
 ## Running the mobile app
 ### On a computer
