@@ -18,7 +18,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/index';
 import { HomeComponent } from './home/index';
 import { LoginRouteGuard } from './guards/login';
+import { AdminRouteGuard } from './guards/admin';
 import { RegisterComponent } from './register/index';
+import { UnauthorizedComponent } from './authorization/index';
 
 import { TaskTableComponent } from './tasks/task-table.component';
 import { EmployeeTableComponent } from './employees/employee-table.component';
@@ -37,9 +39,8 @@ const routes: Routes = [
   { path: 'home', 
     component: HomeComponent, 
     canActivate: [LoginRouteGuard],
-    canActivateChild: [LoginRouteGuard],
     children: [
-    { path: 'buttons', component: ButtonTableComponent },
+    { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
     { path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
     { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
@@ -48,7 +49,8 @@ const routes: Routes = [
     { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
     { path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' },
     { path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full' },
-    { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
+    { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' },
+    { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'}
     ]},
   { path: '**', redirectTo: 'home'}
 ];

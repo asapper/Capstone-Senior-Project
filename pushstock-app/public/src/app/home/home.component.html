@@ -10,7 +10,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="nav navbar-nav">
                     <li><a routerLink="/home/tasks">Tasks</a></li>
-                    <li><a routerLink="/home/buttons">Buttons</a></li>
+                    <li><a *ngIf="admin" routerLink="/home/buttons">Buttons</a></li>
                     <li><a *ngIf="admin" routerLink="/home/employees">Employees</a></li>
                     <li><a href="#" (click)=logout()>Logout</a></li>
                 </ul>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 
  
@@ -10,19 +10,13 @@ import { Router } from '@angular/router';
  
 export class HomeComponent {
 
-    admin: boolean = false;
+    admin: boolean;
  
-    constructor(private authenticationService:AuthenticationService, private router:Router){
-        if(localStorage.getItem('role') === 'Admin'){
-            this.admin = true;
-        }
-    }
+    constructor(private authenticationService:AuthService, private router:Router){}
  
     ngOnInit(){
-        //this.authenticationService.checkCredentials();
-        if(localStorage.getItem('role') === 'Admin'){
-            this.admin = true;
-        }
+        this.admin = this.authenticationService.checkAdmin();
+        console.log("Is Admin? " + this.authenticationService.checkAdmin());
     }
  
     logout() {

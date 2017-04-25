@@ -21,7 +21,7 @@
         <div class="panel-title pull-left">Employees registered: <span class="badge">{{ employeeList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button that routes you to the add employee page-->
-            <button type="button" class="btn btn-primary" [routerLink]="['/employees/new']">Add Employee</button>
+            <button type="button" class="btn btn-primary" routerLink="./new">Add Employee</button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -42,7 +42,7 @@
                   <td>{{ employee.email }}</td>
                   <td>{{ employee.role }}</td>
                   <td>
-                    <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
+                    <button type="button" [routerLink]="['.', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button type="button" (click)="deleteEmployee(employee.email)" class="btn btn-default">

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { AuthHttp, AuthConfig, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
 export class User {
@@ -10,23 +11,36 @@ export class User {
     public password: string) { }
 }
 
-var users = [
-    new User('user', 'pass'),
-    new User('admin@admin.com','adm9'),
-    new User('user1@gmail.com','a23')
-];
-
 @Injectable()
-export class AuthenticationService {
+export class AuthService {
+    jwtHelper: JwtHelper = new JwtHelper();
     constructor(private http: Http, private _router: Router) { }
 
     checkCredentials() {
-        if (localStorage.getItem('currentUser') === null){
-            this._router.navigate['login'];
+        if (localStorage.getItem('token') === null){
             return false;
         }
-        return true;
+        else{
+            return true;
+        }
     } 
+
+    isLoggedIn(){
+        console.log(this.jwtHelper.decodeToken(localStorage.getItem('token')));
+        console.log(tokenNotExpired('token', localStorage.getItem('token')));
+        return tokenNotExpired('token', localStorage.getItem('token'));
+    }
+
+    checkAdmin() {
+        if(this.checkCredentials()){
+            let token = localStorage.getItem('token');
+            let decoded = this.jwtHelper.decodeToken(token);
+            if(decoded.role === 'Admin'){
+                return true;
+            }
+        }
+        return false;
+    }
 
     login(username: string, password: string) {
         return this.http.post('https://localhost:4200/auth/login', { email: username, password: password })
@@ -36,11 +50,9 @@ export class AuthenticationService {
                 }
                 // login successful if there's a jwt token in the response
                 let token = response.json() && response.json().token;
-                let role = response.json().employee.role;
                 if (token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({username: username, token: token}));
-                    localStorage.setItem('role', JSON.stringify({role: role}));
+                    localStorage.setItem('token', JSON.stringify({token}));
                     return true;
                 }
                 else{
@@ -51,9 +63,7 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('role');
-        this._router.navigate(['/login']);
+        localStorage.removeItem('token');
     }
 
     

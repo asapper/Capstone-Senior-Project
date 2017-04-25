@@ -15,7 +15,7 @@
 
 import { Component } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { AuthenticationService } from './services/authentication.service';
+import { AuthService } from './services/authentication.service';
 import { Router } from '@angular/router';
 
 import { AlertService } from './services/alert.service';

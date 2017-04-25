@@ -25,8 +25,10 @@ function setEmployeeInfo(request) {
 exports.login = function(req, res, next) {
   if(req.user){
       let employeeInfo = setEmployeeInfo(req.user);
+      let tokenString = generateToken(employeeInfo);
+      console.log(tokenString);
       res.status(200).json({
-          token: 'JWT ' + generateToken(employeeInfo),
+          token: tokenString,
           employee: employeeInfo
       });
   }

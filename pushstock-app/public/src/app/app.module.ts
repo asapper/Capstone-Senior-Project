@@ -32,12 +32,14 @@ import { EmployeeDetailComponent } from './employees/employee-detail.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { UnauthorizedComponent } from './authorization/unauthorized.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { AlertService, AuthenticationService } from './services/index';
+import { AlertService, AuthService } from './services/index';
 import { LoginRouteGuard } from './guards/login';
+import { AdminRouteGuard } from './guards/admin';
 
 @NgModule({
     declarations: [
@@ -53,7 +55,8 @@ import { LoginRouteGuard } from './guards/login';
         TaskTableComponent,
         LoginComponent,
         HomeComponent,
-        RegisterComponent
+        RegisterComponent,
+        UnauthorizedComponent
     ],
     imports: [
         BrowserModule,
@@ -68,8 +71,9 @@ import { LoginRouteGuard } from './guards/login';
             useClass: HashLocationStrategy
         },
         AlertService,
-        AuthenticationService,
-        LoginRouteGuard
+        AuthService,
+        LoginRouteGuard,
+        AdminRouteGuard
     ],
 	bootstrap: [
         AppComponent
