@@ -7,6 +7,7 @@
  * Editor       Date            Description
  * ======       ========        ===========
  * Sapper       04/06/17        File created
+ * Saul         04/20/17        markTaskComplete function added
  */
 
 import { Injectable } from '@angular/core';
@@ -36,6 +37,18 @@ export class TaskService {
         .map(res => res.json());
     }
 
+    // Function that returns all tasks from the API
+    getOpenTasks() {
+        return this.http.get(`${this.api}/openTasks`)
+        .map(res => res.json());
+    }
+
+    // Function that returns all tasks from the API
+    getCompletedTasks() {
+        return this.http.get(`${this.api}/completedTasks`)
+        .map(res => res.json());
+    }
+
     // Function to add task manually
     addTask(employee_email: string, button_mac_addr: string) {
         return this.http.post(`${this.api}/addTask`, { employee_email, button_mac_addr })
@@ -45,6 +58,12 @@ export class TaskService {
     // Function to reassign task to another employee
     reassignTask(task_id: string, employee_email: string) {
         return this.http.put(`${this.api}/reassigntask`, { task_id, employee_email })
+        .map(res => res.json());
+    }
+
+    // Function to mark task complete
+    markTaskComplete(_id: any) {
+        return this.http.put(`${this.api}/tasks/${_id}`, { })
         .map(res => res.json());
     }
 }

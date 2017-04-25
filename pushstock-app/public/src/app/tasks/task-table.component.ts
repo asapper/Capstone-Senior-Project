@@ -8,6 +8,7 @@
 * ======        ========        ===========
 * Rapp          03/23/17        File created (copied from employee-table.component.ts)
 * Sapper        04/06/17        Add task and alert services
+* Saul          04/20/17        Task complete function implemented
 */
 
 
@@ -35,6 +36,7 @@ export class TaskTableComponent implements OnInit {
     alertType: string;
     alertTitle: string;
     alertMessage: string;
+    taskId: any;
 
     constructor(
         private alertService: AlertService,
@@ -50,7 +52,7 @@ export class TaskTableComponent implements OnInit {
     // Get the array of tasks when the component is initialized
     ngOnInit(): void {
         this.retrieveLatestAlert();
-        this.getAllTasks();
+        this.getOpenTasks();
         //this.taskList = TASKS;
     }
 
@@ -61,11 +63,64 @@ export class TaskTableComponent implements OnInit {
         this.alertMessage = alert.message;
     }
 
-    // Returns all open tasks
-    getAllTasks() {
+    // Mark task completed
+    markTaskComplete(_id): void{
+      this.taskService.markTaskComplete(_id).subscribe( ret => {
+        let alert = new Alert();
+  			// Executes if Delete was successful
+  			if(ret.message == "Task marked complete"){
+  				alert.title = "Success: "
+  				alert.message = "Task marked completed";
+  				alert.type = "alert-success";
+  			}
+  			// Executes if an error was encountered during deletion
+  			else{
+  				alert.title = "Failed: ";
+  				alert.message = ret.message;
+  				alert.type = "alert-danger";
+  			}
+  			// update alerts in list of buttons in this view
+        this.alertService.setAlert(alert);
+  			this.retrieveLatestAlert();
+  			this.getAllTasks();
+  		});
+    }
+
+    // Returns all tasks
+    getAllTasks(): void {
         this.taskService.getAllTasks()
         .subscribe(tasks => {
             this.taskList = tasks;
         });
     }
+
+    // Returns all open tasks
+    getOpenTasks() {
+        this.taskService.getOpenTasks()
+        .subscribe(tasks => {
+            this.taskList = tasks;
+        });
+    }
+
+    // Returns all Completed tasks
+    getCompletedTasks() {
+        this.taskService.getCompletedTasks()
+        .subscribe(tasks => {
+            this.taskList = tasks;
+        });
+    }
+
+    /* Determines which tasks to retireve
+    getTasks(): void{
+      if(this.display == 'Open'){
+        this.getOpenTasks();
+      }
+      else if(this.display == 'All'){
+        this.getAllTasks();
+      }
+      else{
+        //this.getCompletedTasks();
+      }
+    }
+    */
 }
