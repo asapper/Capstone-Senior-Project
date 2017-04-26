@@ -16,35 +16,26 @@ import { Alert } from '../shared/models/alert';
 
 @Injectable()
 export class AlertService {
-    private buttonAlert: Alert = new Alert();
+    private alert: Alert = new Alert();
 
     // set latest button alert
     setAlert(alert: Alert) {
-        this.buttonAlert = alert;
+        this.alert = alert;
     }
 
     // get latest button alert
     getLatestAlert() {
         // store alert
-        let alert = this.buttonAlert;
+        let alert = this.alert;
         // clear alert
-        this.buttonAlert = new Alert();
+        this.alert = new Alert();
         return alert;
     }
 
-    /* Not using this right now
-    // set latest task alert
-    setTaskAlert(alert: Alert) {
-        this.taskAlert = alert;
+    setSuccessAlert(title: string, message: string) {
+        this.alert.type = 'alert-success';
+        this.alert.title = title;
+        this.alert.message = message;
     }
-
-    // get latest task alert
-    getLatestTaskAlert() {
-        // store alert
-        let alert = this.taskAlert;
-        // clear alert
-        this.taskAlert = new Alert();
-        return alert;
-    }*/
 
 }

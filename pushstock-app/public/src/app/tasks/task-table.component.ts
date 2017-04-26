@@ -22,7 +22,7 @@ const TASKS = [
     {
         _id: 123,
         button: { macAddr: '1', description: 'asd', isActive: true },
-        employee: { profile: { firstName: 'a', lastName: 'v' }, email: 'v', password: 'sd', role: 's', resetPasswordToken: 'df', resetPasswordExpires: null }
+        employee: { profile: { firstName: 'John', lastName: 'Smith' }, email: 'v', password: 'sd', role: 's', resetPasswordToken: 'df', resetPasswordExpires: null }
     },
 ];
 
@@ -36,7 +36,9 @@ export class TaskTableComponent implements OnInit {
     alertType: string;
     alertTitle: string;
     alertMessage: string;
-    taskId: any;
+    modalDescription: string = "";
+    modalEmployee: string = "";
+    modalTaskId: string = "";
 
     constructor(
         private alertService: AlertService,
@@ -52,8 +54,8 @@ export class TaskTableComponent implements OnInit {
     // Get the array of tasks when the component is initialized
     ngOnInit(): void {
         this.retrieveLatestAlert();
-        this.getOpenTasks();
-        //this.taskList = TASKS;
+        //this.getOpenTasks();
+        this.taskList = TASKS;
     }
 
     private retrieveLatestAlert(): void {
@@ -110,17 +112,20 @@ export class TaskTableComponent implements OnInit {
         });
     }
 
-    /* Determines which tasks to retireve
-    getTasks(): void{
-      if(this.display == 'Open'){
-        this.getOpenTasks();
-      }
-      else if(this.display == 'All'){
-        this.getAllTasks();
-      }
-      else{
-        //this.getCompletedTasks();
-      }
+    setTaskInfoToDelete(taskId: string, description: string, employee: string): void {
+        this.modalTaskId = taskId;
+        this.modalDescription = description;
+        this.modalEmployee = employee;
     }
-    */
+
+    deleteTask(taskId: number): void {
+        this.taskService.deleteTask(taskId.toString()).subscribe(ret => {
+            // if ret.status == 20x >>> deleted
+            // elif ret.status == 50x >>> error
+            this.alertService.setSuccessAlert("Success!", "Task deleted successfully!");
+            this.retrieveLatestAlert();
+            this.getAllTasks();
+        });
+    }
+
 }

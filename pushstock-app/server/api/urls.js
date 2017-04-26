@@ -68,6 +68,8 @@ api_router.get('/completedTasks', views.getCompletedTasksView);
 api_router.post('/addTask', views.addTaskView);
 // Delete all open Tasks (for testing)
 api_router.delete('/tasks', views.deleteAllTasksView);
+// Delete a specified task
+api_router.delete('/tasks/:taskId', views.deleteTaskView);
 // Update a task
 api_router.put('/reassigntask', views.reassignTaskView);
 

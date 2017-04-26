@@ -93,7 +93,7 @@ export class ButtonTableComponent implements OnInit {
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
         // delete button through service
-			this.buttonService.deleteButton(macAddr).subscribe( ret => {
+        this.buttonService.deleteButton(macAddr).subscribe( ret => {
 			let alert = new Alert();
 			// Executes if Delete was successful
 			if(ret){

@@ -66,4 +66,10 @@ export class TaskService {
         return this.http.put(`${this.api}/tasks/${_id}`, { })
         .map(res => res.json());
     }
+
+    deleteTask(taskId: string) {
+        return this.http.delete(`${this.api}/tasks/${taskId}`)
+        .map(res => res.json());
+    }
+
 }

@@ -496,6 +496,17 @@ module.exports = {
         });
     },
 
+    // Delete a single task
+    deleteTaskView: function(req, res){
+        Task.remove({ _id: req.params.taskId }, function(err, button) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json({ message: 'Task deleted successfully.' });
+            }
+        });
+    },
+
     // Update a task
     reassignTaskView: function(req, res) {
         // find task
