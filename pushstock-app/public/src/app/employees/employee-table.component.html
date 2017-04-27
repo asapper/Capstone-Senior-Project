@@ -57,7 +57,7 @@
                     <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" (click)="deleteEmployee(employee.email)" class="btn btn-default">
+                    <button type="button" (click)="deleteEmployee(employee._id)" class="btn btn-default">
                       <span class="glyphicon glyphicon-trash"></span>
                     </button>
                   </td>

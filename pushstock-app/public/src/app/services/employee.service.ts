@@ -8,6 +8,7 @@
  * ======		========	===========
  * Rapp			03/29/17	File created
  * Saul			04/18/17	UpdateEmployee service added
+ * Saul			04/27/17  Delete asks associated with an employee
  */
 
 import { Injectable } from '@angular/core';
@@ -53,4 +54,18 @@ export class EmployeeService {
 			return this.http.put(`${this.api}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role })
 			.map(res => res.json());
 	}
+
+	// Returns true if a employee has oopen tasks
+	hasTasks(_id){
+		return this.http.get(`${this.api}/hasTask/${_id}`)
+			.map( res => res.json());
+	}
+
+	// Deletes tasks assigned employee with id _id
+	deleteCompletedTasks(_id){
+		return this.http.delete(`${this.api}/deleteCompletedTasks/${_id}`)
+			.map( res => res.json());
+	}
+
+
 }

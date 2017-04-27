@@ -70,29 +70,75 @@ export class EmployeeTableComponent {
             });
     }
 
-
     // Function used to delete a button
-    deleteEmployee(email: String) {
-        this.employeeService.deleteEmployee(email).subscribe(ret => {
-  			let alert = new Alert();
-  			// Executes if Delete was successful
-  			if(ret){
-  				alert.title = "Success: "
-  				alert.message = "Employee has been deleted.";
-  				alert.type = "alert-info";
-  			}
-  			// Executes if an error was encountered during deletion
-  			else{
-  				alert.title = "Failed: ";
-  				alert.message = "An error occured";
-  				alert.type = "alert-danger";
-  			}
-  			// update alerts in list of buttons in this view
-        this.alertService.setAlert(alert);
-  			this.retrieveLatestAlert();
-  			this.getAllEmployees();
-  		});
+    deleteEmployee(_id) {
+      // Promise used to get back Has task
+      this.employeeService.hasTasks(_id).subscribe(ret => {
+        if(ret.message == 'true'){
+          console.log("employee has open tasks");
+          let alert = new Alert();
+          alert.title = "Failed: ";
+          alert.message = "Cannot delete an employee with open tasks";
+          alert.type = "alert-danger";
+          this.alertService.setAlert(alert);
+          this.retrieveLatestAlert();
+          //this.getAllEmployees();
+        }
+        else if(ret.message == 'false'){
+
+
+          console.log("No tasks: Delete employee");
+          this.employeeService.deleteCompletedTasks(_id).subscribe();
+          this.employeeService.deleteEmployee(_id).subscribe(ret => {
+      			let alert = new Alert();
+      			// Executes if Delete was successful
+      			if(ret){
+      				alert.title = "Success: "
+      				alert.message = "Employee has been deleted.";
+      				alert.type = "alert-info";
+      			}
+      			// Executes if an error was encountered during deletion
+      			else{
+      				alert.title = "Failed: ";
+      				alert.message = "An error occured";
+      				alert.type = "alert-danger";
+      			}
+      			// update alerts in list of buttons in this view
+            this.alertService.setAlert(alert);
+      			this.retrieveLatestAlert();
+      			this.getAllEmployees();
+    		  });
+        }
+        else{
+          console.log("Error");
+        }
+      });
     }
+
+    /* Returns true if an employee has associated tasks
+    hasTasks(email: String): boolean{
+      var result: boolean;
+      var promise = new Promise(function(resolve, reject) {
+        this.employeeService.hasTasks(email).subscribe(res => {
+          if(res.message == 'true'){
+            resolve(true);
+            result = true;
+          }
+          else if(res.message == 'false'){
+            resolve(false);
+            result = false;
+          }
+          else{
+            reject(Error("failed"))
+          }
+        });
+      });
+
+      promise.then(function(val){
+      })
+
+      return result;
+    }*/
 
     // Deletes all employees in DB (For testing)
     deleteAllEmployees() {
@@ -106,4 +152,6 @@ export class EmployeeTableComponent {
         this.alertType = alert.type;
         this.alertMessage = alert.message;
     }
+
+
 }

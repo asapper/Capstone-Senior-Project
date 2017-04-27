@@ -597,8 +597,8 @@ module.exports = {
     // Delete a specified Employee
     deleteEmployeeView: function(req, res){
       Employee.remove({
-        email: req.params.email
-      }, function(err, email) {
+        _id: req.params._id
+      }, function(err, _id) {
             if (err) {
                 res.send(err);
             } else {
@@ -638,6 +638,39 @@ module.exports = {
               res.json(employee);
           }
       });
-  }
+  },
+
+  // If the employee has an assoiciated task return true else false
+  hasTaskView: function(req, res) {
+
+    Task.find({ employee: req.params._id, isOpen: true }, function(err, tasks) {
+        if (err) {
+            res.send(err);
+        }
+        else if(tasks.length == 0){
+          console.log(tasks);
+          console.log(tasks.length);
+            res.json({ message: 'false' });
+        }
+        else{
+            console.log(tasks);
+            console.log(tasks.length);
+            res.json({ message: 'true' });
+        }
+    });
+  },
+
+  // Delete a specified Employee
+  deleteCompletedTasksView: function(req, res){
+    Task.remove({
+      employee: req.params._id
+    }, function(err, _id) {
+          if (err) {
+              res.send(err);
+          } else {
+              res.json({ message: 'Successfully deleted' });
+          }
+      });
+  },
 
 };
