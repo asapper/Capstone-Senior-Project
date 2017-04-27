@@ -57,25 +57,10 @@ export class TaskFormComponent implements OnInit {
     // Add a new task to the database
     addTask(employee_email: string, button_mac_addr: string): void {
         // add task through task service
-        this.taskService.addTask(employee_email, button_mac_addr).subscribe( ret => {
-            let alert = new Alert();
-            if (ret.message == "New task created!") {
-                //console.log("successful add");
-                alert.title = "Success: ";
-                alert.message = "New task has been created";
-                alert.type = "alert-success";
-            }
-            else{
-                //console.log(this.message);
-                alert.title = "Failed: ";
-                alert.message = ret.message;
-                alert.type = "alert-danger";
-
-            }
-            this.alertService.setAlert(alert);
+        this.taskService.addTask(employee_email, button_mac_addr).subscribe(res => {
+            this.alertService.handleApiResponse(res);
             this.goBack(); // Route back to buttons table
-          }
-        );
+        });
     }
 
     goBack(): void {

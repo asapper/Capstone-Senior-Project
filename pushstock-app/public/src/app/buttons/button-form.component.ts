@@ -41,25 +41,12 @@ export class ButtonFormComponent {
     // Class used to group data added to mongoDb
     newButton: Button = new Button();
 
-  // Add a new button to the database
+    // Add a new button to the database
 	addButton(macAddr: String, description: String): void {
-    // Call API to add button to database
-    this.buttonService.addButton(macAddr, description).subscribe( err => {
-      let alert = new Alert();
-      if (err) {
-          //console.log(this.message);
-          alert.title = "Failed: ";
-          alert.message = err.message;
-          alert.type = "alert-danger";
-
-      } else {
-          //console.log("successful add");
-          alert.title = "Success: ";
-          alert.message = "New button with MAC address " + this.newButton.macAddr + " has been created.";
-          alert.type = "alert-success";
-      }
-      this.alertService.setAlert(alert);
-      this.location.back(); // Route back to buttons table
-    });
-  }
+        // Call API to add button to database
+        this.buttonService.addButton(macAddr, description).subscribe(res => {
+            this.alertService.handleApiResponse(res);
+            this.location.back(); // Route back to buttons table
+        });
+    }
 }

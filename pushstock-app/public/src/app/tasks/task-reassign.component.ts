@@ -67,18 +67,8 @@ export class TaskReassignComponent implements OnInit {
     }
 
     reassignTask(employee_email: string): void {
-        this.taskService.reassignTask(this.task.id, employee_email).subscribe(err => {
-            let alert = new Alert();
-            if (err) {
-                alert.title = 'Error: ';
-                alert.message = err.message;
-                alert.type = 'alert-danger';
-            } else {
-                alert.title = 'Success: ';
-                alert.message = "task has been reassigned!";
-                alert.type = 'alert-success';
-            }
-            this.alertService.setAlert(alert);
+        this.taskService.reassignTask(this.task.id, employee_email).subscribe(res => {
+            this.alertService.handleApiResponse(res);
             this.location.back(); // route back to tasks table
         });
     }

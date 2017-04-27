@@ -67,22 +67,8 @@ export class TaskTableComponent implements OnInit {
 
     // Mark task completed
     markTaskComplete(_id): void{
-      this.taskService.markTaskComplete(_id).subscribe( ret => {
-        let alert = new Alert();
-  			// Executes if Delete was successful
-  			if(ret.message == "Task marked complete"){
-  				alert.title = "Success: "
-  				alert.message = "Task marked completed";
-  				alert.type = "alert-success";
-  			}
-  			// Executes if an error was encountered during deletion
-  			else{
-  				alert.title = "Failed: ";
-  				alert.message = ret.message;
-  				alert.type = "alert-danger";
-  			}
-  			// update alerts in list of buttons in this view
-        this.alertService.setAlert(alert);
+        this.taskService.markTaskComplete(_id).subscribe(res => {
+            this.alertService.handleApiResponse(res);
   			this.retrieveLatestAlert();
   			this.getAllTasks();
   		});
@@ -119,10 +105,8 @@ export class TaskTableComponent implements OnInit {
     }
 
     deleteTask(taskId: number): void {
-        this.taskService.deleteTask(taskId.toString()).subscribe(ret => {
-            // if ret.status == 20x >>> deleted
-            // elif ret.status == 50x >>> error
-            this.alertService.setSuccessAlert("Success!", "Task deleted successfully!");
+        this.taskService.deleteTask(taskId.toString()).subscribe(res => {
+            this.alertService.handleApiResponse(res);
             this.retrieveLatestAlert();
             this.getAllTasks();
         });

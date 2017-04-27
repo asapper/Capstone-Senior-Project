@@ -52,24 +52,9 @@ export class ButtonAssignComponent implements OnInit {
 
     assignButton(macAddr: String, description: String): void {
         // assign button through service
-        this.buttonService.assignButton(macAddr, description).subscribe(err => {
-          // Create alert
-          let alert = new Alert();
-          // Error has occured
-          if (err) {
-              alert.title = "Failed: ";
-      				alert.message = "Button with MAC address " + macAddr + " has not been assigned";
-      				alert.type = "alert-danger";
-          }
-          // Unassign successful
-          else {
-            alert.title = "Success: "
-            alert.message = "Button with MAC address " + macAddr + " has been assigned.";
-            alert.type = "alert-success";
-          }
-          // Send alert
-          this.alertService.setAlert(alert);
-          this.goBack();
+        this.buttonService.assignButton(macAddr, description).subscribe(res => {
+            this.alertService.handleApiResponse(res);
+            this.goBack();
         });
     }
 }

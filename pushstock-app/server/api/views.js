@@ -47,7 +47,7 @@ module.exports = {
         // Checks whether the button exists and creates it if it doesn't
         Button.findOne({ macAddr: reqMacAddr }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else if (!button) {
                 // No button found, so create a new one
                 button = new Button({
@@ -58,7 +58,7 @@ module.exports = {
                 // Save the new button and check for errors
                 button.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.json({ error: err.message });
                     } else {
                         res.status(CREATED_STATUS).send({ message: 'New button created!' });
                     }
@@ -67,7 +67,9 @@ module.exports = {
                 // button used, update field
                 button.dateLastUsed = Date.now();
                 button.save(function(err) {
-                    if (err) res.send(err);
+                    if (err) {
+                        res.json({ error: err.message });
+                    }
                 });
                 // Button already exists, if inactive mark as active
                 if (!button.isActive && button.description != "" && !button.dateLastConfigured) {
@@ -75,7 +77,7 @@ module.exports = {
                     button.dateLastConfigured = Date.now();
                     button.save(function(err) {
                         if (err) {
-                            res.send(err);
+                            res.json({ error: err.message });
                         } else {
                             res.json({ message: 'Button has been activated!' });
                         }
@@ -84,7 +86,7 @@ module.exports = {
                     // if button has open task don't create another task
                     Task.findOne({ button: button._id, isOpen: true }, function(err, task) {
                         if (err) {
-                            res.send(err);
+                            res.json({ error: err.message });
                         } else if (!task) { // create task
                             // Order in criteria for assigning task:
                             // 1. Find one(s) who have never been assigned a task
@@ -94,13 +96,13 @@ module.exports = {
                             // assign task to appropriate employee
                             Task.distinct("employee", function(err, tasks) {
                                 if (err) {
-                                    res.send(err);
+                                    res.json({ error: err.message });
                                 } else if (tasks.length > 0) {
                                     // get all non-admin employees not in task set
                                     Employee.find({ role: { $ne: "Admin"}, _id: { $nin: tasks } },
                                             null, { sort: { createdAt: 1 }}, function(err1, employees) {
                                         if (err1) {
-                                            res.send(err1);
+                                            res.json({ error: err1.message });
                                         } else if (employees.length > 0) { // employees never assigned a task
                                             // Criteria #1
                                             // assign task to first employee (already sorted per latest update date)
@@ -109,7 +111,7 @@ module.exports = {
                                             newTask.employee = employees[0]._id;
                                             newTask.save(function(err2) {
                                                 if (err2) {
-                                                    res.send(err2);
+                                                    res.json({ error: err2.message });
                                                 } else {
                                                     res.status(CREATED_STATUS).send({ message: "Task assigned to worker who has never been assigned a task." });
                                                 }
@@ -118,7 +120,7 @@ module.exports = {
                                             // get all closed tasks
                                             Task.find({ isOpen: false }, null, { sort: { dateClosed: -1 }}, function(err3, tasks2) {
                                                 if (err3) {
-                                                    res.send(err3);
+                                                    res.json({ error: err3.message });
                                                 } else if (tasks2.length > 0) { // some closed tasks
                                                     // Criteria #2
                                                     // assign task to first employee (already sorted)
@@ -127,7 +129,7 @@ module.exports = {
                                                     newTask.employee = tasks2[0].employee;
                                                     newTask.save(function(err5) {
                                                         if (err5) {
-                                                            res.send(err5);
+                                                            res.json({ error: err5.message });
                                                         } else {
                                                             res.status(CREATED_STATUS).send({ message: "(Some tasks closed) Task assigned to worker who finished a task the longest ago." });
                                                         }
@@ -152,7 +154,7 @@ module.exports = {
                                                         }
                                                     ], function(err9, employeesOpen) {
                                                         if (err9) {
-                                                            res.send(err9);
+                                                            res.json({ error: err9.message });
                                                         } else {
                                                             // Criteria #2 - assign task to first employee (already sorted)
                                                             var newTask = new Task();
@@ -160,7 +162,7 @@ module.exports = {
                                                             newTask.employee = employeesOpen[0]._id;;
                                                             newTask.save(function(err10) {
                                                                 if (err10) {
-                                                                    res.send(err10);
+                                                                    res.json({ error: err10.message });
                                                                 } else {
                                                                     res.status(CREATED_STATUS).send({ message: "(All workers have open tasks) Task assigned to worker with least tasks or task assigned the longest ago." });
                                                                 }
@@ -175,7 +177,7 @@ module.exports = {
                                     // criteria #1
                                     Employee.find({ role: { $ne: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err11, employees5) {
                                         if (err11) {
-                                            res.send(err11);
+                                            res.json({ error: err1.message });
                                         } else if (employees5.length > 0) {
                                             // assign task to first employee
                                             var newtask = new Task();
@@ -183,7 +185,7 @@ module.exports = {
                                             newtask.employee = employees5[0]._id;
                                             newtask.save(function(err12) {
                                                 if (err12) {
-                                                    res.send(err12);
+                                                    res.json({ error: err12.message });
                                                 } else {
                                                     res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to worker who has never been assigned a task." });
                                                 }
@@ -193,7 +195,7 @@ module.exports = {
                                             // assign task to admin
                                             Employee.find({ role: { $eq: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err13, employees6) {
                                                 if (err13) {
-                                                    res.send(err13);
+                                                    res.json({ error: err13.message });
                                                 } else if (employees6.length > 0) { // there should always be at least one admin
                                                     // Criteria #3
                                                     // assign task to first employee (already sorted)
@@ -202,7 +204,7 @@ module.exports = {
                                                     newTask.employee = employees6[0]._id;
                                                     newTask.save(function(err14) {
                                                         if (err14) {
-                                                            res.send(err14);
+                                                            res.json({ error: err14.message });
                                                         } else {
                                                             res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to admin." });
                                                         }
@@ -231,7 +233,7 @@ module.exports = {
         // Find all buttons
         Button.find(function(err, buttons) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
                 //console.log(err);
             } else {
                 res.json(buttons);
@@ -246,7 +248,7 @@ module.exports = {
         Task.distinct("button", { isOpen: true }, function(err, openTasksButtons) {
             Button.find({ isActive: true, _id: { $nin: openTasksButtons } }, function(err, buttons) {
                 if (err) {
-                    res.send(err);
+                    res.json({ error: err.message });
                 } else {
                     res.json(buttons);
                 }
@@ -258,7 +260,7 @@ module.exports = {
     getAssignedButtonsView: function(req, res) {
         Button.find({ isActive: true }, 'macAddr', function(err, buttons) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(buttons);
             }
@@ -270,7 +272,7 @@ module.exports = {
         // Find buttons that are: inactive and have not been configured. Only retrieve mac addresses
         Button.find({ isActive: false, dateLastConfigured: null, dateLastUsed: { $ne: null } }, 'macAddr', function(err, buttons) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(buttons);
             }
@@ -281,7 +283,7 @@ module.exports = {
     getSingleButtonView: function(req, res) {
         Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(button);
             }
@@ -293,7 +295,7 @@ module.exports = {
         // Retrieve button
         Button.findOne({ macAddr: req.body.macAddr }, function (err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 // Update description
                 button.description = req.body.description;
@@ -303,7 +305,7 @@ module.exports = {
                 button.isActive = true;
                 button.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.json({ error: err.message });
                     } else {
                         res.json({ message: 'Button has been assigned!' });
                     }
@@ -317,7 +319,7 @@ module.exports = {
         // Retrieve button
         Button.findOne({ macAddr: req.body.macAddr }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 // Update description
                 button.description = "";
@@ -327,7 +329,7 @@ module.exports = {
                 button.isActive = false;
                 button.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.json({ error: err.message });
                     } else {
                         res.json({ message: 'Button has been unassigned.' });
                     }
@@ -340,12 +342,12 @@ module.exports = {
     updateSingleButtonView: function(req, res) {
         Button.findOne({ macAddr: req.params.macAddr }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 button.description = req.body.description;
                 button.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.json({ error: err.message });
                     } else {
                         res.json({ message: 'Button updated successfully' });
                     }
@@ -354,6 +356,7 @@ module.exports = {
         });
     },
 
+    // Handle creating a new button with the given fields
     addButtonView: function(req, res) {
         // create new Button
         var newBtn = new Button();
@@ -362,7 +365,7 @@ module.exports = {
         // save the Button and check for errors
         newBtn.save(function(err) {
             if (err) {
-                res.json( { message: err.message });
+                res.json({ error: err.message });
             } else {
                 res.status(CREATED_STATUS).send({ message: 'New button created!' });
             }
@@ -374,7 +377,7 @@ module.exports = {
             macAddr: req.params.macAddr
         }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json({ message: 'Successfully deleted' });
             }
@@ -389,7 +392,7 @@ module.exports = {
             .populate('employee')
             .exec(function(err, tasks) {
                 if (err) {
-                    res.send(err);
+                    res.json({ error: err.message });
                 } else {
                     res.json(tasks);
                 }
@@ -403,7 +406,7 @@ module.exports = {
             .populate('employee')
             .exec(function(err, task) {
                 if (err) {
-                    res.send(err);
+                    res.json({ error: err.message });
                 } else {
                     res.json(task);
                 }
@@ -418,7 +421,7 @@ module.exports = {
         .populate('employee')
         .exec(function(err, tasks) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(tasks);
             }
@@ -433,7 +436,7 @@ module.exports = {
         .populate('employee')
         .exec(function(err, tasks) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(tasks);
             }
@@ -457,7 +460,7 @@ module.exports = {
         // retrieve button with given mac address
         Button.findOne({ macAddr: req.body.button_mac_addr }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else { // button exists
                 if (button.isActive !== true) {
                     res.status(BAD_REQUEST_STATUS).send({ error: 'Button not active.' });
@@ -465,7 +468,7 @@ module.exports = {
                     // retrieve employee with given email address
                     Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
                         if (err) {
-                            res.send(err);
+                            res.json({ error: err.message });
                         } else { // employee exists
                             // create task
                             var newTask = new Task();
@@ -473,7 +476,7 @@ module.exports = {
                             newTask.employee = employee._id;
                             newTask.save(function(err) {
                                 if (err) {
-                                    res.json({ message: err.message });
+                                    res.json({ error: err.message });
                                 } else {
                                     res.status(CREATED_STATUS).json({ message: 'New task created!' });
                                 }
@@ -489,7 +492,7 @@ module.exports = {
     deleteAllTasksView: function(req, res) {
         Task.remove(function(err) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json({ message: 'All tasks removed.'});
             }
@@ -500,7 +503,7 @@ module.exports = {
     deleteTaskView: function(req, res){
         Task.remove({ _id: req.params.taskId }, function(err, button) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json({ message: 'Task deleted successfully.' });
             }
@@ -512,18 +515,18 @@ module.exports = {
         // find task
         Task.findOne({ _id: req.body.task_id }, function(err, task) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 // find employee
                 Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
                     if (err) {
-                        res.send(err);
+                        res.json({ error: err.message });
                     } else {
                         // update employee in task
                         task.employee = employee._id;
                         task.save(function(err) {
                             if (err) {
-                                res.send(err);
+                                res.json({ error: err.message });
                             } else {
                                 res.json({ message: 'Task reassigned successfully!' });
                             }
@@ -545,7 +548,7 @@ module.exports = {
           task.dateClosed = new Date();
           task.save(function(err) {
               if (err) {
-                  res.json({ message: "Error occured.. task found but not set to complete"});
+                  res.json({ error: "Task found but not set to complete"});
               } else {
                   res.json({ message: "Task marked complete"});
               }
@@ -559,7 +562,7 @@ module.exports = {
         // Find all employees
         Employee.find(function(err, employees) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json(employees);
             }
@@ -586,7 +589,7 @@ module.exports = {
         // save the Button and check for errors
         newEmployee.save(function(err) {
             if (err) {
-                res.json({ message: err.message });
+                res.json({ error: err.message });
             } else {
                 res.json({ message: "New employee created!" });
             }
@@ -597,9 +600,8 @@ module.exports = {
     deleteAllEmployeesView: function(req, res) {
         Employee.remove(function(err) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
 			} else {
-                //res.send('DELETE request to homepage');
 				res.json({ message: 'All employees removed.'});
 			}
 		});
@@ -611,7 +613,7 @@ module.exports = {
         email: req.params.email
       }, function(err, email) {
             if (err) {
-                res.send(err);
+                res.json({ error: err.message });
             } else {
                 res.json({ message: 'Successfully deleted' });
             }
@@ -622,7 +624,7 @@ module.exports = {
   updateSingleEmployeeView: function(req, res){
     employee = Employee.findOne({ email: req.body.oEmail }, function(err, employee) {
         if (err) {
-            res.send(err);
+            res.json({ error: err.message });
         } else {
             employee.email = req.body.email;
             employee.profile.firstName = req.body.firstName;
@@ -630,7 +632,7 @@ module.exports = {
             employee.role = req.body.role;
             employee.save(function(err) {
                 if (err) {
-                    res.json({message: err.message});
+                    res.json({ error: err.message });
                 } else {
                     res.json({ message: 'employee updated!' });
                 }
@@ -644,7 +646,7 @@ module.exports = {
 
       Employee.findOne({ email: req.params.email }, function(err, employee) {
           if (err) {
-              res.send(err);
+              res.json({ error: err.message });
           } else {
               res.json(employee);
           }

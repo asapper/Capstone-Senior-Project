@@ -25,14 +25,6 @@ import { AlertService } from '../services/alert.service';
 
 @Component ({
     selector: 'employee-table',
-    styles: [`
-        form {
-          padding: 10px;
-          background: #ECF0F1;
-          border-radius: 3px;
-          margin-bottom: 30px;
-        }
-    `],
 	templateUrl: './employee-table.component.html',
     providers: [EmployeeService]
 })
@@ -65,38 +57,19 @@ export class EmployeeTableComponent {
     // Function that returns all employees from the API
     getAllEmployees() {
         this.employeeService.getAllEmployees()
-            .subscribe(employees => {
-                this.employeeList = employees;
-            });
+        .subscribe(employees => {
+            this.employeeList = employees;
+        });
     }
 
 
     // Function used to delete a button
     deleteEmployee(email: String) {
-        this.employeeService.deleteEmployee(email).subscribe(ret => {
-  			let alert = new Alert();
-  			// Executes if Delete was successful
-  			if(ret){
-  				alert.title = "Success: "
-  				alert.message = "Employee has been deleted.";
-  				alert.type = "alert-info";
-  			}
-  			// Executes if an error was encountered during deletion
-  			else{
-  				alert.title = "Failed: ";
-  				alert.message = "An error occured";
-  				alert.type = "alert-danger";
-  			}
-  			// update alerts in list of buttons in this view
-        this.alertService.setAlert(alert);
+        this.employeeService.deleteEmployee(email).subscribe(res => {
+            this.alertService.handleApiResponse(res);
   			this.retrieveLatestAlert();
   			this.getAllEmployees();
   		});
-    }
-
-    // Deletes all employees in DB (For testing)
-    deleteAllEmployees() {
-        this.employeeService.deleteAllEmployees();
     }
 
     // Get the lates alert from the alertService

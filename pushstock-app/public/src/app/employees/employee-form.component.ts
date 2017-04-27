@@ -22,16 +22,11 @@ import { Location } from '@angular/common';
 @Component ({
     selector: 'employee-form',
     templateUrl: './employee-form.component.html',
-    providers: [
-        EmployeeService
-    ]
+    providers: [EmployeeService]
 })
 
 export class EmployeeFormComponent {
-    // For output
-    //@Output() employeeCreated = new EventEmitter();
-
-    roles: String[] = [ "Admin", "Manager", "Worker" ];
+    roles: String[] = [ "Admin", "Worker" ];
 
     constructor(
       private employeeService: EmployeeService,
@@ -42,30 +37,12 @@ export class EmployeeFormComponent {
     // Class used to group data added to mongoDb
     newEmployee: Employee = new Employee();
 
-    // Used to clear form
-    active: boolean = true;
-
     addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
         // Add Employee using services
         this.employeeService.addEmployee(email, password, firstName, lastName, role)
-            .subscribe(employees => {
-              let alert = new Alert();
-
-              if(employees.message == "New employee created!"){
-                //console.log("successful add");
-                alert.title = "Success: ";
-                alert.message = "New Employee added: " + firstName + " " + lastName;
-                alert.type = "alert-success";
-              }
-              else{
-                //console.log(this.message);
-                alert.title = "Failed: ";
-                alert.message = employees.message;
-                alert.type = "alert-danger";
-              }
-              // update alert and route back to table
-              this.alertService.setAlert(alert);
-              this.location.back(); // Route back to buttons table
-            });
+        .subscribe(res => {
+            this.alertService.handleApiResponse(res);
+            this.location.back(); // Route back to buttons table
+        });
     }
 }

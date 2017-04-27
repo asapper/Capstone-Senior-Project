@@ -57,25 +57,10 @@ export class ButtonDetailComponent implements OnInit {
             macAddr = params['macAddr'];
         });
         // update button through service
-		  this.buttonService.updateButton(macAddr, description).subscribe( err => {
-        // Create new alert
-        let alert = new Alert();
-        // Button update failed
-        if(err){
-          alert.title = "Failed: ";
-          alert.message = "Button Edit failed";
-          alert.type = "alert-danger";
-        }
-        // Button update was successful
-        else{
-          alert.title = "Success!";
-          alert.message = "Button with MAC address " + macAddr + " has been updated.";
-          alert.type = "alert-success";
-        }
-        // Set the alert
-        this.alertService.setAlert(alert);
-        this.goBack();
-      });
+	    this.buttonService.updateButton(macAddr, description).subscribe(res => {
+            this.alertService.handleApiResponse(res);
+            this.goBack();
+        });
     }
 
     // Route back to buttons table

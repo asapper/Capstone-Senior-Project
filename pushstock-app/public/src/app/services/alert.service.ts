@@ -25,17 +25,32 @@ export class AlertService {
 
     // get latest button alert
     getLatestAlert() {
-        // store alert
-        let alert = this.alert;
-        // clear alert
-        this.alert = new Alert();
+        let alert = this.alert; // store alert
+        this.alert = new Alert(); // clear alert
         return alert;
     }
 
-    setSuccessAlert(title: string, message: string) {
+    // set alert to success type, assign given fields
+    setSuccessAlert(message: string) {
         this.alert.type = 'alert-success';
-        this.alert.title = title;
+        this.alert.title = 'Success!';
         this.alert.message = message;
+    }
+
+    // set alert to error type, assign given fields
+    setErrorAlert(message: string) {
+        this.alert.type = 'alert-danger';
+        this.alert.title = 'Error:';
+        this.alert.message = message;
+    }
+
+    // handle response, determine type of alert
+    handleApiResponse(res: any) {
+        if (res.message) {
+            this.setSuccessAlert(res.message);
+        } else if (res.error) {
+            this.setErrorAlert(res.error);
+        }
     }
 
 }
