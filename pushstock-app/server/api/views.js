@@ -24,6 +24,7 @@
 const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
+const controller = require('./controller');
 
 const CREATED_STATUS = '201';
 const BAD_REQUEST_STATUS = '400';
@@ -100,36 +101,32 @@ module.exports = {
                                 } else if (tasks.length > 0) {
                                     // get all non-admin employees not in task set
                                     Employee.find({ role: { $ne: "Admin"}, _id: { $nin: tasks } },
-                                            null, { sort: { createdAt: 1 }}, function(err1, employees) {
-                                        if (err1) {
-                                            res.json({ error: err1.message });
+                                            null, { sort: { createdAt: 1 }}, function(err, employees) {
+                                        if (err) {
+                                            res.json({ error: err.message });
                                         } else if (employees.length > 0) { // employees never assigned a task
                                             // Criteria #1
                                             // assign task to first employee (already sorted per latest update date)
-                                            var newTask = new Task();
-                                            newTask.button = button._id;
-                                            newTask.employee = employees[0]._id;
-                                            newTask.save(function(err2) {
-                                                if (err2) {
-                                                    res.json({ error: err2.message });
+                                            var newTask = controller.createNewTask(button._id, employees[0]._id);
+                                            newTask.save(function(err) {
+                                                if (err) {
+                                                    res.json({ error: err.message });
                                                 } else {
                                                     res.status(CREATED_STATUS).send({ message: "Task assigned to worker who has never been assigned a task." });
                                                 }
                                             });
                                         } else { // all have been assigned a task
                                             // get all closed tasks
-                                            Task.find({ isOpen: false }, null, { sort: { dateClosed: -1 }}, function(err3, tasks2) {
-                                                if (err3) {
-                                                    res.json({ error: err3.message });
-                                                } else if (tasks2.length > 0) { // some closed tasks
+                                            Task.find({ isOpen: false }, null, { sort: { dateClosed: -1 }}, function(err, tasks) {
+                                                if (err) {
+                                                    res.json({ error: err.message });
+                                                } else if (tasks.length > 0) { // some closed tasks
                                                     // Criteria #2
                                                     // assign task to first employee (already sorted)
-                                                    var newTask = new Task();
-                                                    newTask.button = button._id;
-                                                    newTask.employee = tasks2[0].employee;
-                                                    newTask.save(function(err5) {
-                                                        if (err5) {
-                                                            res.json({ error: err5.message });
+                                                    var newTask = controller.createNewTask(button._id, tasks[0].employee);
+                                                    newTask.save(function(err) {
+                                                        if (err) {
+                                                            res.json({ error: err.message });
                                                         } else {
                                                             res.status(CREATED_STATUS).send({ message: "(Some tasks closed) Task assigned to worker who finished a task the longest ago." });
                                                         }
@@ -152,17 +149,15 @@ module.exports = {
                                                                 maxDate: 1
                                                             }
                                                         }
-                                                    ], function(err9, employeesOpen) {
-                                                        if (err9) {
-                                                            res.json({ error: err9.message });
+                                                    ], function(err, employeesOpen) {
+                                                        if (err) {
+                                                            res.json({ error: err.message });
                                                         } else {
                                                             // Criteria #2 - assign task to first employee (already sorted)
-                                                            var newTask = new Task();
-                                                            newTask.button = button._id;
-                                                            newTask.employee = employeesOpen[0]._id;;
-                                                            newTask.save(function(err10) {
-                                                                if (err10) {
-                                                                    res.json({ error: err10.message });
+                                                            var newTask = controller.createNewTask(button._id, employeesOpen[0]._id);
+                                                            newTask.save(function(err) {
+                                                                if (err) {
+                                                                    res.json({ error: err.message });
                                                                 } else {
                                                                     res.status(CREATED_STATUS).send({ message: "(All workers have open tasks) Task assigned to worker with least tasks or task assigned the longest ago." });
                                                                 }
@@ -175,17 +170,15 @@ module.exports = {
                                     });
                                 } else { // no tasks have ever been created
                                     // criteria #1
-                                    Employee.find({ role: { $ne: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err11, employees5) {
-                                        if (err11) {
-                                            res.json({ error: err1.message });
-                                        } else if (employees5.length > 0) {
+                                    Employee.find({ role: { $ne: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err, employees) {
+                                        if (err) {
+                                            res.json({ error: err.message });
+                                        } else if (employees.length > 0) {
                                             // assign task to first employee
-                                            var newtask = new Task();
-                                            newtask.button = button._id;
-                                            newtask.employee = employees5[0]._id;
-                                            newtask.save(function(err12) {
-                                                if (err12) {
-                                                    res.json({ error: err12.message });
+                                            var newTask = controller.createNewTask(button._id, employees[0]._id);
+                                            newTask.save(function(err) {
+                                                if (err) {
+                                                    res.json({ error: err.message });
                                                 } else {
                                                     res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to worker who has never been assigned a task." });
                                                 }
@@ -193,18 +186,16 @@ module.exports = {
                                         } else { // no non-admin employees
                                             // else, no worker available for task
                                             // assign task to admin
-                                            Employee.find({ role: { $eq: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err13, employees6) {
-                                                if (err13) {
-                                                    res.json({ error: err13.message });
-                                                } else if (employees6.length > 0) { // there should always be at least one admin
+                                            Employee.find({ role: { $eq: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err, employees) {
+                                                if (err) {
+                                                    res.json({ error: err.message });
+                                                } else if (employees.length > 0) { // there should always be at least one admin
                                                     // Criteria #3
                                                     // assign task to first employee (already sorted)
-                                                    var newTask = new Task();
-                                                    newTask.button = button._id;
-                                                    newTask.employee = employees6[0]._id;
-                                                    newTask.save(function(err14) {
-                                                        if (err14) {
-                                                            res.json({ error: err14.message });
+                                                    var newTask = controller.createNewTask(button._id, employees[0]._id);
+                                                    newTask.save(function(err) {
+                                                        if (err) {
+                                                            res.json({ error: err.message });
                                                         } else {
                                                             res.status(CREATED_STATUS).send({ message: "(No tasks ever) Task assigned to admin." });
                                                         }
@@ -234,10 +225,8 @@ module.exports = {
         Button.find(function(err, buttons) {
             if (err) {
                 res.json({ error: err.message });
-                //console.log(err);
             } else {
                 res.json(buttons);
-                //console.log(buttons);
             }
         });
     },
@@ -359,9 +348,7 @@ module.exports = {
     // Handle creating a new button with the given fields
     addButtonView: function(req, res) {
         // create new Button
-        var newBtn = new Button();
-        newBtn.macAddr = req.body.macAddr;
-        newBtn.description = req.body.description;
+        var newBtn = controller.createNewButton(req.body.macAddr, req.body.description);
         // save the Button and check for errors
         newBtn.save(function(err) {
             if (err) {
@@ -471,9 +458,7 @@ module.exports = {
                             res.json({ error: err.message });
                         } else { // employee exists
                             // create task
-                            var newTask = new Task();
-                            newTask.button = button._id;
-                            newTask.employee = employee._id;
+                            var newTask = controller.createNewTask(button._id, employee._id);
                             newTask.save(function(err) {
                                 if (err) {
                                     res.json({ error: err.message });
@@ -570,22 +555,13 @@ module.exports = {
     },
 
     addEmployeeView: function(req, res) {
-        // get the employee's information
-        firstName = req.body.firstName;
-        lastName = req.body.lastName;
-        email = req.body.email;
-        password = req.body.password;
-        role = req.body.role;
-
-        // validate employee information
-        // ...validation here
-
         // create employee
-        var newEmployee = new Employee();
-        newEmployee.email = email;
-        newEmployee.password = password;
-        newEmployee.profile = { firstName, lastName }
-        newEmployee.role = role;
+        var newEmployee = controller.createNewEmployee(
+                req.body.email,
+                req.body.password,
+                req.body.firstName,
+                req.body.lastName,
+                req.body.role);
         // save the Button and check for errors
         newEmployee.save(function(err) {
             if (err) {

@@ -30,7 +30,7 @@ import { EmployeeService } from '../services/employee.service';
 })
 export class EmployeeDetailComponent implements OnInit {
     employee: any;
-    originalEmail: any; // used so that original email can be referenced
+    oEmail: any; // used so that original email can be referenced
 
     roles: String[] = [ "Admin", "Worker" ];
 
@@ -47,7 +47,7 @@ export class EmployeeDetailComponent implements OnInit {
         let email = "";
         this.route.params.subscribe(params => {
             email = decodeURIComponent(params['email']);
-            this.originalEmail = email;
+            this.oEmail = email;
         });
         this.employeeService.getEmployee(email)
         .subscribe(employee => {
@@ -61,8 +61,8 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     // Update the information of an employee
-    updateEmployee(originalEmail: String, email: String, firstName: String, lastName: String, role: String): void {
-        this.employeeService.updateEmployee(originalEmail, email, firstName, lastName, role).subscribe(res => {
+    updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String): void {
+        this.employeeService.updateEmployee(oEmail, email, firstName, lastName, role).subscribe(res => {
             this.alertService.handleApiResponse(res);
             this.goBack();
         });

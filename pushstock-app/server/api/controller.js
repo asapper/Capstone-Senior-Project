@@ -16,56 +16,26 @@ const Employee = require('../app/models/employee');
 
 
 module.exports = {
-    // Handle Button creation
-    createButton: function(macAddr, description=null) {
-        // create new Button
-        var newBtn = new Button();
-        newBtn.macAddr = macAddr;
-        // check if description was given
-        if (description) {
-            newBtn.description = description;
-        }
-        // save the Button and check for errors
-        newBtn.save(function(err) {
-            if (err) {
-                return "error";
-                res.send(err);
-            } else {
-                res.send("New Button created");
-                return { message: 'New button created!' };
-            }
-        });
+    createNewTask: function(buttonId, employeeId) {
+        var newTask = new Task();
+        newTask.button = buttonId;
+        newTask.employee = employeeId;
+        return newTask;
     },
 
-    // Handle Task creation
-    createTask: function(button) {
-        var newTask = new Task({ button: button.id });
-        // save Task and check for errors
-        newTask.save(function(err) {
-            if (err) {
-                return err;
-            } else {
-                return { message: 'New task created!' };
-            }
-        });
+    createNewButton: function(macAddr, description) {
+        var newButton = new Button();
+        newButton.macAddr = macAddr;
+        newButton.description = description;
+        return newButton;
     },
 
-    // Handle Employee creation
-    createEmployee: function(firstName, lastName, email, password, role) {
-        // create new Button
+    createNewEmployee: function(email, pswd, firstName, lastName, role) {
         var newEmployee = new Employee();
         newEmployee.email = email;
-        newEmployee.password = password;
+        newEmployee.password = pswd;
         newEmployee.profile = { firstName, lastName }
         newEmployee.role = role;
-        // save the Button and check for errors
-        newEmployee.save(function(err) {
-            if (err) {
-                return err;
-            } else {
-                return { message: "New employee created!" };
-            }
-        });
-
+        return newEmployee;
     }
 };

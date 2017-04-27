@@ -54,8 +54,7 @@ export class TaskTableComponent implements OnInit {
     // Get the array of tasks when the component is initialized
     ngOnInit(): void {
         this.retrieveLatestAlert();
-        //this.getOpenTasks();
-        this.taskList = TASKS;
+        this.getOpenTasks();
     }
 
     private retrieveLatestAlert(): void {
