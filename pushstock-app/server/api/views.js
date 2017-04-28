@@ -296,7 +296,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button has been assigned!' });
+                        res.json({ message: 'Button ' + req.body.macAddr + ' has been assigned!' });
                     }
                 });
             }
@@ -320,7 +320,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button has been unassigned.' });
+                        res.json({ message: 'Button ' + req.body.macAddr + ' has been unassigned.' });
                     }
                 });
             }
@@ -338,7 +338,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button updated successfully' });
+                        res.json({ message: 'Button ' + req.params.macAddr + ' updated successfully!' });
                     }
                 });
             }
@@ -366,7 +366,7 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: 'Successfully deleted' });
+                res.json({ message: 'Button deleted with MAC address ' + req.params.macAddr});
             }
         });
     },
@@ -513,7 +513,7 @@ module.exports = {
                             if (err) {
                                 res.json({ error: err.message });
                             } else {
-                                res.json({ message: 'Task reassigned successfully!' });
+                                res.json({ message: 'Task reassigned to ' + req.body.employee_email + '!'});
                             }
                         });
                     }
@@ -567,7 +567,7 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: "New employee created!" });
+                res.json({ message: "New employee created: " + req.body.firstName + " " + req.body.lastName });
             }
         });
     },
@@ -591,7 +591,7 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: 'Successfully deleted' });
+                res.json({ message: 'Employee deleted: ' + req.params.email});
             }
         });
     },
@@ -610,7 +610,7 @@ module.exports = {
                 if (err) {
                     res.json({ error: err.message });
                 } else {
-                    res.json({ message: 'employee updated!' });
+                    res.json({ message: 'Employee updated!' });
                 }
             });
         }
