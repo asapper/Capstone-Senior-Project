@@ -586,12 +586,12 @@ module.exports = {
     // Delete a specified Employee
     deleteEmployeeView: function(req, res){
       Employee.remove({
-        email: req.params.email
-      }, function(err, email) {
+        _id: req.params._id
+      }, function(err, _id) {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: 'Employee deleted: ' + req.params.email});
+                res.json({ message: 'Employee deleted'});
             }
         });
     },

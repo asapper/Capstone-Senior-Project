@@ -54,6 +54,14 @@ export class EmployeeTableComponent {
         this.retrieveLatestAlert();
     }
 
+    // Get the lates alert from the alertService
+    private retrieveLatestAlert(): void {
+        let alert: Alert = this.alertService.getLatestAlert();
+        this.alertTitle = alert.title;
+        this.alertType = alert.type;
+        this.alertMessage = alert.message;
+    }
+
     // Function that returns all employees from the API
     getAllEmployees() {
         this.employeeService.getAllEmployees()
@@ -94,14 +102,6 @@ export class EmployeeTableComponent {
     // Deletes all employees in DB (For testing)
     deleteAllEmployees() {
         this.employeeService.deleteAllEmployees();
-    }
-
-    // Get the lates alert from the alertService
-    retrieveLatestAlert(): void {
-        let alert: Alert = this.alertService.getLatestAlert();
-        this.alertTitle = alert.title;
-        this.alertType = alert.type;
-        this.alertMessage = alert.message;
     }
 
 }
