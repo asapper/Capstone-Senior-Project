@@ -49,15 +49,26 @@
 
 <!-- Body of view -->
 <div>
-  <!-- Title -->
-  <h3>FLIC Buttons</h3>
+    <!-- Title -->
+    <h3>FLIC Buttons</h3>
+    <!-- Select which buttons to display -->
+    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons">
+        <label class="btn btn-default active" (click)="filterActive()">
+            <input type="radio" autocomplete="off" checked>Active
+        </label>
+        <label class="btn btn-default" (click)="filterInactive()">
+            <input type="radio" autocomplete="off">Inactive
+        </label>
+        <label class="btn btn-default" (click)="filterAll()">
+            <input type="radio" autocomplete="off">All
+        </label>
+    </div><br><br>
+
   <!-- Bootstrap Table -->
   <div class="panel panel-info">
     <div class="panel-heading">
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ allButtons?.length }} </span></div>
       <div class="panel-title pull-right">
-        <input type="checkbox" id="filterButtons" (click)="filterButtons()" [checked]="!showOnlyActiveButtons">
-        <label for="filterButtons" style="font-weight: normal">Show only active buttons</label>
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Actions <span class="caret"></span>
