@@ -285,7 +285,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button has been assigned!' });
+                        res.json({ message: 'Button ' + req.body.macAddr + ' has been assigned!' });
                     }
                 });
             }
@@ -309,7 +309,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button has been unassigned.' });
+                        res.json({ message: 'Button ' + req.body.macAddr + ' has been unassigned.' });
                     }
                 });
             }
@@ -327,7 +327,7 @@ module.exports = {
                     if (err) {
                         res.json({ error: err.message });
                     } else {
-                        res.json({ message: 'Button updated successfully' });
+                        res.json({ message: 'Button ' + req.params.macAddr + ' updated successfully!' });
                     }
                 });
             }
@@ -355,7 +355,7 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: 'Successfully deleted' });
+                res.json({ message: 'Button deleted with MAC address ' + req.params.macAddr});
             }
         });
     },
@@ -502,7 +502,7 @@ module.exports = {
                             if (err) {
                                 res.json({ error: err.message });
                             } else {
-                                res.json({ message: 'Task reassigned successfully!' });
+                                res.json({ message: 'Task reassigned to ' + req.body.employee_email + '!'});
                             }
                         });
                     }
@@ -556,7 +556,7 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: "New employee created!" });
+                res.json({ message: "New employee created: " + req.body.firstName + " " + req.body.lastName });
             }
         });
     },
@@ -575,12 +575,12 @@ module.exports = {
     // Delete a specified Employee
     deleteEmployeeView: function(req, res){
       Employee.remove({
-        email: req.params.email
-      }, function(err, email) {
+        _id: req.params._id
+      }, function(err, _id) {
             if (err) {
                 res.json({ error: err.message });
             } else {
-                res.json({ message: 'Successfully deleted' });
+                res.json({ message: 'Employee deleted'});
             }
         });
     },
@@ -599,7 +599,7 @@ module.exports = {
                 if (err) {
                     res.json({ error: err.message });
                 } else {
-                    res.json({ message: 'employee updated!' });
+                    res.json({ message: 'Employee updated!' });
                 }
             });
         }
@@ -614,6 +614,39 @@ module.exports = {
               res.json({ error: err.message });
           } else {
               res.json(employee);
+          }
+      });
+  },
+
+  // If the employee has an assoiciated task return true else false
+  hasTaskView: function(req, res) {
+
+    Task.find({ employee: req.params._id, isOpen: true }, function(err, tasks) {
+        if (err) {
+            res.send(err);
+        }
+        else if(tasks.length == 0){
+          console.log(tasks);
+          console.log(tasks.length);
+            res.json({ message: 'false' });
+        }
+        else{
+            console.log(tasks);
+            console.log(tasks.length);
+            res.json({ message: 'true' });
+        }
+    });
+  },
+
+  // Delete a specified Employee
+  deleteCompletedTasksView: function(req, res){
+    Task.remove({
+      employee: req.params._id
+    }, function(err, _id) {
+          if (err) {
+              res.send(err);
+          } else {
+              res.json({ message: 'Successfully deleted' });
           }
       });
   }

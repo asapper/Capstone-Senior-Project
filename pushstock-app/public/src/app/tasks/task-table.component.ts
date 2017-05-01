@@ -33,12 +33,17 @@ const TASKS = [
 })
 export class TaskTableComponent implements OnInit {
     taskList: any[];
+    filteredList: any[];
     alertType: string;
     alertTitle: string;
     alertMessage: string;
     modalDescription: string = "";
     modalEmployee: string = "";
     modalTaskId: string = "";
+
+    // booleans used for filtering
+    all: boolean = false;
+    open: boolean = true;
 
     constructor(
         private alertService: AlertService,
@@ -54,7 +59,7 @@ export class TaskTableComponent implements OnInit {
     // Get the array of tasks when the component is initialized
     ngOnInit(): void {
         this.retrieveLatestAlert();
-        this.getOpenTasks();
+        this.getAllTasks();
     }
 
     private retrieveLatestAlert(): void {
@@ -63,6 +68,41 @@ export class TaskTableComponent implements OnInit {
         this.alertType = alert.type;
         this.alertMessage = alert.message;
     }
+
+    // Filter task list based on selected tab {open, closed, all}
+    private filterTasks(): void{
+      this.filteredList = this.taskList;
+      if(!this.all){
+        if(this.open){
+          this.filteredList = this.taskList.filter(
+            task => task.isOpen === true);
+        }
+        else{
+            this.filteredList = this.taskList.filter(
+              task => task.isOpen === false);
+        }
+      }
+    }
+
+    // filter to Open buttons
+    private filterOpen(){
+      this.open = true;
+      this.all = false;
+      this.filterTasks();
+    }
+    // Filter to closed buttons
+    private filterClose(){
+      this.open = false;
+      this.all = false;
+      this.filterTasks();
+    }
+    // Filter to all buttons
+    private filterAll(){
+      this.all = true;
+      this.filterTasks();
+    }
+
+
 
     // Mark task completed
     markTaskComplete(_id): void{
@@ -78,6 +118,7 @@ export class TaskTableComponent implements OnInit {
         this.taskService.getAllTasks()
         .subscribe(tasks => {
             this.taskList = tasks;
+            this.filterTasks();
         });
     }
 

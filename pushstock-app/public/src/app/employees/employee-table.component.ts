@@ -54,6 +54,14 @@ export class EmployeeTableComponent {
         this.retrieveLatestAlert();
     }
 
+    // Get the lates alert from the alertService
+    private retrieveLatestAlert(): void {
+        let alert: Alert = this.alertService.getLatestAlert();
+        this.alertTitle = alert.title;
+        this.alertType = alert.type;
+        this.alertMessage = alert.message;
+    }
+
     // Function that returns all employees from the API
     getAllEmployees() {
         this.employeeService.getAllEmployees()
@@ -62,21 +70,38 @@ export class EmployeeTableComponent {
         });
     }
 
-
     // Function used to delete a button
-    deleteEmployee(email: String) {
-        this.employeeService.deleteEmployee(email).subscribe(res => {
-            this.alertService.handleApiResponse(res);
-  			this.retrieveLatestAlert();
-  			this.getAllEmployees();
-  		});
+    deleteEmployee(_id) {
+      // Promise used to get back Has task
+      this.employeeService.hasTasks(_id).subscribe(ret => {
+        if(ret.message == 'true'){
+          console.log("Employee has open tasks");
+          let alert = new Alert();
+          alert.title = "Failed: ";
+          alert.message = "Cannot delete an employee with open tasks";
+          alert.type = "alert-danger";
+          this.alertService.setAlert(alert);
+          this.retrieveLatestAlert();
+          //this.getAllEmployees();
+        }
+        else if(ret.message == 'false'){
+          console.log("No tasks: Delete employee");
+          this.employeeService.deleteCompletedTasks(_id).subscribe();
+          this.employeeService.deleteEmployee(_id).subscribe(ret => {
+      			this.alertService.handleApiResponse(ret);
+      			this.retrieveLatestAlert();
+      			this.getAllEmployees();
+    		  });
+        }
+        else{
+          console.log("Error");
+        }
+      });
     }
 
-    // Get the lates alert from the alertService
-    retrieveLatestAlert(): void {
-        let alert: Alert = this.alertService.getLatestAlert();
-        this.alertTitle = alert.title;
-        this.alertType = alert.type;
-        this.alertMessage = alert.message;
+    // Deletes all employees in DB (For testing)
+    deleteAllEmployees() {
+        this.employeeService.deleteAllEmployees();
     }
+
 }
