@@ -52,7 +52,7 @@ export class EmployeeService {
     }
 
     registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
-    	return this.authHttp.post(`${this.auth}/register`, { email, password, firstName, lastName, role })
+    	return this.http.post(`${this.auth}/register`, { email, password, firstName, lastName, role })
     		.map(res => res.json())
     		.catch(this.handleRegisterError);
     }

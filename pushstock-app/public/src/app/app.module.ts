@@ -47,7 +47,8 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
                                           tokenName: 'token',
-                                          tokenGetter: (() => localStorage.getItem('token'))
+                                          tokenGetter: (() => localStorage.getItem('token')),
+                                          headerPrefix: 'JWT'
                                       }), http, options);
 }
 
