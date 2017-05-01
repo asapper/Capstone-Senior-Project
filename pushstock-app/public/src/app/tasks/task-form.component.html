@@ -1,4 +1,4 @@
-<div *ngIf="buttons.length > 0 && employees.length > 0; else noNewTaskPanel">
+<div *ngIf="buttons.length > 0 && employees.length > 0">
     <h2>Create new Task</h2>
     <!-- List of active buttons -->
     <div>
@@ -26,7 +26,7 @@
     >Create Task</button>
 </div>
 
-<ng-template #noNewTaskPanel>
-<h3>No buttons and/or employees to create a task from :(</h3>
-<button class="btn btn-info" (click)="goBack()">Go Back</button>
-</ng-template>
+<div *ngIf="buttons.length < 1 || employees.length < 1">
+    <h3>No buttons and/or employees to create a task from :(</h3>
+    <button class="btn btn-info" (click)="goBack()">Go Back</button>
+</div>
