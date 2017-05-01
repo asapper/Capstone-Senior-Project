@@ -418,14 +418,13 @@ describe('Tasks', function() {
         it('should assign task to worker with no open tasks');
 
         // replicatin bug found: if worker completed task, he would be assigned all subsequent tasks created
-        it('should assign task to worker with least tasks, even when there are closed tasks', function(done) {
+        it('should assign task to worker with least tasks, even when there are closed tasks');
             // have two employees
             // create a task for each
             // complete one task (empA = 0 open tasks, empB = 1 open task)
             // create a task (should be assigned to empA)
             // create a task (should be assigned to empB)
             // create a task (should be assigned to empA)
-        });
     });
 
     // Test the PUT /tasks/:id route for completing tasks
