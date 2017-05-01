@@ -20,7 +20,12 @@ const api_router = express.Router();
 
 const Button = require('../app/models/button');
 const views = require('./views');
+const AuthenticationController = require('../controllers/authentication');
+const passportService = require('../config/passport');
+const passport = require('passport');
 
+// Middleware to require login/auth
+const requireAuth = passport.authenticate('jwt', { session: false });
 
 // Route always called (verifications done here)
 api_router.use(views.apiAuthProcedure);
@@ -32,40 +37,40 @@ api_router.get('/', views.indexView);
 api_router.post('/singleClick', views.singleClickView);
 
 // Retrieve all Buttons in database (ex: /api/buttons)
-api_router.get('/buttons', views.getAllButtonsView);
+api_router.get('/buttons', requireAuth, views.getAllButtonsView);
 // Retrieve a specific Button (ex: /api/buttons/1)
-api_router.get('/buttons/:macAddr', views.getSingleButtonView);
+api_router.get('/buttons/:macAddr', requireAuth, views.getSingleButtonView);
 // Update a specific Button (ex: /api/buttons/1)
-api_router.put('/buttons/:macAddr', views.updateSingleButtonView);
+api_router.put('/buttons/:macAddr', requireAuth, views.updateSingleButtonView);
 // Delete a specified button
-api_router.delete('/buttons/:macAddr', views.deleteButtonView);
+api_router.delete('/buttons/:macAddr', requireAuth, views.deleteButtonView);
 // Add a button to the database
-api_router.post('/addButton', views.addButtonView);
+api_router.post('/addButton', requireAuth, views.addButtonView);
 // Retrieve all assigned buttons
-api_router.get('/assignedbuttons', views.getAssignedButtonsView);
+api_router.get('/assignedbuttons', requireAuth, views.getAssignedButtonsView);
 // Retrieve all unassigned buttons
-api_router.get('/unassignedbuttons', views.getUnassignedButtonsView);
+api_router.get('/unassignedbuttons', requireAuth, views.getUnassignedButtonsView);
 // Update an unassigned button
-api_router.put('/assignbutton', views.assignButtonView);
+api_router.put('/assignbutton', requireAuth, views.assignButtonView);
 // Update an assigned button
-api_router.put('/unassignbutton', views.unassignButtonView);
+api_router.put('/unassignbutton', requireAuth, views.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
-api_router.get('/tasks', views.getAllTasksView);
+api_router.get('/tasks', requireAuth, views.getAllTasksView);
 // Delete all open Tasks (for testing)
-api_router.delete('/tasks', views.deleteAllTasksView);
+api_router.delete('/tasks', requireAuth, views.deleteAllTasksView);
 
 // Retrieve all Employees in database (ex: /api/employees)
-api_router.get('/employees', views.getAllEmployeesView);
+api_router.get('/employees', requireAuth, views.getAllEmployeesView);
 // Delete all open employees (for testing)
-api_router.delete('/employees', views.deleteAllEmployeesView);
+api_router.delete('/employees', requireAuth, views.deleteAllEmployeesView);
 // Add an emplyee to the database
-api_router.post('/addEmployee', views.addEmployeeView);
+api_router.post('/addEmployee', requireAuth, views.addEmployeeView);
 // Delete a specified employee
-api_router.delete('/employees/:email', views.deleteEmployeeView);
+api_router.delete('/employees/:email', requireAuth, views.deleteEmployeeView);
 // Update a specific employee
-api_router.put('/employees/:email', views.updateSingleEmployeeView);
+api_router.put('/employees/:email', requireAuth, views.updateSingleEmployeeView);
 // Retrieve a specific Button (ex: /api/buttons/1)
-api_router.get('/employees/:email', views.getSingleEmployeeView);
+api_router.get('/employees/:email', requireAuth, views.getSingleEmployeeView);
 
 module.exports = api_router;

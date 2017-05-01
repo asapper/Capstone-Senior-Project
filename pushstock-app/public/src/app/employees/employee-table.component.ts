@@ -16,9 +16,10 @@
 
 
 import { Component } from '@angular/core';
-
 import { Employee } from '../shared/models/employee';
 import { EmployeeService } from '../services/employee.service';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { ApiSettings } from '../services/api-settings';
 
 @Component ({
     selector: 'employee-table',

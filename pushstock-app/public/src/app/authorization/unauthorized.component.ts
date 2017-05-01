@@ -10,10 +10,18 @@ import { Router } from '@angular/router';
  
 export class UnauthorizedComponent {
 
-    admin: boolean = false;
+    unassigned: boolean;
+    admin: boolean;
  
     constructor(private authenticationService:AuthService, private router:Router){}
  
     ngOnInit(){
+        this.unassigned = this.authenticationService.isUnassigned();
+        this.admin = this.authenticationService.checkAdmin();
+    }
+
+    logout() {
+        this.authenticationService.logout();
+        this.router.navigate(['/login']);
     }
 }

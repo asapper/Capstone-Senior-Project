@@ -14,7 +14,13 @@ export class LoginRouteGuard implements CanActivate {
     
   	if(this.authService.checkCredentials()){
       if(this.authService.isLoggedIn()){
-        return true;
+        if(!this.authService.isUnassigned()){
+          return true;
+        }
+        else{
+          this.router.navigate(['/unauthorized']);
+          return false;
+        }
       }
   	}
     this.router.navigate(['/login']);

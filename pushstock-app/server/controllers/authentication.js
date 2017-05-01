@@ -79,13 +79,11 @@ exports.register = function(req, res, next) {
         return res.status(422).send({ error: 'That email address is already in use.' });
       }
 
-      // If email is unique and password was provided, create account
-      let employee = new Employee({
-        email: email,
-        password: password,
-        profile: { firstName: firstName, lastName: lastName },
-        role: role
-      });
+      var newEmployee = new Employee();
+      newEmployee.email = email;
+      newEmployee.password = password;
+      newEmployee.profile = { firstName, lastName }
+      newEmployee.role = role;
 
       employee.save(function(err, employee) {
         if (err) { return next(err); }

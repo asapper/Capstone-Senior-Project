@@ -4,7 +4,8 @@ const passport = require('passport'),
       config = require('./main'),
       JwtStrategy = require('passport-jwt').Strategy,
       ExtractJwt = require('passport-jwt').ExtractJwt,
-      LocalStrategy = require('passport-local');
+      LocalStrategy = require('passport-local'),
+      util = require('util');
 
 const localOptions = { usernameField: 'email' };
 
@@ -39,9 +40,10 @@ const jwtOptions = {
 
 // Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+  console.log(payload);
   Employee.findById(payload._id, function(err, employee) {
     if (err) { return done(err, false); }
-
+    console.log(employee);
     if (employee) {
       done(null, employee);
     } else {

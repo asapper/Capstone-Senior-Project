@@ -36,21 +36,21 @@ import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'},
   { path: 'home', 
     component: HomeComponent, 
     canActivate: [LoginRouteGuard],
     children: [
     { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
-    { path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
-    { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
-    { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
-    { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },
-    { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
-    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
-    { path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' },
-    { path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full' },
-    { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' },
-    { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'}
+    { path: 'tasks', component: TaskTableComponent, pathMatch: 'full'},
+    { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees', component: EmployeeTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] }
     ]},
   { path: '**', redirectTo: 'home'}
 ];

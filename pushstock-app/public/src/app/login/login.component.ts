@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
-                    this.router.navigate(['/home']);
+                    console.log('Auth service route home');
+                    this.router.navigate(['/home/tasks']);
                 },
                 error =>{
                     this.error = 'Email or password is incorrect';

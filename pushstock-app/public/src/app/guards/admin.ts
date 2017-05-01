@@ -15,7 +15,7 @@ export class AdminRouteGuard implements CanActivate {
           return true;
         }
         else{
-          this.router.navigate(['/home/unauthorized']);
+          this.router.navigate(['/unauthorized']);
           return false;
         }
       }

@@ -1,3 +1,23 @@
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PushStock</a>
+            </div>
+            <!-- nav bar tabs -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="nav navbar-nav">
+                    <li><a *ngIf="!unassigned" routerLink="/home/tasks">Tasks</a></li>
+                    <li><a *ngIf="admin && !unassigned" routerLink="/home/buttons">Buttons</a></li>
+                    <li><a *ngIf="admin && !unassigned" routerLink="/home/employees">Employees</a></li>
+                    <li><a href="#" (click)=logout()>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
 <div class="col-md-6 col-md-offset-3">
-    <h2>You are unauthorized to view this content. Please see your administrator if you believe this is a mistake.</h2>
+    <h2 *ngIf="!unassigned" style="color:red">You are unauthorized to view this content. Please see your administrator if you believe this is a mistake.</h2>
+    <h2 *ngIf="unassigned" >You have not been assigned a role by your administrator. Please contact them to gain access to your portal.</h2>
 </div>

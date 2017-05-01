@@ -11,6 +11,7 @@
 * Saul			03/16/17		EmployeeTableComponent added
 * Rapp			03/21/17		Switched to use Angular2's built-in routing module
 * Sapper        03/27/17        Add ButtonDetail component
+* Ragnell       04/27/17        Added Angular-JWT providers
 */
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,9 +38,18 @@ import { UnauthorizedComponent } from './authorization/unauthorized.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { AlertService, AuthService } from './services/index';
+import { AlertService, AuthService, ButtonService, EmployeeService } from './services/index';
 import { LoginRouteGuard } from './guards/login';
 import { AdminRouteGuard } from './guards/admin';
+import { Http, RequestOptions } from '@angular/http';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+                                          tokenName: 'token',
+                                          tokenGetter: (() => localStorage.getItem('token'))
+                                      }), http, options);
+}
 
 @NgModule({
     declarations: [
@@ -70,10 +80,17 @@ import { AdminRouteGuard } from './guards/admin';
             provide: LocationStrategy,
             useClass: HashLocationStrategy
         },
+        {
+            provide: AuthHttp,
+            useFactory: authHttpServiceFactory,
+            deps: [Http, RequestOptions]
+        },
         AlertService,
         AuthService,
         LoginRouteGuard,
-        AdminRouteGuard
+        AdminRouteGuard,
+        EmployeeService,
+        ButtonService
     ],
 	bootstrap: [
         AppComponent
