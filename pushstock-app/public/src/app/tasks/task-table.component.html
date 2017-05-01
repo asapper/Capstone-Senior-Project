@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * File:						task-table.component.html
 * Description:    Template for the TaskTableComponent
 *
@@ -7,18 +7,85 @@
 * Editor			Date				Description
 * ======			========		===========
 * Rapp			  03/23/17		File created (copied from employee-table.component.html)
+* Saul        04/20/17    Mark task complete and modal added
 -->
-<div>
 
-  <!-- Title -->
-  <h3>Open Tasks</h3>
+<!-- Alerts displayed -->
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong *ngIf="alertTitle">{{ alertTitle }}</strong>
+        {{ alertMessage }}
+    </div>
+</div>
+
+<!-- Modal: completing task -->
+<div class="modal fade" id="taskCompleteModal" tabindex="-1" role="dialog" aria-labelledby="taskCompleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirm!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Submit task as complete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="markTaskComplete(taskId)">Mark Complete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: deleting task -->
+<div class="modal fade" id="taskDeleteModal" tabindex="-1" role="dialog" aria-labelledby="taskDeleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Warning!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the task <strong>{{ modalDescription }}</strong> assigned to <strong>{{ modalEmployee }}</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTask(modalTaskId)">Delete task</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <h3>Tasks</h3>
+  <!-- Select what tasks are to be displayed -->
+    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons">
+        <label class="btn btn-default active" (click)="filterOpen()">
+            <input type="radio" autocomplete="off" checked>Open
+        </label>
+        <label class="btn btn-default" (click)="filterClose()">
+            <input type="radio" autocomplete="off">Completed
+        </label>
+        <label class="btn btn-default" (click)="filterAll()">
+            <input type="radio" autocomplete="off">All
+        </label>
+  </div><br><br>
+
   <!-- Bootstrap Table -->
-  <div class="panel panel-default">
+  <div class="panel panel-info">
       <div class="panel-heading">
-        <div class="panel-title pull-left">Tasks: <span class="badge">{{ taskList?.length }} </span></div>
+        <div class="panel-title pull-left">Tasks: <span class="badge">{{ filteredList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
-          <button type="button" class="btn btn-primary" (click)="setTrue()">Add Task</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/tasks/new']">Add Task</button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -28,19 +95,41 @@
           <thead>
               <tr>
                   <th>Button</th>
+                  <th>Description</th>
+                  <th>Employee</th>
+                  <th>Edit / Delete</th>
+                  <th>Mark Complete</th>
               </tr>
           </thead>
-          <tbody *ngIf="taskList?.length > 0">
-              <tr *ngFor="let task of taskList">
-                  <td>{{ task.buttonid }}</td>
-                  <td>{{ employee.role }}</td>
+          <tbody *ngIf="filteredList?.length > 0">
+              <tr *ngFor="let task of filteredList">
+                  <td>{{ task.button.macAddr }}</td>
+                  <td>{{ task.button.description }}</td>
+                  <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
+                  <td>
+                      <!-- Edit task button -->
+                      <button type="button" [routerLink]="['/tasks', task._id, 'reassign']" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskDeleteModal"
+                         (click)="setTaskInfoToDelete(task._id, task.button.description, task.employee.profile.firstName + ' ' + task.employee.profile.lastName)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="task.isOpen == true">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskCompleteModal"
+                        (click)="taskId = task._id">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="task.isOpen == false">
+                    Completed on: {{ task.dateClosed }}
+                  </td>
               </tr>
           </tbody>
-          <tbody *ngIf="employeeList?.length < 1" class="text-center">
+          <tbody *ngIf="taskList?.length < 1" class="text-center">
               There are no open tasks right now.
           </tbody>
-
       </table>
     </div>
-
 </div>

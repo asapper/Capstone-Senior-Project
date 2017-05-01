@@ -8,59 +8,41 @@
 * Editor	Date		Description
 * ======	========	===========
 * Saul		03/22/17	File created / Working EmployeeFormComponent
-* Rapp      03/29/17    Moved API calls to EmployeeService
+* Rapp    03/29/17  Moved API calls to EmployeeService
+* Saul    04/18/17  Smart notifications added    
 */
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { Employee } from '../shared/models/employee';
 import { EmployeeService } from '../services/employee.service';
+import { Alert } from '../shared/models/alert';
+import { AlertService } from '../services/alert.service';
+import { Location } from '@angular/common';
 
 @Component ({
     selector: 'employee-form',
-    styles: [`
-        form {
-          padding: 10px;
-          background: #ECF0F1;
-          border-radius: 3px;
-          margin-bottom: 30px;
-        }
-    `],
     templateUrl: './employee-form.component.html',
-    providers: [
-        EmployeeService
-    ]
+    providers: [EmployeeService]
 })
 
 export class EmployeeFormComponent {
-    // For output
-    @Output() employeeCreated = new EventEmitter();
+    roles: String[] = [ "Admin", "Worker" ];
 
-    roles: String[] = [ "Admin", "Manager", "Worker" ];
-
-    constructor(private employeeService: EmployeeService) {}
+    constructor(
+      private employeeService: EmployeeService,
+      private alertService: AlertService,
+      private location: Location
+    ) {}
 
     // Class used to group data added to mongoDb
     newEmployee: Employee = new Employee();
 
-    // Used to clear form
-    active: boolean = true;
-
     addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
         // Add Employee using services
         this.employeeService.addEmployee(email, password, firstName, lastName, role)
-            .subscribe(employees => {
-                console.log(employees);
-            })
-
-        // Emit event so that the table will know to update
-        this.employeeCreated.emit();
-        console.log("Employee added" + this.newEmployee);
-
-        // clears the form everytime it is submitted
-        this.newEmployee = new Employee();
-
-        // clears forms and states invaled and touched
-        this.active = false;
-        setTimeout(() => this.active = true, 0);
+        .subscribe(res => {
+            this.alertService.handleApiResponse(res);
+            this.location.back(); // Route back to buttons table
+        });
     }
 }

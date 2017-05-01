@@ -1,0 +1,32 @@
+<div *ngIf="buttons.length > 0 && employees.length > 0; else noNewTaskPanel">
+    <h2>Create new Task</h2>
+    <!-- List of active buttons -->
+    <div>
+        <label>Active buttons</label>
+        <select name="macAddr" [(ngModel)]="newTask.macAddr">
+            <option *ngFor="let button of buttons" [value]="button.macAddr">
+            {{ button.description }}
+            </option>
+        </select>
+    </div>
+
+    <!-- List of employees -->
+    <div>
+        <label>Employees</label>
+        <select name="employeeEmail" [(ngModel)]="newTask.email">
+            <option *ngFor="let employee of employees" [value]="employee.email">
+            {{ employee.profile.firstName }} {{ employee.profile.lastName }}
+            </option>
+        </select>
+    </div>
+
+    <br>
+    <button class="btn btn-info" (click)="goBack()">Cancel</button>
+    <button class="btn btn-primary" (click)="addTask(newTask.email, newTask.macAddr)"
+    >Create Task</button>
+</div>
+
+<ng-template #noNewTaskPanel>
+<h3>No buttons and/or employees to create a task from :(</h3>
+<button class="btn btn-info" (click)="goBack()">Go Back</button>
+</ng-template>

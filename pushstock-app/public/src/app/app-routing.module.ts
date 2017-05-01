@@ -15,9 +15,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TaskTableComponent } from './tasks/task-table.component';
+import { TaskFormComponent } from './tasks/task-form.component';
+import { TaskReassignComponent } from './tasks/task-reassign.component';
+
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeDetailComponent } from './employees/employee-detail.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
+
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
@@ -28,6 +32,8 @@ import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 const routes: Routes = [
 	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
 	{ path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
+    { path: 'tasks/new', component: TaskFormComponent, pathMatch: 'full' },
+    { path: 'tasks/:taskId/reassign', component: TaskReassignComponent, pathMatch: 'full' },
 	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
     { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },

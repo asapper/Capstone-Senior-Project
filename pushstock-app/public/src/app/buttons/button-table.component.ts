@@ -5,13 +5,15 @@
 *
 * Edit history:
 *
-* Editor	Date            Description
-* ======	========		===========
+* Editor		Date            Description
+* ======		========		===========
 * Saul      03/15/17		File created
-* Saul      03/21/17        Calls API instead of relying on AppComponent
-* Saul      03/21/17        Self contained & calls the ButtonFormComponent
-* Saul      03/27/17        deleteButton() added
-* rapp		03/28/17        Refactored API calls into ButtonService
+* Saul      03/21/17    Calls API instead of relying on AppComponent
+* Saul      03/21/17    Self contained & calls the ButtonFormComponent
+* Saul      03/27/17    DeleteButton() added
+* Rapp			03/28/17    Refactored API calls into ButtonService
+* Saul			04/12/17		Delete button and Edit buttton alerts report errors
+*												and success
 */
 
 
@@ -57,15 +59,24 @@ export class ButtonTableComponent implements OnInit {
         this.showOnlyActiveButtons = true;
     }
 
-    setMacAddrToDelete(macAddr: string): void {
-        this.modalMacAddr = macAddr;
-    }
-
-    retrieveLatestAlert(): void {
-        let alert: Alert = this.alertService.getLatestButtonAlert();
+    private retrieveLatestAlert(): void {
+        let alert: Alert = this.alertService.getLatestAlert();
         this.alertTitle = alert.title;
         this.alertType = alert.type;
         this.alertMessage = alert.message;
+    }
+
+    private filterButtons(): void {
+        this.buttonList = this.allButtons;
+        if (this.showOnlyActiveButtons) {
+            this.buttonList = this.buttonList.filter(
+                button => button.isActive === true);
+        }
+        this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
+    }
+
+    setMacAddrToDelete(macAddr: string): void {
+        this.modalMacAddr = macAddr;
     }
 
 	// Send request to get list of all buttons in the database
@@ -79,26 +90,13 @@ export class ButtonTableComponent implements OnInit {
         });
 	}
 
-    filterButtons(): void {
-        this.buttonList = this.allButtons;
-        if (this.showOnlyActiveButtons) {
-            this.buttonList = this.buttonList.filter(
-                button => button.isActive === true);
-        }
-        this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
-    }
-
 	// Send request to delete button from the database
 	deleteButton(macAddr: String): void {
         // delete button through service
-		this.buttonService.deleteButton(macAddr).subscribe();
-        // alert button has been unassigned
-        let alert = new Alert();
-        alert.message = "Button with MAC address " + macAddr + " has been deleted.";
-        alert.type = "alert-info";
-        this.alertService.setButtonAlert(alert);
-        // update alerts in list of buttons in this view
-        this.retrieveLatestAlert();
-		this.getAllButtons();
+        this.buttonService.deleteButton(macAddr).subscribe(res => {
+            this.alertService.handleApiResponse(res);
+			this.retrieveLatestAlert();
+			this.getAllButtons();
+		});
 	}
 }

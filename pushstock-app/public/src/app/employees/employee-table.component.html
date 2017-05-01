@@ -10,13 +10,25 @@
 * Saul        03/20/17    Fixed display number error
 * Saul        03/27/17    Added delete button and call to function
 * Saul        03/28/17    Added edit employee button
+* Saul        04/18/17    Adding notifications to employeeTable
 -->
-<div>
 
+<!-- Alerts displayed -->
+<div *ngIf="alertType && alertMessage">
+    <div [ngClass]="['alert', alertType, 'alert-dismissible']" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong *ngIf="alertTitle">{{ alertTitle }}</strong>
+        {{ alertMessage }}
+    </div>
+</div>
+
+<div>
   <!-- Title -->
   <h3>Employees</h3>
   <!-- Bootstrap Table -->
-  <div class="panel panel-default">
+  <div class="panel panel-info">
       <div class="panel-heading">
         <div class="panel-title pull-left">Employees registered: <span class="badge">{{ employeeList?.length }} </span></div>
         <div class="panel-title pull-right">
@@ -45,7 +57,7 @@
                     <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" (click)="deleteEmployee(employee.email)" class="btn btn-default">
+                    <button type="button" (click)="deleteEmployee(employee._id)" class="btn btn-default">
                       <span class="glyphicon glyphicon-trash"></span>
                     </button>
                   </td>

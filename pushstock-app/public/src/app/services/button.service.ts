@@ -10,14 +10,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { ApiSettings } from './api-settings';
 
 @Injectable()
 export class ButtonService {
-	api: String;
+	private api: String;
+
     constructor(
         private http: Http
     ) {
@@ -29,12 +30,18 @@ export class ButtonService {
 		return this.http.get(`${this.api}/buttons/${macAddr}`)
         .map(res => res.json());
 	}
-	
+
 	// Function that returns all buttons from the API
 	getAllButtons() {
 		return this.http.get(`${this.api}/buttons`)
         .map(res => res.json());
 	}
+
+    // return all active buttons from the API
+    getAllActiveButtons() {
+        return this.http.get(`${this.api}/activebuttons`)
+        .map(res => res.json());
+    }
 
     // Returns all assigned buttons
     getAssignedButtons() {
@@ -77,5 +84,5 @@ export class ButtonService {
 		return this.http.post(`${this.api}/addButton`, { macAddr, description })
         .map(res => res.json());
 	}
-		
+
 }

@@ -7,7 +7,6 @@
         <label>Description: </label>
         <input [(ngModel)]="button.description" placeholder="Description" />
     </div><br>
-    <button class="btn btn-info" (click)="goBack()">Back</button>
-    <button class="btn btn-primary" (click)="updateButton(button.description)"
-        [routerLink]="['/buttons']">Save</button>
+    <button class="btn btn-danger" (click)="goBack()">Cancel</button>
+    <button class="btn btn-primary" (click)="updateButton(button.description)">Save</button>
 </div>

@@ -1,32 +1,41 @@
 <!--
-* File:        component.html
+* File:         component.html
 * Author:       Brennan Saul, Andy Sapper
 * Description:  html for the AppComponet <app-root>
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ======			========		===========
-* Saul			  03/15/17		Refactored
-* Saul        03/16/17    Employee section added
-* Saul        03/21/17    no longer passes buttonList to button table because
-*                         the button table component calls the API by its self
-* Rapp				03/21/17		Changed links to use RouterLinks
+* Editor	Date		Description
+* ======	========	===========
+* Saul		03/15/17	Refactored
+* Saul      03/16/17    Employee section added
+* Saul      03/21/17    No longer passes buttonList to button table because
+*                       the button table component calls the API by its self
+* Rapp	    03/21/17	Changed links to use RouterLinks
+* Rapp      04/22/17    Alter navbar to be collapsible on smaller screens
+*                       Now highlights tab of current page
+* Rapp      04/24/17    Sticky navbar stays at top of screen when scrolling
+*                       Menu now collapses into navbar when an element is selected
 -->
 
 <!-- Bootstrap Navbar -->
 <header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="#">PushStock</a>
             </div>
             <!-- nav bar tabs -->
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="nav navbar-nav">
-                    <li><a routerLink="/tasks">Tasks</a></li>
-                    <li><a routerLink="/buttons">Buttons</a></li>
-                    <li><a routerLink="/employees">Employees</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/tasks">Tasks</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/buttons">Buttons</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/employees">Employees</a></li>
                 </ul>
             </div>
         </div>
