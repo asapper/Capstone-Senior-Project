@@ -50,10 +50,10 @@
           </thead>
           <tbody *ngIf="employeeList?.length > 0">
               <tr *ngFor="let employee of employeeList">
-                  <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
-                  <td>{{ employee.email }}</td>
-                  <td>{{ employee.role }}</td>
-                  <td>
+                  <td style="width:30%">{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
+                  <td style="width:30%">{{ employee.email }}</td>
+                  <td style="width:20%">{{ employee.role }}</td>
+                  <td style="width:20%">
                     <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
@@ -63,10 +63,9 @@
                   </td>
               </tr>
           </tbody>
-          <tbody *ngIf="employeeList?.length < 1" class="text-center">
-              No employees have been registered to the system.
-          </tbody>
-
       </table>
+      <div class="panel-footer" *ngIf="employeeList?.length < 1" class="text-center">
+          <br>No employees are registered in the system.
+      </div>
     </div>
 </div>

@@ -79,8 +79,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>MAC Address</th>
-                <th>Description</th>
+                <th style="width:25%">MAC Address</th>
+                <th style="width:45%">Description</th>
                 <th>Edit / Delete</th>
                 <th>Active?</th>
             </tr>
@@ -101,11 +101,10 @@
                 <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
             </tr>
         </tbody>
-        <tbody *ngIf="buttonList?.length < 1" class="text-center">
-            No active buttons are registered in the system.
-        </tbody>
-
     </table>
+    <div class="panel-footer" *ngIf="buttonList?.length < 1" class="text-center">
+        <br>No active buttons are registered in the system.
+    </div>
   </div>
 </div>
 <script type="text/javascript">
