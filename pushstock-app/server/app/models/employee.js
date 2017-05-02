@@ -25,7 +25,7 @@ const EmployeeSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['Worker', 'Manager', 'Admin', 'Unassigned'],
+    enum: ['Worker', 'Manager', 'Admin', 'Unassigned', 'Pi'],
     required: false
   },
   resetPasswordToken: { type: String, required: false},
