@@ -15,11 +15,16 @@ fi
 # Delete all old source files except theme/variables.scss and index.html
 cd mobile-app/src
 if [[ "$newproj" = true ]]; then
-    exp="(theme)"
+    #exp="(theme)"
+    rm -rf `ls | grep -v -E "theme"`
 else
-    exp="(theme|index\.html|app)"
+    #exp="(theme|index\.html|app)"
+    rm -rf `ls | grep -v -E "(theme|index\.html|app)"`
+    cd app
+    rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts)"`
+    cd ..
 fi
-rm -rf `ls | grep -v -E "$exp"`
+#rm -rf `ls | grep -v -E "$exp"`
 
 # Copy over all website source files
 echo "Copying over source files from web directory..."
