@@ -309,6 +309,7 @@ describe('Tasks', function() {
         });
     });
 
+    // Test the route /singleClick for creating tasks
     describe('adding a task through clicking of FLIC button', function() {
         // expected functionality
         it('should add task if button is active and has no tasks open', function(done) {
@@ -415,6 +416,21 @@ describe('Tasks', function() {
         it('should assign task to admin if there are no workers');
         it('should assign task to first created worker if there are no tasks ever created');
         it('should assign task to worker with no open tasks');
+
+        // replicatin bug found: if worker completed task, he would be assigned all subsequent tasks created
+        it('should assign task to worker with least tasks, even when there are closed tasks');
+            // have two employees
+            // create a task for each
+            // complete one task (empA = 0 open tasks, empB = 1 open task)
+            // create a task (should be assigned to empA)
+            // create a task (should be assigned to empB)
+            // create a task (should be assigned to empA)
+    });
+
+    // Test the PUT /tasks/:id route for completing tasks
+    describe('completing a task', function() {
+        it('should complete a task successfully');
+        it('should fail to complete an already completed task');
     });
 
 });

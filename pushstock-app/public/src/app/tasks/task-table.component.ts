@@ -11,20 +11,11 @@
 * Saul          04/20/17        Task complete function implemented
 */
 
-
 import { Component, OnInit } from '@angular/core';
 
 import { Alert } from '../shared/models/alert';
 import { AlertService } from '../services/alert.service';
 import { TaskService } from '../services/task.service';
-
-const TASKS = [
-    {
-        _id: 123,
-        button: { macAddr: '1', description: 'asd', isActive: true },
-        employee: { profile: { firstName: 'John', lastName: 'Smith' }, email: 'v', password: 'sd', role: 's', resetPasswordToken: 'df', resetPasswordExpires: null }
-    },
-];
 
 @Component ({
     selector: 'task-table',
@@ -50,6 +41,7 @@ export class TaskTableComponent implements OnInit {
         private taskService: TaskService
     ) {
         this.taskList = [];
+        this.filteredList = [];
         this.alertType = "";
         this.alertTitle = "";
         this.alertMessage = "";

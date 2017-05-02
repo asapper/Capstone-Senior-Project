@@ -12,6 +12,7 @@
 * Saul      03/22/17    Removed unnecessary code and removed clickTimestamp
 * Saul      03/27/17    Delete functionality added
 * Rapp      04/23/17    Changed Actions dropdown menu to align right for mobile view
+* Rapp      05/02/17    Changed filtering to use buttons just like the tasks table
 -->
 
 <!-- Alerts displayed -->
@@ -49,15 +50,26 @@
 
 <!-- Body of view -->
 <div>
-  <!-- Title -->
-  <h3>FLIC Buttons</h3>
+    <!-- Title -->
+    <h3>FLIC Buttons</h3>
+    <!-- Select which buttons to display -->
+    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons">
+        <label class="btn btn-default active" (click)="filterActive()">
+            <input type="radio" autocomplete="off" checked>Active
+        </label>
+        <label class="btn btn-default" (click)="filterInactive()">
+            <input type="radio" autocomplete="off">Inactive
+        </label>
+        <label class="btn btn-default" (click)="filterAll()">
+            <input type="radio" autocomplete="off">All
+        </label>
+    </div><br><br>
+
   <!-- Bootstrap Table -->
   <div class="panel panel-info">
     <div class="panel-heading">
       <div class="panel-title pull-left">Buttons Registered: <span class="badge">{{ allButtons?.length }} </span></div>
       <div class="panel-title pull-right">
-        <input type="checkbox" id="filterButtons" (click)="filterButtons()" [checked]="!showOnlyActiveButtons">
-        <label for="filterButtons" style="font-weight: normal">Show only active buttons</label>
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Actions <span class="caret"></span>
@@ -79,8 +91,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>MAC Address</th>
-                <th>Description</th>
+                <th style="width:25%">MAC Address</th>
+                <th style="width:45%">Description</th>
                 <th>Edit / Delete</th>
                 <th>Active?</th>
             </tr>
@@ -101,11 +113,10 @@
                 <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
             </tr>
         </tbody>
-        <tbody *ngIf="buttonList?.length < 1" class="text-center">
-            No active buttons are registered in the system.
-        </tbody>
-
     </table>
+    <div class="panel-footer" *ngIf="buttonList?.length < 1" class="text-center">
+        <br>No active buttons are registered in the system.
+    </div>
   </div>
 </div>
 <script type="text/javascript">

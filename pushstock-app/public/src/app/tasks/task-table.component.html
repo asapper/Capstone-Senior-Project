@@ -94,11 +94,11 @@
       <table class="table">
           <thead>
               <tr>
-                  <th>Button</th>
-                  <th>Description</th>
-                  <th>Employee</th>
-                  <th>Edit / Delete</th>
-                  <th>Mark Complete</th>
+                  <th style="width:20%">Button</th>
+                  <th style="width:25%">Description</th>
+                  <th style="width:15%">Employee</th>
+                  <th style="width:15%">Edit / Delete</th>
+                  <th style="width:25%">Mark Complete</th>
               </tr>
           </thead>
           <tbody *ngIf="filteredList?.length > 0">
@@ -127,9 +127,9 @@
                   </td>
               </tr>
           </tbody>
-          <tbody *ngIf="taskList?.length < 1" class="text-center">
-              There are no open tasks right now.
-          </tbody>
       </table>
+      <div class="panel-footer" *ngIf="taskList?.length < 1" class="text-center">
+          <br>No tasks are registered in the system.
+      </div>
     </div>
 </div>

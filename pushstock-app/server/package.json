@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "nyc mocha"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -22,6 +22,7 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "mocha": "^3.2.0",
-    "morgan": "^1.8.1"
+    "morgan": "^1.8.1",
+    "nyc": "^10.3.0"
   }
 }

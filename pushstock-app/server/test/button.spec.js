@@ -321,7 +321,7 @@ describe('Buttons', function() {
                 chai.request(API_URL).put('/assignbutton').send(data).end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('Button has been assigned!');
+                    res.body.should.have.property('message').eql('Button ' + TMP_MAC_ADDR_1 + ' has been assigned!');
                     // check number of assigned buttons
                     chai.request(API_URL).get('/assignedbuttons').end(function(err, res) {
                         res.should.have.status(200);
