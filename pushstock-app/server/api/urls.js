@@ -45,29 +45,29 @@ api_router.get('/', views.indexView);
 
 // Single click POST route (ex: /api/singleClick)
 
-api_router.post('/singleClick', views.singleClickView);
+api_router.post('/singleClick', rpiViews.singleClickView);
 
 // Retrieve all Buttons in database (ex: /api/buttons)
-api_router.get('/buttons', requireAuth, views.getAllButtonsView);
+api_router.get('/buttons', requireAuth, buttonViews.getAllButtonsView);
 // Retrieve a specific Button (ex: /api/buttons/1)
-api_router.get('/buttons/:macAddr', requireAuth, views.getSingleButtonView);
+api_router.get('/buttons/:macAddr', requireAuth, buttonViews.getSingleButtonView);
 // Update a specific Button (ex: /api/buttons/1)
-api_router.put('/buttons/:macAddr', requireAuth, views.updateSingleButtonView);
+api_router.put('/buttons/:macAddr', requireAuth, buttonViews.updateSingleButtonView);
 // Delete a specified button
-api_router.delete('/buttons/:macAddr', requireAuth, views.deleteButtonView);
+api_router.delete('/buttons/:macAddr', requireAuth, buttonViews.deleteButtonView);
 // Add a button to the database
-api_router.post('/addButton', requireAuth, views.addButtonView);
+api_router.post('/addButton', requireAuth, buttonViews.addButtonView);
 // Retrieve all assigned buttons
-api_router.get('/assignedbuttons', requireAuth, views.getAssignedButtonsView);
+api_router.get('/assignedbuttons', requireAuth, buttonViews.getAssignedButtonsView);
 // Retrieve all unassigned buttons
-api_router.get('/unassignedbuttons', requireAuth, views.getUnassignedButtonsView);
+api_router.get('/unassignedbuttons', requireAuth, buttonViews.getUnassignedButtonsView);
 // Update an unassigned button
-api_router.put('/assignbutton', requireAuth, views.assignButtonView);
+api_router.put('/assignbutton', requireAuth, buttonViews.assignButtonView);
 // Update an assigned button
-api_router.put('/unassignbutton', requireAuth, views.unassignButtonView);
+api_router.put('/unassignbutton', requireAuth, buttonViews.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
-api_router.get('/tasks', requireAuth, views.getAllTasksView);
+api_router.get('/tasks', requireAuth, taskViews.getAllTasksView);
 // Retrieve a specific task (ex: /tasks/1)
 api_router.get('/tasks/:taskId', taskViews.getSingleTaskView);
 // Mark task as complete
@@ -86,17 +86,17 @@ api_router.delete('/tasks/:taskId', taskViews.deleteTaskView);
 api_router.put('/reassigntask', taskViews.reassignTaskView);
 
 // Retrieve all Employees in database (ex: /api/employees)
-api_router.get('/employees', requireAuth, views.getAllEmployeesView);
+api_router.get('/employees', requireAuth, employeeViews.getAllEmployeesView);
 // Delete all open employees (for testing)
-api_router.delete('/employees', requireAuth, views.deleteAllEmployeesView);
+api_router.delete('/employees', requireAuth, employeeViews.deleteAllEmployeesView);
 // Add an emplyee to the database
-api_router.post('/addEmployee', requireAuth, views.addEmployeeView);
+api_router.post('/addEmployee', requireAuth, employeeViews.addEmployeeView);
 // Delete a specified employee
-api_router.delete('/employees/:email', requireAuth, views.deleteEmployeeView);
+api_router.delete('/employees/:email', requireAuth, employeeViews.deleteEmployeeView);
 // Update a specific employee
-api_router.put('/employees/:email', requireAuth, views.updateSingleEmployeeView);
+api_router.put('/employees/:email', requireAuth, employeeViews.updateSingleEmployeeView);
 // Retrieve a specific Button (ex: /api/buttons/1)
-api_router.get('/employees/:email', requireAuth, views.getSingleEmployeeView);
+api_router.get('/employees/:email', requireAuth, employeeViews.getSingleEmployeeView);
 
 // Returns true if the employee has an open task
 api_router.get('/hasTask/:_id', employeeViews.hasTaskView);

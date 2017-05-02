@@ -19,11 +19,6 @@ export class HomeComponent {
         this.admin = this.authenticationService.checkAdmin();
         console.log("Is Admin? " + this.authenticationService.checkAdmin());
     }
-
-    toggleState() {
-        let bool = this.isIn;
-        this.isIn = bool === false;
-    }
  
     logout() {
         this.authenticationService.logout();

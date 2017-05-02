@@ -25,13 +25,13 @@ export class RegisterComponent {
         this.employeeService.registerEmployee(this.model.username, this.model.password, this.model.firstName, this.model.lastName, 'Unassigned')
             .subscribe(
                 data => {
-                    this.alertService.success('Registration successful', true);
+                    this.alertService.setSuccessAlert('Registration successful');
                     this.router.navigate(['/login']);
                 },
                 error => {
-                    console.log("Angular error: " + error);
+                    console.log("Error: " + error);
                     this.error = error;
-                    this.alertService.error(error);
+                    this.alertService.setErrorAlert(error);
                     this.loading = false;
                 });
     }
