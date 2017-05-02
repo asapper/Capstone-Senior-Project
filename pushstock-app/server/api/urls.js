@@ -5,14 +5,17 @@
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ------			--------		-----------
-* sapper			03/01/17		File created
-* Saul        03/16/17    Get employeeList
-* Saul        03/16/17    Add employee
-* Saul        03/20/17    Deleted all employees
-* Saul        03/27/17    Path for delete button added
-* Saul        03/27/17    Path for delete employee added
+* Editor		Date			Description
+* ------		--------		-----------
+* sapper		03/01/17		File created
+* Saul          03/16/17        Get employeeList
+* Saul          03/16/17        Add employee
+* Saul          03/20/17        Deleted all employees
+* Saul          03/27/17        Path for delete button added
+* Saul          03/27/17        Path for delete employee added
+* Saul          04/20/17        Path for markTaskCompleteView
+* Saul          04/20/17        Path for getOpenTasks & getCompletedTasks
+* Sapper        05/01/17        Include files for separate view implementations
 */
 
 const express = require('express');
@@ -20,12 +23,19 @@ const api_router = express.Router();
 
 const Button = require('../app/models/button');
 const views = require('./views');
+
 const AuthenticationController = require('../controllers/authentication');
 const passportService = require('../config/passport');
 const passport = require('passport');
 
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
+
+const rpiViews = require('./rpi.views');
+const buttonViews = require('./button.views');
+const taskViews = require('./task.views');
+const employeeViews = require('./employee.views');
+
 
 // Route always called (verifications done here)
 api_router.use(views.apiAuthProcedure);
@@ -34,6 +44,7 @@ api_router.use(views.apiAuthProcedure);
 api_router.get('/', views.indexView);
 
 // Single click POST route (ex: /api/singleClick)
+
 api_router.post('/singleClick', views.singleClickView);
 
 // Retrieve all Buttons in database (ex: /api/buttons)
@@ -57,8 +68,22 @@ api_router.put('/unassignbutton', requireAuth, views.unassignButtonView);
 
 // Retrieve all open Tasks in database (ex: /api/tasks)
 api_router.get('/tasks', requireAuth, views.getAllTasksView);
+// Retrieve a specific task (ex: /tasks/1)
+api_router.get('/tasks/:taskId', taskViews.getSingleTaskView);
+// Mark task as complete
+api_router.put('/tasks/:_id', taskViews.markTaskCompleteView);
+// Retrieve all open Tasks in the database
+api_router.get('/openTasks', taskViews.getOpenTasksView);
+// Retrieve all completed Tasks in the database
+api_router.get('/completedTasks', taskViews.getCompletedTasksView);
+// Add a task to the database
+api_router.post('/addTask', taskViews.addTaskView);
 // Delete all open Tasks (for testing)
-api_router.delete('/tasks', requireAuth, views.deleteAllTasksView);
+api_router.delete('/tasks', taskViews.deleteAllTasksView);
+// Delete a specified task
+api_router.delete('/tasks/:taskId', taskViews.deleteTaskView);
+// Update a task
+api_router.put('/reassigntask', taskViews.reassignTaskView);
 
 // Retrieve all Employees in database (ex: /api/employees)
 api_router.get('/employees', requireAuth, views.getAllEmployeesView);
@@ -72,5 +97,11 @@ api_router.delete('/employees/:email', requireAuth, views.deleteEmployeeView);
 api_router.put('/employees/:email', requireAuth, views.updateSingleEmployeeView);
 // Retrieve a specific Button (ex: /api/buttons/1)
 api_router.get('/employees/:email', requireAuth, views.getSingleEmployeeView);
+
+// Returns true if the employee has an open task
+api_router.get('/hasTask/:_id', employeeViews.hasTaskView);
+// Delete the completed tasks Associated with an employee
+api_router.delete('/deleteCompletedTasks/:_id', employeeViews.deleteCompletedTasksView);
+
 
 module.exports = api_router;

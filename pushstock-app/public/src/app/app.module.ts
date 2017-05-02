@@ -19,17 +19,24 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { ButtonFormComponent } from './buttons/button-form.component';
-import { ButtonTableComponent } from './buttons/button-table.component';
+
+import { TaskTableComponent } from './tasks/task-table.component';
+import { TaskFormComponent } from './tasks/task-form.component';
+import { TaskReassignComponent } from './tasks/task-reassign.component';
+
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
-import { TaskTableComponent } from './tasks/task-table.component';
+import { EmployeeDetailComponent } from './employees/employee-detail.component';
+
+import { ButtonFormComponent } from './buttons/button-form.component';
+import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
 import { ButtonUnassignComponent } from './buttons/button-unassign.component';
-import { EmployeeDetailComponent } from './employees/employee-detail.component';
+
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -37,7 +44,6 @@ import { UnauthorizedComponent } from './authorization/unauthorized.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AlertService, AuthService, ButtonService, EmployeeService } from './services/index';
 import { LoginRouteGuard } from './guards/login';
 import { AdminRouteGuard } from './guards/admin';
@@ -51,6 +57,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
                                           headerPrefix: 'JWT'
                                       }), http, options);
 }
+
 
 @NgModule({
     declarations: [
@@ -67,7 +74,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         LoginComponent,
         HomeComponent,
         RegisterComponent,
-        UnauthorizedComponent
+        UnauthorizedComponent,
+        TaskFormComponent,
+        TaskReassignComponent
     ],
     imports: [
         BrowserModule,

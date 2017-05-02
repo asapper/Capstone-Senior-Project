@@ -1,0 +1,21 @@
+<div *ngIf="employees.length > 0">
+    <h2>Reassign task</h2>
+    <div>
+        <label>Task description:</label> {{ task.description }}
+    </div>
+    <div>
+        <label>Employees:</label>
+        <select name="employee" [(ngModel)]="newTask.employee">
+            <option *ngFor="let employee of employees" [value]="employee.email">
+            {{ employee.profile.firstName }} {{ employee.profile.lastName }}
+            </option>
+        </select>
+    </div><br>
+    <button class="btn btn-danger" (click)="goBack()">Cancel</button>
+    <button class="btn btn-primary" (click)="reassignTask(newTask.employee)">Reassign task</button>
+</div>
+
+<div *ngIf="employees.length < 1">
+    <h3>No other employees to assign task to :(</h3>
+    <button class="btn btn-info" (click)="goBack()">Go Back</button>
+</div>

@@ -1,5 +1,5 @@
 /*
-* File:         employee-table.component.ts
+* File:         app.component.ts
 * Author:       Brennan Saul
 * Description:  The root component
 *
@@ -17,6 +17,9 @@ import { Component } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { AuthService } from './services/authentication.service';
 import { Router } from '@angular/router';
+
+import { AlertService } from './services/alert.service';
+	
 
 import { AlertService } from './services/alert.service';
 	

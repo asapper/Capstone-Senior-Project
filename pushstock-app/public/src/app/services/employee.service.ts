@@ -7,6 +7,8 @@
  * Editor		Date		Description
  * ======		========	===========
  * Rapp			03/29/17	File created
+ * Saul			04/18/17	UpdateEmployee service added
+ * Saul			04/27/17  Delete tasks associated with an employee
  */
 
 import { Injectable } from '@angular/core';
@@ -34,6 +36,11 @@ export class EmployeeService {
 			.map(res => res.json());
 	}
 
+	getEmployee(email: string) {
+        return this.http.get(`${this.api}/employees/${email}`)
+        .map(res => res.json());
+    }
+
 	// Delete all employees from the database
 	deleteAllEmployees() {
 		this.authHttp.delete(`${this.api}/employees`);
@@ -47,11 +54,29 @@ export class EmployeeService {
 
     // Add a new employee with all fields to the database
     addEmployee(email: String, password: String, firstName: String, lastName: String, role: String) {
-        return this.authHttp.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role })
-            .map(res => res.json());
+        return this.http.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role })
+        .map(res => res.json());
     }
 
-    registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
+	// Update the information of an employee
+	updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String) {
+		return this.http.put(`${this.api}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role })
+		.map(res => res.json());
+	}
+
+	// Returns true if a employee has oopen tasks
+	hasTasks(_id){
+		return this.http.get(`${this.api}/hasTask/${_id}`)
+			.map( res => res.json());
+	}
+
+	// Deletes tasks assigned employee with id _id
+	deleteCompletedTasks(_id){
+		return this.http.delete(`${this.api}/deleteCompletedTasks/${_id}`)
+			.map( res => res.json());
+	}
+
+	registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
     	return this.http.post(`${this.auth}/register`, { email, password, firstName, lastName, role })
     		.map(res => res.json())
     		.catch(this.handleRegisterError);
@@ -72,4 +97,5 @@ export class EmployeeService {
 		console.error(loggedErrMsg);
 		return Observable.throw(errMsg);
 	}
+
 }

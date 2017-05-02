@@ -1,56 +1,56 @@
+/*
+ * File: alert.service.ts
+ * Description: provides information to display in alerts.
+ *
+ * Edit history:
+ *
+ * Editor		Date			Description
+ * ======		========		===========
+ * Sapper		04/01/17		File created
+ */
+
 import { Injectable } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
+
 import { Alert } from '../shared/models/alert';
+
 
 @Injectable()
 export class AlertService {
-    private subject = new Subject<any>();
-    private keepAfterNavigationChange = false;
-    private buttonAlert: Alert = new Alert();
-
-    constructor(private router: Router) {
-        // clear alert message on route change
-        router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                if (this.keepAfterNavigationChange) {
-                    // only keep for a single location change
-                    this.keepAfterNavigationChange = false;
-                } else {
-                    // clear alert
-                    this.subject.next();
-                }
-            }
-        });
-    }
+    private alert: Alert = new Alert();
 
     // set latest button alert
-    setButtonAlert(alert: Alert){
-        this.buttonAlert = alert;
+    setAlert(alert: Alert) {
+        this.alert = alert;
     }
 
-    //get latest button alert
-    getLatestButtonAlert(){
-        //store alert
-        let alert = this.buttonAlert;
-        //clear alert
-        this.buttonAlert = new Alert();
+    // get latest button alert
+    getLatestAlert() {
+        let alert = this.alert; // store alert
+        this.alert = new Alert(); // clear alert
         return alert;
     }
 
-    success(message: string, keepAfterNavigationChange = false) {
-        this.keepAfterNavigationChange = keepAfterNavigationChange;
-        this.subject.next({ type: 'success', text: message });
+    // set alert to success type, assign given fields
+    setSuccessAlert(message: string) {
+        this.alert.type = 'alert-success';
+        this.alert.title = 'Success!';
+        this.alert.message = message;
     }
 
-    error(message: string, keepAfterNavigationChange = false) {
-        this.keepAfterNavigationChange = keepAfterNavigationChange;
-        this.subject.next({ type: 'error', text: message });
+    // set alert to error type, assign given fields
+    setErrorAlert(message: string) {
+        this.alert.type = 'alert-danger';
+        this.alert.title = 'Error:';
+        this.alert.message = message;
     }
 
-    getMessage(): Observable<any> {
-        return this.subject.asObservable();
+    // handle response, determine type of alert
+    handleApiResponse(res: any) {
+        if (res.message) {
+            this.setSuccessAlert(res.message);
+        } else if (res.error) {
+            this.setErrorAlert(res.error);
+        }
     }
 
 }

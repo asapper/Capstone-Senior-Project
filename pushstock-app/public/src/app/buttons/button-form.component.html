@@ -18,6 +18,7 @@ directive-->
 
 <!-- submit: submits and refreshes the page -->
 <!-- ngSubmit: does not refresh tht page -->
+<h2>Create new Button</h2>
 <form #form=ngForm>
   <!-- macAddr Address -->
   <div class="form-group" [ngClass]="{ 'has-error': macAddr.invalid && macAddr.touched }">
@@ -44,7 +45,7 @@ directive-->
   <button class="btn btn-danger" routerLink="..">Cancel</button>
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addButton(newButton.macAddr, newButton.description)" class="btn btn-primary"
-  [routerLink]="['/home/buttons']" [disabled]="form.invalid">
+  [disabled]="form.invalid">
     Add Button
   </button>
 </form>

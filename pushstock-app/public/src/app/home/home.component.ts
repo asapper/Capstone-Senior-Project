@@ -11,12 +11,18 @@ import { Router } from '@angular/router';
 export class HomeComponent {
 
     admin: boolean;
+    isIn = false;
  
     constructor(private authenticationService:AuthService, private router:Router){}
  
     ngOnInit(){
         this.admin = this.authenticationService.checkAdmin();
         console.log("Is Admin? " + this.authenticationService.checkAdmin());
+    }
+
+    toggleState() {
+        let bool = this.isIn;
+        this.isIn = bool === false;
     }
  
     logout() {

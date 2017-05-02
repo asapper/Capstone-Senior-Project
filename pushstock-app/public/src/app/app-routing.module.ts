@@ -23,9 +23,13 @@ import { RegisterComponent } from './register/index';
 import { UnauthorizedComponent } from './authorization/index';
 
 import { TaskTableComponent } from './tasks/task-table.component';
+import { TaskFormComponent } from './tasks/task-form.component';
+import { TaskReassignComponent } from './tasks/task-reassign.component';
+
 import { EmployeeTableComponent } from './employees/employee-table.component';
 import { EmployeeDetailComponent } from './employees/employee-detail.component';
 import { EmployeeFormComponent } from './employees/employee-form.component';
+
 import { ButtonTableComponent } from './buttons/button-table.component';
 import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonFormComponent } from './buttons/button-form.component';
@@ -41,8 +45,9 @@ const routes: Routes = [
     component: HomeComponent, 
     canActivate: [LoginRouteGuard],
     children: [
-    { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
-    { path: 'tasks', component: TaskTableComponent, pathMatch: 'full'},
+    { path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
+    { path: 'tasks/new', component: TaskFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard]  },
+    { path: 'tasks/:taskId/reassign', component: TaskReassignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard]  },
     { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
     { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
     { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
