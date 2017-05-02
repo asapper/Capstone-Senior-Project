@@ -1,19 +1,21 @@
 /*
-* File:	         button-table.component.ts
-* Author:	       Brennan Saul
+* File:	        button-table.component.ts
+* Author:	    Brennan Saul
 * Description:	A component that displays all of the buttons in the DB
 *
 * Edit history:
 *
-* Editor		Date            Description
-* ======		========		===========
-* Saul      03/15/17		File created
+* Editor	Date        Description
+* ======	========	===========
+* Saul      03/15/17	File created
 * Saul      03/21/17    Calls API instead of relying on AppComponent
 * Saul      03/21/17    Self contained & calls the ButtonFormComponent
 * Saul      03/27/17    DeleteButton() added
-* Rapp			03/28/17    Refactored API calls into ButtonService
-* Saul			04/12/17		Delete button and Edit buttton alerts report errors
-*												and success
+* Rapp		03/28/17    Refactored API calls into ButtonService
+* Saul		04/12/17	Delete button and Edit buttton alerts report errors
+*						and success
+* Rapp      04/30/17    Showing active/inactive/all buttons now looks the same as
+*                       show open/completed/all tasks
 */
 
 import { Component, OnInit } from '@angular/core';
@@ -37,6 +39,10 @@ export class ButtonTableComponent implements OnInit {
     modalMacAddr: string;
     private showOnlyActiveButtons: boolean;
 
+    // booleans used for filtering
+    all: boolean = false;
+    active: boolean = true;
+
     constructor(
         private alertService: AlertService,
         private buttonService: ButtonService
@@ -55,7 +61,7 @@ export class ButtonTableComponent implements OnInit {
     ngOnInit(): void {
         this.retrieveLatestAlert();
         this.getAllButtons();
-        this.showOnlyActiveButtons = true;
+        //this.showOnlyActiveButtons = true;
     }
 
     private retrieveLatestAlert(): void {
@@ -67,11 +73,44 @@ export class ButtonTableComponent implements OnInit {
 
     private filterButtons(): void {
         this.buttonList = this.allButtons;
+        if (!this.all) {
+            if (this.active) {
+                this.buttonList = this.buttonList.filter(
+                    button => button.isActive === true
+                );
+            } else {
+                this.buttonList = this.buttonList.filter(
+                    button => button.isActive === false
+                );
+            }
+        }
+        /*
         if (this.showOnlyActiveButtons) {
             this.buttonList = this.buttonList.filter(
                 button => button.isActive === true);
         }
         this.showOnlyActiveButtons = !this.showOnlyActiveButtons;
+        */
+    }
+
+    // Filter list to show only active buttons
+    private filterActive() {
+        this.active = true;
+        this.all = false;
+        this.filterButtons();
+    }
+
+    // Filter list to show only inactive buttons
+    private filterInactive() {
+        this.active = false;
+        this.all = false;
+        this.filterButtons();
+    }
+
+    // Filter list to show all buttons
+    private filterAll() {
+        this.all = true;
+        this.filterButtons();
     }
 
     setMacAddrToDelete(macAddr: string): void {
