@@ -6,27 +6,14 @@
 # This *should* never execute
 newproj=false
 if [[ ! -d "mobile-app" ]]; then
-    echo "Creating mobile app project..."
+    echo "Creating new mobile app project..."
     ionic start --v2 --ts --appname "PushStock" mobile-app blank
     newproj=true
-    echo "Created project"
-fi
-
-# Ensure that all intended platforms added
-cd mobile-app
-if [[ ! -d "platforms/ios" ]]; then
-    echo "Adding ios platform..."
-    ionic platform add ios
-    echo "Added ios platform"
-fi
-if [[ ! -d "platforms/android" ]]; then
-    echo "Adding android platform..."
-    ionic platform add android
-    echo "Added android platform"
+    echo "Created new project"
 fi
 
 # Delete all old source files except theme/variables.scss and index.html
-cd src
+cd mobile-app/src
 if [[ "$newproj" = true ]]; then
     exp="(theme)"
 else
@@ -38,8 +25,6 @@ rm -rf `ls | grep -v -E "$exp"`
 echo "Copying over source files from web directory..."
 cp -Rn ../../public/src/ .
 
-# Move main.ts to app/
-#mv main.ts app/
 # Delete Angular's main.ts; Ionic's is in app/
 rm main.ts
 echo "Copied source files from web"
@@ -49,6 +34,31 @@ echo "Copied source files from web"
 #../../make_mobile_files.py
 
 cd ..
+
 echo "Installing dependencies..."
 npm install
 echo "Installed dependencies"
+
+# Build app to make sure everything in place
+echo "Building core Ionic project..."
+ionic build
+echo "Built core Ionic project"
+
+# Add any platforms if necessary, and build them either way
+if [[ ! -d "platforms/ios" ]]; then
+    echo "Adding ios platform..."
+    ionic platform add ios
+    echo "Added ios platform"
+fi
+echo "Building iOS project..."
+ionic build ios
+echo "Built iOS project"
+
+if [[ ! -d "platforms/android" ]]; then
+    echo "Adding Android platform..."
+    ionic platform add android
+    echo "Added Android platform"
+fi
+echo "Building Android project..."
+ionic build android
+echo "Built Android project"
