@@ -9,6 +9,7 @@
 * Rapp          03/23/17        File created (copied from employee-table.component.ts)
 * Sapper        04/06/17        Add task and alert services
 * Saul          04/20/17        Task complete function implemented
+* Sapper        05/02/17        Filter tasks according to email
 */
 
 import { Component, OnInit } from '@angular/core';
@@ -16,6 +17,7 @@ import { Component, OnInit } from '@angular/core';
 import { Alert } from '../shared/models/alert';
 import { AlertService } from '../services/alert.service';
 import { TaskService } from '../services/task.service';
+import { JwtHelper } from 'angular2-jwt';
 
 @Component ({
     selector: 'task-table',
@@ -23,18 +25,25 @@ import { TaskService } from '../services/task.service';
     providers: [TaskService]
 })
 export class TaskTableComponent implements OnInit {
+    // variables to store list of tasks
     taskList: any[];
     filteredList: any[];
+    // variables used to display information in notifications
     alertType: string;
     alertTitle: string;
     alertMessage: string;
+    // variables used to display information in modals
     modalDescription: string = "";
     modalEmployee: string = "";
     modalTaskId: string = "";
+    // store if user is admin
+    isAdmin: boolean = false;
+    // authentication
+    private jwtHelper: JwtHelper = new JwtHelper();
 
     // booleans used for filtering
-    all: boolean = false;
-    open: boolean = true;
+    private all: boolean = false;
+    private open: boolean = true;
 
     constructor(
         private alertService: AlertService,
@@ -94,8 +103,6 @@ export class TaskTableComponent implements OnInit {
       this.filterTasks();
     }
 
-
-
     // Mark task completed
     markTaskComplete(_id): void{
         this.taskService.markTaskComplete(_id).subscribe(res => {
@@ -109,24 +116,20 @@ export class TaskTableComponent implements OnInit {
     getAllTasks(): void {
         this.taskService.getAllTasks()
         .subscribe(tasks => {
-            this.taskList = tasks;
+            // filter tasks according to worker
+            if (localStorage.getItem('token') !== null) {
+                let token = localStorage.getItem('token');
+                let decoded = this.jwtHelper.decodeToken(token);
+                if (decoded.role === 'Admin') {
+                    this.taskList = tasks;
+                    this.isAdmin = true;
+                } else {
+                    this.taskList = tasks.filter(
+                        task => task.employee.email === decoded.email);
+                    this.isAdmin = false;
+                }
+            }
             this.filterTasks();
-        });
-    }
-
-    // Returns all open tasks
-    getOpenTasks() {
-        this.taskService.getOpenTasks()
-        .subscribe(tasks => {
-            this.taskList = tasks;
-        });
-    }
-
-    // Returns all Completed tasks
-    getCompletedTasks() {
-        this.taskService.getCompletedTasks()
-        .subscribe(tasks => {
-            this.taskList = tasks;
         });
     }
 
