@@ -8,7 +8,7 @@
  * Editor       Date           Description
  * ======       ========       ===========
  * Saul         03/28/17       File created
- * Saul         03/29/17       oEmail added to the function
+ * Saul         03/29/17       oEmail added to the function 
  -->
 <div *ngIf="employee">
   <h2>Employee #{{ employee.email }}</h2>
@@ -73,5 +73,6 @@
     <button type="button" (click)="updateEmployee(oEmail, employee.email,
     employee.profile.firstName, employee.profile.lastName, employee.role)"
     class="btn btn-primary"
-    [disabled]="form.invalid">Save</button>
+    [disabled]="form.invalid"
+    routerLink="/home/employees">Save</button>
 </div>

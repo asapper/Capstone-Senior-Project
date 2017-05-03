@@ -66,8 +66,8 @@
 
 <div>
     <h3>Tasks</h3>
-  <!-- Select what tasks are to be displayed -->
-    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons">
+    <!-- Select what tasks are to be displayed -->
+    <div class="btn-group" role="group" aria-label="..." data-toggle="buttons" *ngIf="isAdmin">
         <label class="btn btn-default active" (click)="filterOpen()">
             <input type="radio" autocomplete="off" checked>Open
         </label>
@@ -77,7 +77,7 @@
         <label class="btn btn-default" (click)="filterAll()">
             <input type="radio" autocomplete="off">All
         </label>
-  </div><br><br>
+    </div><br><br>
 
   <!-- Bootstrap Table -->
   <div class="panel panel-info">
@@ -85,53 +85,52 @@
         <div class="panel-title pull-left">Tasks: <span class="badge">{{ filteredList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button to enable add task form -->
-          <button type="button" class="btn btn-primary" [routerLink]="['/tasks/new']">Add Task</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['./new']">Add Task</button>
         </div>
         <div class="clearfix"></div>
       </div>
 
       <!-- Table for the open tasks -->
-      <div class="table-responsive">
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th style="width:20%">Button</th>
-                      <th style="width:25%">Description</th>
-                      <th style="width:15%">Employee</th>
-                      <th style="width:15%">Edit / Delete</th>
-                      <th style="width:25%">Mark Complete</th>
-                  </tr>
-              </thead>
-              <tbody *ngIf="filteredList?.length > 0">
-                  <tr *ngFor="let task of filteredList">
-                      <td>{{ task.button.macAddr }}</td>
-                      <td>{{ task.button.description }}</td>
-                      <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
-                      <td>
-                          <!-- Edit task button -->
-                          <button type="button" [routerLink]="['/tasks', task._id, 'reassign']" class="btn btn-default">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskDeleteModal"
-                             (click)="setTaskInfoToDelete(task._id, task.button.description, task.employee.profile.firstName + ' ' + task.employee.profile.lastName)">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                      </td>
-                      <td *ngIf="task.isOpen == true">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskCompleteModal"
-                            (click)="taskId = task._id">
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </button>
-                      </td>
-                      <td *ngIf="task.isOpen == false">
-                        Completed on: {{ task.dateClosed }}
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          <div class="panel-footer" *ngIf="taskList?.length < 1" class="text-center">
-              <br>No tasks are registered in the system.
-          </div>
+      <table class="table">
+          <thead>
+              <tr>
+                  <th style="width:20%">Button</th>
+                  <th style="width:25%">Description</th>
+                  <th style="width:15%">Employee</th>
+                  <th style="width:15%" *ngIf="isAdmin">Edit / Delete</th>
+                  <th style="width:25%">Mark Complete</th>
+              </tr>
+          </thead>
+          <tbody *ngIf="filteredList?.length > 0">
+              <tr *ngFor="let task of filteredList">
+                  <td>{{ task.button.macAddr }}</td>
+                  <td>{{ task.button.description }}</td>
+                  <td>{{ task.employee.profile.firstName }} {{ task.employee.profile.lastName }}</td>
+                  <td *ngIf="isAdmin">
+                      <!-- Edit task button -->
+                      <button type="button" [routerLink]="['.', task._id, 'reassign']" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    <!-- Delete task button -->
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskDeleteModal"
+                         (click)="setTaskInfoToDelete(task._id, task.button.description, task.employee.profile.firstName + ' ' + task.employee.profile.lastName)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="task.isOpen == true">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#taskCompleteModal"
+                        (click)="taskId = task._id">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="task.isOpen == false">
+                    Completed on: {{ task.dateClosed }}
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="panel-footer" *ngIf="taskList?.length < 1" class="text-center">
+          <br>No tasks are registered in the system.
       </div>
     </div>
 </div>

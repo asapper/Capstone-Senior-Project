@@ -5,6 +5,7 @@ services:
    build: pushstock-app
    ports:
      - "4200:4200"
+     - "80:80"
    links:
      - database
    depends_on:
@@ -18,4 +19,3 @@ services:
      - ~/data/mongodb-docker:/data/db
    ports:
      - "27017:27017"
-   command: ["--auth"]

@@ -23,11 +23,20 @@ function setEmployeeInfo(request) {
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-  let employeeInfo = setEmployeeInfo(req.user);
-  res.status(200).json({
-    token: 'JWT ' + generateToken(employeeInfo),
-    employee: employeeInfo
-  });
+  if(req.user){
+      let employeeInfo = setEmployeeInfo(req.user);
+      let tokenString = generateToken(employeeInfo);
+      console.log(tokenString);
+      res.status(200).json({
+          token: tokenString,
+          employee: employeeInfo
+      });
+  }
+  else{
+      res.status(401).json({
+          message: 'User not found'
+      });
+  }
 }
 
 
@@ -41,6 +50,10 @@ exports.register = function(req, res, next) {
   const lastName = req.body.lastName;
   const password = req.body.password;
   const role = req.body.role;
+  
+  if(!role){
+    role = 'Unassigned';
+  }
 
   // Return error if no email provided
   if (!email) {
@@ -66,13 +79,11 @@ exports.register = function(req, res, next) {
         return res.status(422).send({ error: 'That email address is already in use.' });
       }
 
-      // If email is unique and password was provided, create account
-      let employee = new Employee({
-        email: email,
-        password: password,
-        profile: { firstName: firstName, lastName: lastName },
-        role: role
-      });
+      var newEmployee = new Employee();
+      newEmployee.email = email;
+      newEmployee.password = password;
+      newEmployee.profile = { firstName, lastName }
+      newEmployee.role = role;
 
       employee.save(function(err, employee) {
         if (err) { return next(err); }
@@ -109,7 +120,7 @@ exports.roleAuthorization = function(requiredRole) {
       }
 
       // If user is found, check role.
-      if (foundEmployee.role == role) {
+      if (requiredRole.indexOf(foundEmployee.role) > -1) {
         return next();
       }
 
