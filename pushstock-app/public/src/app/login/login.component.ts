@@ -20,13 +20,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService) { }
 
     ngOnInit() {
-        // reset login status
-        //if(!this.authenticationService.checkCredentials()){
-            this.authenticationService.logout();
-        //}
-        //else{
-            //this.router.navigate(this.route.snapshot.queryParams['returnUrl']);
-        //}
+        this.authenticationService.logout();
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

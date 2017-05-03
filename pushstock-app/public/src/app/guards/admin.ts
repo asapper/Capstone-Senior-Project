@@ -1,3 +1,14 @@
+/*
+ * File:          admin.ts
+ * Description:    Defines the route-guards for admin only routes
+ *
+ * Edit history:
+ *
+ * Editor      Date        Description
+ * =====      ========    ===========
+ * Ragnell    04/18/17    Created route guard
+ * Ragnell    04/27/17    Added use of angular2-jwt check of token expiration
+ */
 import { CanActivate, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 

@@ -36,7 +36,7 @@ export class ButtonService {
 
 	// return all active buttons from the API
     getAllActiveButtons() {
-        return this.http.get(`${this.api}/activebuttons`)
+        return this.authHttp.get(`${this.api}/activebuttons`)
         .map(res => res.json());
     }
     

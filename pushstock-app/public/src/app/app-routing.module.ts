@@ -57,7 +57,7 @@ const routes: Routes = [
     { path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
     { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] }
     ]},
-  { path: '**', redirectTo: 'home'}
+  { path: '**', redirectTo: '/home/tasks'}
 ];
 
 @NgModule({

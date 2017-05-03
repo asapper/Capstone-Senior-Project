@@ -14,9 +14,9 @@
             <!-- nav bar tabs -->
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="nav navbar-nav">
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="./tasks">Tasks</a></li>
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="./buttons">Buttons</a></li>
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="./employees">Employees</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="!unassigned" routerLink="./tasks">Tasks</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="admin && !unassigned" routerLink="./buttons">Buttons</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="admin && !unassigned" routerLink="./employees">Employees</a></li>
                     <li><a href="#" (click)=logout()>Logout</a></li>
                 </ul>
             </div>

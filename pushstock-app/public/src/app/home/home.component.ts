@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
 export class HomeComponent {
 
     admin: boolean;
+    unassigned: boolean;
     isIn = false;
  
     constructor(private authenticationService:AuthService, private router:Router){}
  
     ngOnInit(){
         this.admin = this.authenticationService.checkAdmin();
-        console.log("Is Admin? " + this.authenticationService.checkAdmin());
+        this.unassigned = this.authenticationService.isUnassigned();
     }
  
     logout() {

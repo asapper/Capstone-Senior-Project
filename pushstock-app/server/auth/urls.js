@@ -10,21 +10,13 @@ const views = require('./views');
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
 
-const requireLogin = passport.authenticate('local', { session: false });//function(request, response, next){
-/*if(!request.user){
-		response.status(401);
-		response.json({"reason": "Invalid credentials"});
-	}
-	else{
-		next();
-	}
-});*/
+const requireLogin = passport.authenticate('local', { session: false });
+
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
-      REQUIRE_OWNER = "Owner",
-      REQUIRE_CLIENT = "Client",
-      REQUIRE_MEMBER = "Member";
+      REQUIRE_WORKER = "Worker",
+      REQUIRE_PI = "Pi";
 
 
 // Main route (ex: /auth/)

@@ -1,3 +1,14 @@
+/*
+ * File:          login.ts
+ * Description:    Defines the route-guards for all routes rooted from 'home'
+ *
+ * Edit history:
+ *
+ * Editor      Date        Description
+ * =====      ========    ===========
+ * Ragnell    04/10/17    Created route guard
+ * Ragnell    04/27/17    Added use of angular2-jwt check of token expiration
+ */
 import { CanActivate, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
@@ -19,11 +30,16 @@ export class LoginRouteGuard implements CanActivate {
         }
         else{
           this.router.navigate(['/unauthorized']);
-          return false;
         }
       }
+      else{
+        this.router.navigate(['/login']);
+      }
   	}
-    this.router.navigate(['/login']);
+    else{
+      this.router.navigate(['/login']);
+    }
+    
     return false;
   }
 

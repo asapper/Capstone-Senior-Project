@@ -120,7 +120,7 @@ exports.roleAuthorization = function(requiredRole) {
       }
 
       // If user is found, check role.
-      if (foundEmployee.role == role) {
+      if (requiredRole.indexOf(foundEmployee.role) > -1) {
         return next();
       }
 
