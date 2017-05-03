@@ -50,7 +50,7 @@ api_router.get('/', views.indexView);
 
 // Single click POST route (ex: /api/singleClick)
 
-api_router.post('/singleClick', rpiViews.singleClickView);
+api_router.post('/singleClick', requireAuth, AuthenticationController.roleAuthorization([REQUIRE_ADMIN, REQUIRE_PI]), rpiViews.singleClickView);
 
 // Retrieve all Buttons in database (ex: /api/buttons)
 api_router.get('/buttons', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), buttonViews.getAllButtonsView);
