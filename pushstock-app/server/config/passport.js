@@ -4,20 +4,28 @@ const passport = require('passport'),
       config = require('./main'),
       JwtStrategy = require('passport-jwt').Strategy,
       ExtractJwt = require('passport-jwt').ExtractJwt,
-      LocalStrategy = require('passport-local');
+      LocalStrategy = require('passport-local'),
+      util = require('util');
 
 const localOptions = { usernameField: 'email' };
 
 // Setting up local login strategy
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
   Employee.findOne({ email: email }, function(err, employee) {
-    if(err) { return done(err); }
-    if(!employee) { return done(null, false, { error: 'Your email could not be found in our system. Please try again.' }); }
+    if(err) { 
+      return done(err); 
+    }
+    if(!employee) { 
+      return done(null, false, { error: 'Your email could not be found in our system. Please try again.' }); 
+    }
 
   	employee.comparePassword(password, function(err, isMatch) {
-  		if (err) { return done(err); }
-  		if (!isMatch) { return done(null, false, { error: "Your login details could not be verified. Please try again." }); }
-
+  		if (err) { 
+        return done(err); 
+      }
+  		if (!isMatch) { 
+        return done(null, false, { error: "Your login details could not be verified. Please try again." }); 
+      }
   	return done(null, employee);
   	});
   });
@@ -32,9 +40,10 @@ const jwtOptions = {
 
 // Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+  console.log("Payload: " + payload);
   Employee.findById(payload._id, function(err, employee) {
     if (err) { return done(err, false); }
-
+    console.log(employee);
     if (employee) {
       done(null, employee);
     } else {

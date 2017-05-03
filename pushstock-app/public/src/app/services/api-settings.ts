@@ -10,4 +10,5 @@
  */
 export class ApiSettings {
 	public static API = 'https://localhost:4200/api';
+	public static Auth = 'https://localhost:4200/auth';
 }

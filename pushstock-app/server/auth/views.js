@@ -19,6 +19,7 @@ function setEmployeeInfo(request) {
         lastName: request.profile.lastName,
         email: request.email,
         role: request.role,
+        password: request.password
     };
 }
 
@@ -65,21 +66,16 @@ module.exports = {
                 return res.status(422).send({ error: 'That email address is already in use.' });
             }
 
-            // If email is unique and password was provided, create account
-            let employee = new Employee({
-                email: email,
-                password: password,
-                profile: { firstName: firstName, lastName: lastName }
-            });
+            var newEmployee = new Employee();
+            newEmployee.email = email;
+            newEmployee.password = password;
+            newEmployee.profile = { firstName, lastName }
+            newEmployee.role = role;
 
-            employee.save(function(err, employee) {
+            newEmployee.save(function(err, employee) {
                 if (err) { return next(err); }
-
-                // Subscribe member to Mailchimp list
-                // mailchimp.subscribeToNewsletter(user.email);
-
                 // Respond with JWT if user was created
-                let employeeInfo = setEmployeeInfo(employee);
+                let employeeInfo = setEmployeeInfo(newEmployee);
                 res.status(201).json({
                     token: 'JWT ' + generateToken(employeeInfo),
                     employee: employeeInfo
@@ -90,11 +86,18 @@ module.exports = {
 
     // Handle login view
     loginView: function(req, res, next) {
-        let employeeInfo = setEmployeeInfo(req.user);
-        res.status(200).json({
-            token: 'JWT ' + generateToken(employeeInfo),
-            employee: employeeInfo
-        });
+        if(req.user){
+            let employeeInfo = setEmployeeInfo(req.user);
+            res.status(200).json({
+                token: generateToken(employeeInfo),
+                employee: employeeInfo
+            });
+        }
+        else{
+            res.status(401).json({
+                message: 'User not found'
+            });
+        }
     },
 
     // Role authorization middleware

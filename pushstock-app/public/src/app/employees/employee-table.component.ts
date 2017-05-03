@@ -102,6 +102,6 @@ export class EmployeeTableComponent {
     // Deletes all employees in DB (For testing)
     deleteAllEmployees() {
         this.employeeService.deleteAllEmployees();
+        console.log('Deleted all employees');
     }
-
 }

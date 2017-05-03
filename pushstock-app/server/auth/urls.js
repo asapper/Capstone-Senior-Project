@@ -9,21 +9,22 @@ const views = require('./views');
 
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
+
 const requireLogin = passport.authenticate('local', { session: false });
+
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
-      REQUIRE_OWNER = "Owner",
-      REQUIRE_CLIENT = "Client",
-      REQUIRE_MEMBER = "Member";
+      REQUIRE_WORKER = "Worker",
+      REQUIRE_PI = "Pi";
 
 
 // Main route (ex: /auth/)
 auth_router.get('/', views.indexView);
 // Registration route (ex: /auth/register/)
-auth_router.post('/register', AuthenticationController.register, views.registrationView);
+auth_router.post('/register', AuthenticationController.register);
 // Login route (ex: /auth/login/)
-auth_router.post('/login', requireLogin, AuthenticationController.login, views.loginView);
+auth_router.post('/login', requireLogin, AuthenticationController.login);
 
 auth_router.get('/secured', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), views.securedView);
 

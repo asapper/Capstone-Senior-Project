@@ -76,11 +76,11 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <!-- Button to enable add button form -->
-                <li><a [routerLink]="['/buttons/new']">Add FLIC Button</a></li>
+                <li><a routerLink="./new">Add FLIC Button</a></li>
                 <!-- Enable assigning button from unassigned list -->
-                <li><a [routerLink]="['/buttons/assign']">Assign FLIC Button</a></li>
+                <li><a routerLink="./assign">Assign FLIC Button</a></li>
                 <!-- Button to un-assign a button that has been assigned -->
-                <li><a [routerLink]="['/buttons/unassign']">Unassign FLIC Button</a></li>
+                <li><a routerLink="./unassign">UnassignFLIC Button</a></li>
             </ul>
         </div>
       </div>
@@ -102,7 +102,7 @@
                 <td>{{ button.macAddr }}</td>
                 <td>{{ button.description }}</td>
                 <td>
-                    <button type="button" [routerLink]="['/buttons', button.macAddr]" class="btn btn-default">
+                    <button type="button" [routerLink]="['/home/buttons', button.macAddr]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal"

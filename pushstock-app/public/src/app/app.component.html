@@ -16,30 +16,11 @@
 *                       Now highlights tab of current page
 * Rapp      04/24/17    Sticky navbar stays at top of screen when scrolling
 *                       Menu now collapses into navbar when an element is selected
+* Ragnell   05/01/17    Moved navbar to home.component.html for nested components
 -->
+	<router-outlet></router-outlet>
 
-<!-- Bootstrap Navbar -->
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">PushStock</a>
-            </div>
-            <!-- nav bar tabs -->
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <ul class="nav navbar-nav">
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/tasks">Tasks</a></li>
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/buttons">Buttons</a></li>
-                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a routerLink="/employees">Employees</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
 
-<router-outlet></router-outlet>
+	<footer>
+	  Copyright &copy; 2017
+	</footer>

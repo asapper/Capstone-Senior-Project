@@ -5,16 +5,18 @@
 *
 * Edit history:
 *
-* Editor    Date		Description
-* ======	========	===========
-* Saul	    03/16/17	getEmployees added
-* Saul      03/20/17    implemented Delete and Add employees functionality
-* Saul      03/21/17    Moved functionality for buttons into button components
-* Saul      03/22/17    Moved Employee functionality into employee components
+* Editor			Date				Description
+* ======			========		===========
+* Saul			  03/16/17		getEmployees added
+* Saul        03/20/17    implemented Delete and Add employees functionality
+* Saul        03/21/17    Moved functionality for buttons into button components
+* Saul        03/22/17    Moved Employee functionality into employee components
 */
 
 import { Component } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { AuthService } from './services/authentication.service';
+import { Router } from '@angular/router';
 
 import { AlertService } from './services/alert.service';
 	

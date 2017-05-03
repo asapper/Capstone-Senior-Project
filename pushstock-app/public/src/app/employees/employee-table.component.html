@@ -33,7 +33,7 @@
         <div class="panel-title pull-left">Employees registered: <span class="badge">{{ employeeList?.length }} </span></div>
         <div class="panel-title pull-right">
           <!-- Button that routes you to the add employee page-->
-            <button type="button" class="btn btn-primary" [routerLink]="['/employees/new']">Add Employee</button>
+            <button type="button" class="btn btn-primary" routerLink="./new">Add Employee</button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -50,11 +50,11 @@
           </thead>
           <tbody *ngIf="employeeList?.length > 0">
               <tr *ngFor="let employee of employeeList">
-                  <td style="width:30%">{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
-                  <td style="width:30%">{{ employee.email }}</td>
-                  <td style="width:20%">{{ employee.role }}</td>
-                  <td style="width:20%">
-                    <button type="button" [routerLink]="['/employees', employee.email]" class="btn btn-default">
+                  <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
+                  <td>{{ employee.email }}</td>
+                  <td>{{ employee.role }}</td>
+                  <td>
+                    <button type="button" [routerLink]="['.', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button type="button" (click)="deleteEmployee(employee._id)" class="btn btn-default">

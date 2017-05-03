@@ -9,10 +9,18 @@
  * Rapp				03/21/17		File created and Routes defined
  * Rapp				03/23/17		Updated component names and paths
  * Saul				03/28/17		Added route for EmployeeDetailComponent
+ * Ragnell    04/06/17    Modified to use child routes of home page post-login
  */
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { LoginComponent } from './login/index';
+import { HomeComponent } from './home/index';
+import { LoginRouteGuard } from './guards/login';
+import { AdminRouteGuard } from './guards/admin';
+import { RegisterComponent } from './register/index';
+import { UnauthorizedComponent } from './authorization/index';
 
 import { TaskTableComponent } from './tasks/task-table.component';
 import { TaskFormComponent } from './tasks/task-form.component';
@@ -30,18 +38,26 @@ import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/tasks', pathMatch: 'full' },
-	{ path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
-    { path: 'tasks/new', component: TaskFormComponent, pathMatch: 'full' },
-    { path: 'tasks/:taskId/reassign', component: TaskReassignComponent, pathMatch: 'full' },
-	{ path: 'buttons', component: ButtonTableComponent, pathMatch: 'full' },
-    { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full' },
-    { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full' },
-    { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full' },
-    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full' },
-	{ path: 'employees', component: EmployeeTableComponent, pathMatch: 'full' },
-	{ path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full' },
-	{ path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full' }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'},
+  { path: 'home', 
+    component: HomeComponent, 
+    canActivate: [LoginRouteGuard],
+    children: [
+    { path: 'tasks', component: TaskTableComponent, pathMatch: 'full' },
+    { path: 'tasks/new', component: TaskFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard]  },
+    { path: 'tasks/:taskId/reassign', component: TaskReassignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard]  },
+    { path: 'buttons', component: ButtonTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/new', component: ButtonFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/assign', component: ButtonAssignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/unassign', component: ButtonUnassignComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'buttons/:macAddr', component: ButtonDetailComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees', component: EmployeeTableComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees/new', component: EmployeeFormComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] },
+    { path: 'employees/:email', component: EmployeeDetailComponent, pathMatch: 'full', canActivate: [AdminRouteGuard] }
+    ]},
+  { path: '**', redirectTo: '/home/tasks'}
 ];
 
 @NgModule({

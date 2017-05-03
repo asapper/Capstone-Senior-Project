@@ -1,0 +1,27 @@
+<!-- Bootstrap Navbar -->
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PushStock</a>
+            </div>
+            <!-- nav bar tabs -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="nav navbar-nav">
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="!unassigned" routerLink="./tasks">Tasks</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="admin && !unassigned" routerLink="./buttons">Buttons</a></li>
+                    <li [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.in"><a *ngIf="admin && !unassigned" routerLink="./employees">Employees</a></li>
+                    <li><a href="#" (click)=logout()>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<router-outlet></router-outlet>
