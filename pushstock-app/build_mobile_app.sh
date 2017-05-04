@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Filename:     build_mobile_app.sh
+# Author:       Collin Rapp
+# Description:  Copies necessary files from website, installs mobile dependencies, and
+#               builds mobile app
+
 ### Script runs under the assumption of proper environment (i.e. has all dependencies) ###
 
 # If mobile-app directory doesn't exist, make new Ionic project
@@ -7,6 +12,7 @@
 newproj=false
 if [[ ! -d "mobile-app" ]]; then
     echo "Creating new mobile app project..."
+    echo "WARNING: WILL REQUIRE CHANGES TO SOURCE CODE TO WORK PROPERLY"
     ionic start --v2 --ts --appname "PushStock" mobile-app blank
     newproj=true
     echo "Created new project"
@@ -15,16 +21,15 @@ fi
 # Delete all old source files except theme/variables.scss and index.html
 cd mobile-app/src
 if [[ "$newproj" = true ]]; then
-    #exp="(theme)"
     rm -rf `ls | grep -v -E "theme"`
 else
-    #exp="(theme|index\.html|app)"
     rm -rf `ls | grep -v -E "(theme|index\.html|app)"`
     cd app
-    rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts)"`
-    cd ..
+    rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts|services)"`
+    cd services
+    rm -rf `ls | grep -v -E "api-settings.ts"`
+    cd ../..
 fi
-#rm -rf `ls | grep -v -E "$exp"`
 
 # Copy over all website source files
 echo "Copying over source files from web directory..."
@@ -33,10 +38,6 @@ cp -Rn ../../public/src/ .
 # Delete Angular's main.ts; Ionic's is in app/
 rm main.ts
 echo "Copied source files from web"
-
-# Run python script to change source files
-#printf "Modifying source for mobile...\n"
-#../../make_mobile_files.py
 
 cd ..
 

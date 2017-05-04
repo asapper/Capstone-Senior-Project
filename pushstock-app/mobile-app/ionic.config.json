@@ -2,5 +2,12 @@
   "name": "PushStock",
   "app_id": "",
   "v2": true,
-  "typescript": true
+  "typescript": true,
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://192.168.3.117:4200/api",
+      "rejectUnauthorized": false
+    }
+  ]
 }
