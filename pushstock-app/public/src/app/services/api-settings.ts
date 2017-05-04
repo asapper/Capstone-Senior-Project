@@ -1,14 +1,15 @@
 /*
- * File:					api-settings.ts
+ * File:			api-settings.ts
  * Description:		This file provides information about the API in use.
  *
  * Edit History:
  *
- * Editor			Date				Description
+ * Editor			Date			Description
  * ======			========		===========
  * Rapp				03/28/17		File created
  */
 export class ApiSettings {
+    //private static endpoint = 'https://192.168.3.117:4200';
     private static endpoint = 'https://localhost:4200';
     public static API = ApiSettings.endpoint + '/api';
     public static AUTH = ApiSettings.endpoint + '/auth';
