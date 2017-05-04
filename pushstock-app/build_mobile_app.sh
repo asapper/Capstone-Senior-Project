@@ -46,19 +46,34 @@ echo "Installed dependencies"
 
 # Build app to make sure everything in place
 echo "Building core Ionic project..."
-ionic build
-echo "Built core Ionic project"
+ionic build 2> build_errors.txt
+errors=`grep -ic "err" build_errors.txt`
+if [[ "$errors" -eq "0" ]]; then
+    echo "Built core Ionic project"
+else
+    cat build_errors.txt
+    echo "Failed to build core Ionic project"
+    exit 1
+fi
 
-# Add any platforms if necessary, and build them either way
+# Add iOS platform if necessary, and then build either way
 if [[ ! -d "platforms/ios" ]]; then
     echo "Adding ios platform..."
     ionic platform add ios
     echo "Added ios platform"
 fi
 echo "Building iOS project..."
-ionic build ios
-echo "Built iOS project"
+ionic build ios 2> build_errors.txt
+errors=`grep -ic "err" build_errors.txt`
+if [[ "$errors" -eq "0" ]]; then
+    echo "Built iOS project"
+else
+    cat build_errors.txt
+    echo "Failed to build iOS project"
+    exit 1
+fi
 
+# Add Android platform if necessary, and then build either way
 if [[ ! -d "platforms/android" ]]; then
     echo "Adding Android platform..."
     ionic platform add android
@@ -66,4 +81,11 @@ if [[ ! -d "platforms/android" ]]; then
 fi
 echo "Building Android project..."
 ionic build android
-echo "Built Android project"
+errors=`grep -ic "err" build_errors.txt`
+if [[ "$errors" -eq "0" ]]; then
+    echo "Built Android project"
+else
+    cat build_errors.txt
+    echo "Failed to build Android project"
+    exit 1
+fi

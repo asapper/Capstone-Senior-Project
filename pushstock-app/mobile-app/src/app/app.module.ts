@@ -1,16 +1,14 @@
 /*
 * File:         app.modules.ts
-* Author:       Brennan Saul
-* Description:  In charge of including components and imports
+* Author:       Collin Rapp
+* Description:  In charge of including components and imports for the mobile app
 *
 * Edit history:
 *
 * Editor        Date			Description
 * ======		========		===========
-* Saul          03/15/17		ButtonTableComponent added
-* Saul			03/16/17		EmployeeTableComponent added
-* Rapp			03/21/17		Switched to use Angular2's built-in routing module
-* Sapper        03/27/17        Add ButtonDetail component
+* Rapp          05/01/17        File created (based on public/src/app/app.module.ts)
+* Rapp          05/03/17        Added authorization changes for mobile
 */
 
 import { IonicApp, IonicModule } from 'ionic-angular';
@@ -38,7 +36,30 @@ import { ButtonDetailComponent } from './buttons/button-detail.component';
 import { ButtonAssignComponent } from './buttons/button-assign.component';
 import { ButtonUnassignComponent } from './buttons/button-unassign.component';
 
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import { UnauthorizedComponent } from './authorization/unauthorized.component';
+
 import { AppRoutingModule } from './app-routing.module';
+
+import { AlertService, AuthService, ButtonService, EmployeeService } from './services/index';
+import { LoginRouteGuard } from './guards/login';
+import { AdminRouteGuard } from './guards/admin';
+import { Http, RequestOptions } from '@angular/http';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+    return new AuthHttp(new AuthConfig(
+        {
+            tokenName: 'token',
+            tokenGetter: (() => localStorage.getItem('token')),
+            headerPrefix: 'JWT'
+        }),
+        http,
+        options
+    );
+}
 
 @NgModule({
     declarations: [
@@ -51,9 +72,13 @@ import { AppRoutingModule } from './app-routing.module';
         EmployeeTableComponent,
         EmployeeFormComponent,
         EmployeeDetailComponent,
+        HomeComponent,
+        LoginComponent,
+        RegisterComponent,
         TaskTableComponent,
         TaskFormComponent,
-        TaskReassignComponent
+        TaskReassignComponent,
+        UnauthorizedComponent
     ],
     imports: [
         BrowserModule,
@@ -73,15 +98,30 @@ import { AppRoutingModule } from './app-routing.module';
         EmployeeTableComponent,
         EmployeeFormComponent,
         EmployeeDetailComponent,
+        HomeComponent,
+        LoginComponent,
+        RegisterComponent,
         TaskTableComponent,
         TaskFormComponent,
-        TaskReassignComponent
+        TaskReassignComponent,
+        UnauthorizedComponent
     ],
     providers: [
         {
             provide: LocationStrategy,
             useClass: HashLocationStrategy
-        }
+        },
+        {
+            provide: AuthHttp,
+            useFactory: authHttpServiceFactory,
+            deps: [Http, RequestOptions]
+        },
+        AdminRouteGuard,
+        AlertService,
+        AuthService,
+        ButtonService,
+        EmployeeService,
+        LoginRouteGuard
     ],
 	bootstrap: [
         IonicApp

@@ -3,6 +3,9 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { AuthConfig, JwtHelper, tokenNotExpired } from 'angular2-jwt';
+
+import { ApiSettings } from './api-settings';
+
 import 'rxjs/add/operator/map';
 
 export class User {
@@ -14,6 +17,8 @@ export class User {
 @Injectable()
 export class AuthService {
     jwtHelper: JwtHelper = new JwtHelper();
+    auth: string = ApiSettings.AUTH;
+
     constructor(private http: Http, private _router: Router) { }
 
     checkCredentials() {
@@ -57,7 +62,7 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        return this.http.post('https://localhost:4200/auth/login', { email: username, password: password })
+        return this.http.post(auth + '/login', { email: username, password: password })
             .map((response: Response) => {
                 if(response.status === 401){
                     return false;

@@ -8,7 +8,8 @@
  * ======		========	===========
  * Rapp			03/29/17	File created
  * Saul			04/18/17	UpdateEmployee service added
- * Saul			04/27/17  Delete tasks associated with an employee
+ * Saul			04/27/17    Delete tasks associated with an employee
+ * Rapp         05/04/17    Changed ApiSettings.Auth to ApiSettings.AUTH
  */
 
 import { Injectable } from '@angular/core';
@@ -17,9 +18,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
-import { ApiSettings } from './api-settings';
 import { AuthHttp } from 'angular2-jwt';
 
+import { ApiSettings } from './api-settings';
 
 @Injectable()
 export class EmployeeService {
@@ -27,7 +28,7 @@ export class EmployeeService {
 	auth: String;
 	constructor(private http: Http, private authHttp: AuthHttp) {
 		this.api = ApiSettings.API;
-		this.auth = ApiSettings.Auth;
+		this.auth = ApiSettings.AUTH;
 	}
 
 	// Return all employees in the database
