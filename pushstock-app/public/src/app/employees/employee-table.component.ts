@@ -5,14 +5,15 @@
 *
 * Edit history:
 *
-* Editor	Date		Description
-* ======	========	===========
-* Saul		  03/16/17	File created
+* Editor	  Date		    Description
+* ======	  ========	  ===========
+* Saul		  03/16/17	  File created
 * Saul      03/22/17    Calls API for the employee list
 * Saul      03/22/17    Removed unnecessary code
 * Saul      03/27/17    deleteEmployee() added
-* Rapp		  03/29/17	Moved API calls to EmployeeService
+* Rapp		  03/29/17	  Moved API calls to EmployeeService
 * Saul      04/18/17    Adding notifications to employeeTable
+* Ragnell   05/04/17    Added filtering so that Raspberry Pi account is not displayed
 */
 
 

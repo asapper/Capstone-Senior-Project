@@ -50,10 +50,10 @@
           </thead>
           <tbody *ngIf="employeeList?.length > 0">
               <tr *ngFor="let employee of employeeList">
-                  <td>{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
-                  <td>{{ employee.email }}</td>
-                  <td>{{ employee.role }}</td>
-                  <td>
+                  <td *ngIf="employee.role != 'Pi'">{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
+                  <td *ngIf="employee.role != 'Pi'">{{ employee.email }}</td>
+                  <td *ngIf="employee.role != 'Pi'">{{ employee.role }}</td>
+                  <td *ngIf="employee.role != 'Pi'">
                     <button type="button" [routerLink]="['.', employee.email]" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
