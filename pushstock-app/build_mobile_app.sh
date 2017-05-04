@@ -90,3 +90,7 @@ else
     echo "Failed to build Android project"
     exit 1
 fi
+
+if [[ -e "build_errors.txt" ]]; then
+    rm build_errors.txt
+fi
