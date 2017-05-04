@@ -11,7 +11,8 @@
  */
 export class ApiSettings {
     //private static endpoint = 'https://192.168.3.117:4200';
-    private static endpoint = 'http://192.168.3.117:8333';
+    //private static endpoint = 'http://192.168.3.117:8333';
+    private static endpoint = 'https://192.168.3.109:4200';
     public static API = ApiSettings.endpoint + '/api';
     public static AUTH = ApiSettings.endpoint + '/auth';
     //public static API = '/api';
