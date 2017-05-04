@@ -13,6 +13,7 @@
 * Saul      03/27/17    Delete functionality added
 * Rapp      04/23/17    Changed Actions dropdown menu to align right for mobile view
 * Rapp      05/02/17    Changed filtering to use buttons just like the tasks table
+* Rapp      05/04/17    Made table scrollable if too large for mobile screen
 -->
 
 <!-- Alerts displayed -->
@@ -88,34 +89,36 @@
     </div>
 
     <!-- Table for the buttons in the mongo DB -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width:25%">MAC Address</th>
-                <th style="width:45%">Description</th>
-                <th>Edit / Delete</th>
-                <th>Active?</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="buttonList?.length > 0">
-            <tr *ngFor="let button of buttonList">
-                <td>{{ button.macAddr }}</td>
-                <td>{{ button.description }}</td>
-                <td>
-                    <button type="button" [routerLink]="['/home/buttons', button.macAddr]" class="btn btn-default">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal"
-                        (click)="setMacAddrToDelete(button.macAddr)">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </button>
-                </td>
-                <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="panel-footer" *ngIf="buttonList?.length < 1" class="text-center">
-        <br>No active buttons are registered in the system.
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:25%">MAC Address</th>
+                    <th style="width:45%">Description</th>
+                    <th>Edit / Delete</th>
+                    <th>Active?</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="buttonList?.length > 0">
+                <tr *ngFor="let button of buttonList">
+                    <td>{{ button.macAddr }}</td>
+                    <td>{{ button.description }}</td>
+                    <td>
+                        <button type="button" [routerLink]="['/home/buttons', button.macAddr]" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#btnDeleteModal"
+                            (click)="setMacAddrToDelete(button.macAddr)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                      </button>
+                    </td>
+                    <td><input type="checkbox" name="isActive" [(ngModel)]="button.isActive" disabled></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel-footer" *ngIf="buttonList?.length < 1" class="text-center">
+            <br>No active buttons are registered in the system.
+        </div>
     </div>
   </div>
 </div>
