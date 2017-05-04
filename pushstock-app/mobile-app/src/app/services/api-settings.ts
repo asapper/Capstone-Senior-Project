@@ -4,9 +4,10 @@
  *
  * Edit History:
  *
- * Editor			Date				Description
- * ======			========		===========
- * Rapp				03/28/17		File created
+ * Editor		Date		Description
+ * ======		========	===========
+ * Rapp			03/28/17	File created
+ * Rapp         05/04/17    Adapted for mobile (no longer uses localhost)
  */
 export class ApiSettings {
     private static endpoint = 'https://192.168.3.117:4200';
