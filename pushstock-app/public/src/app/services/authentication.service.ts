@@ -62,7 +62,7 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        return this.http.post(auth + '/login', { email: username, password: password })
+        return this.http.post(this.auth + '/login', { email: username, password: password })
             .map((response: Response) => {
                 if(response.status === 401){
                     return false;
