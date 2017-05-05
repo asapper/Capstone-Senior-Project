@@ -33,6 +33,7 @@ module.exports = {
                 req.body.password,
                 req.body.firstName,
                 req.body.lastName,
+                req.body.phone,
                 req.body.role);
         // save the Button and check for errors
         newEmployee.save(function(err) {
@@ -77,6 +78,7 @@ module.exports = {
             employee.email = req.body.email;
             employee.profile.firstName = req.body.firstName;
             employee.profile.lastName  =  req.body.lastName;
+            employee.phone = req.body.phone;
             employee.role = req.body.role;
             employee.save(function(err) {
                 if (err) {

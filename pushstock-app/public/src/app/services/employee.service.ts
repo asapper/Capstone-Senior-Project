@@ -54,14 +54,14 @@ export class EmployeeService {
 	}
 
     // Add a new employee with all fields to the database
-    addEmployee(email: String, password: String, firstName: String, lastName: String, role: String) {
-        return this.authHttp.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role })
+    addEmployee(email: String, password: String, firstName: String, lastName: String, role: String, phone: String) {
+        return this.authHttp.post(`${this.api}/addEmployee`, { email, password, firstName, lastName, role, phone })
         .map(res => res.json());
     }
 
 	// Update the information of an employee
-	updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String) {
-		return this.authHttp.put(`${this.api}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role })
+	updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String, phone: String) {
+		return this.authHttp.put(`${this.api}/employees/${oEmail}`, { oEmail, email, firstName, lastName, role, phone })
 		.map(res => res.json());
 	}
 
@@ -77,8 +77,8 @@ export class EmployeeService {
 			.map( res => res.json());
 	}
 
-	registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
-    	return this.authHttp.post(`${this.auth}/register`, { email, password, firstName, lastName, role })
+	registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String, phone: String){
+    	return this.authHttp.post(`${this.auth}/register`, { email, password, firstName, lastName, role, phone })
     		.map(res => res.json())
     		.catch(this.handleRegisterError);
     }

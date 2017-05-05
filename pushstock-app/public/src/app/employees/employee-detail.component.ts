@@ -61,8 +61,8 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     // Update the information of an employee
-    updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String): void {
-        this.employeeService.updateEmployee(oEmail, email, firstName, lastName, role).subscribe(res => {
+    updateEmployee(oEmail: String, email: String, firstName: String, lastName: String, role: String, phone: String): void {
+        this.employeeService.updateEmployee(oEmail, email, firstName, lastName, role, phone).subscribe(res => {
             this.alertService.handleApiResponse(res);
             this.goBack();
         });

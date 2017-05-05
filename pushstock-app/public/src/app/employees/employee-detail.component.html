@@ -48,6 +48,15 @@
       *ngIf="lastName.invalid && lastName.touched"> Required </span>
     </div>
 
+    <label for="phone">Phone</label>
+      <input type="phone" class="form-control" name="phone" required
+      [(ngModel)]="employee.phone" #phone="ngModel" value="employee.phone">
+
+      <!-- Shows "Required" if phone field is empty -->
+      <span style="color:red" class="help-block"
+      *ngIf="phone.invalid && phone.touched"> Required </span>
+    </div>
+
     <!-- role -->
     <div class="form-group" [ngClass]="{ 'has-error': role.invalid && role.touched }">
       <label for="role">Role</label><br/>
@@ -71,7 +80,7 @@
     <!-- Save Button -->
     <!-- Employee is disabled if form=invaild & been touched -->
     <button type="button" (click)="updateEmployee(oEmail, employee.email,
-    employee.profile.firstName, employee.profile.lastName, employee.role)"
+    employee.profile.firstName, employee.profile.lastName, employee.role, employee.phone)"
     class="btn btn-primary"
     [disabled]="form.invalid"
     routerLink="/home/employees">Save</button>
