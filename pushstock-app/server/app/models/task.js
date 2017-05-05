@@ -15,9 +15,9 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       ObjectId = Schema.Types.ObjectId;
 
-const twillio = require('twilio'),
-      config = require('../../config/twilio.js'),
-      client = new twilio(config.accountSid, config.authToken);
+const twilio = require('twilio');
+const config = require('../../config/twilio.js');
+const client = new twilio(config.accountSid, config.authToken);
 
 //===========================
 // Task Schema
@@ -69,7 +69,7 @@ TaskSchema.post('save', function(doc) {
                 client.messages.create({
                     body: msg,
                     to: receivingNumber,
-                    from: config.sendingNumber;
+                    from: config.sendingNumber
                 }).then((message) => console.log(message));
             }
         }

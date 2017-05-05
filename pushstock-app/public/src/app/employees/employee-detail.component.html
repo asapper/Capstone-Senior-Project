@@ -48,8 +48,9 @@
       *ngIf="lastName.invalid && lastName.touched"> Required </span>
     </div>
 
-    <label for="phone">Phone</label>
-      <input type="phone" class="form-control" name="phone" required
+    <div class="form-group" [ngClass]="{ 'has-error': phone.invalid && phone.touched }">
+      <label for="phone">Phone</label>
+      <input type="tel" class="form-control" name="phone" required
       [(ngModel)]="employee.phone" #phone="ngModel" value="employee.phone">
 
       <!-- Shows "Required" if phone field is empty -->
