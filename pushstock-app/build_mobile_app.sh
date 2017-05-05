@@ -25,10 +25,12 @@ if [[ "$newproj" = true ]]; then
 else
     rm -rf `ls | grep -v -E "(theme|index\.html|app)"`
     cd app
-    rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts|services)"`
-    cd services
-    rm -rf `ls | grep -v -E "api-settings.ts"`
-    cd ../..
+    rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts)"`
+    cd ..
+    #rm -rf `ls | grep -v -E "(main\.ts|app\.module\.ts|services)"`
+    #cd services
+    #rm -rf `ls | grep -v -E "api-settings.ts"`
+    #cd ../..
 fi
 
 # Copy over all website source files
@@ -51,6 +53,8 @@ ionic build 2> build_errors.txt
 errors=`grep -ic "err" build_errors.txt`
 if [[ "$errors" -eq "0" ]]; then
     echo "Built core Ionic project"
+    rm build_errors.txt
+    exit 0                              ### EXIT WITHOUT BUILDING PLATFORM SPECIFIC
 else
     cat build_errors.txt
     rm build_errors.txt

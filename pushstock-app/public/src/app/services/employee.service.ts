@@ -28,7 +28,7 @@ export class EmployeeService {
 	auth: String;
 	constructor(private http: Http, private authHttp: AuthHttp) {
 		this.api = ApiSettings.API;
-		this.auth = ApiSettings.AUTH;
+		this.auth = ApiSettings.Auth;
 	}
 
 	// Return all employees in the database
