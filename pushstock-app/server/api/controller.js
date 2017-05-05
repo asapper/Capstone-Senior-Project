@@ -30,11 +30,12 @@ module.exports = {
         return newButton;
     },
 
-    createNewEmployee: function(email, pswd, firstName, lastName, role) {
+    createNewEmployee: function(email, pswd, firstName, lastName, phone, role) {
         var newEmployee = new Employee();
         newEmployee.email = email;
         newEmployee.password = pswd;
         newEmployee.profile = { firstName, lastName }
+        newEmployee.phone = phone;
         newEmployee.role = role;
         return newEmployee;
     }

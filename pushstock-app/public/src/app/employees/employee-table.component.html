@@ -1,16 +1,16 @@
-<!-- File:          employee-table.component.html
-* Author:         Brennan Saul
-* Description:    HTML for the ButtonTableComponent <button-table>
+<!-- File:      employee-table.component.html
+* Author:       Brennan Saul
+* Description:  HTML for the ButtonTableComponent <button-table>
 *
 * Edit history:
 *
-* Editor			Date				Description
-* ======			========		===========
-* Saul			  03/16/17		File created
-* Saul        03/20/17    Fixed display number error
-* Saul        03/27/17    Added delete button and call to function
-* Saul        03/28/17    Added edit employee button
-* Saul        04/18/17    Adding notifications to employeeTable
+* Editor	Date		Description
+* ======	========	===========
+* Saul		03/16/17	File created
+* Saul      03/20/17    Fixed display number error
+* Saul      03/27/17    Added delete button and call to function
+* Saul      03/28/17    Added edit employee button
+* Saul      04/18/17    Adding notifications to employeeTable
 -->
 
 <!-- Alerts displayed -->
@@ -39,33 +39,37 @@
       </div>
 
       <!-- Table for the Employees in the mongo DB -->
-      <table class="table">
-          <thead>
-              <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Edit / Delete</th>
-              </tr>
-          </thead>
-          <tbody *ngIf="employeeList?.length > 0">
-              <tr *ngFor="let employee of employeeList">
-                  <td *ngIf="employee.role != 'Pi'">{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
-                  <td *ngIf="employee.role != 'Pi'">{{ employee.email }}</td>
-                  <td *ngIf="employee.role != 'Pi'">{{ employee.role }}</td>
-                  <td *ngIf="employee.role != 'Pi'">
-                    <button type="button" [routerLink]="['.', employee.email]" class="btn btn-default">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button type="button" (click)="deleteEmployee(employee._id)" class="btn btn-default">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-      <div class="panel-footer" *ngIf="employeeList?.length < 1" class="text-center">
-          <br>No employees are registered in the system.
+      <div class="table-responsive">
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Role</th>
+                      <th>Edit / Delete</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="employeeList?.length > 0">
+                  <tr *ngFor="let employee of employeeList">
+                      <td *ngIf="employee.role != 'Pi'">{{ employee.profile.firstName }} {{ employee.profile.lastName }}</td>
+                      <td *ngIf="employee.role != 'Pi'">{{ employee.email }}</td>
+                      <td *ngIf="employee.role != 'Pi'">{{ employee.phone }}</td>
+                      <td *ngIf="employee.role != 'Pi'">{{ employee.role }}</td>
+                      <td *ngIf="employee.role != 'Pi'">
+                        <button type="button" [routerLink]="['.', employee.email]" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button type="button" (click)="deleteEmployee(employee._id)" class="btn btn-default">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+          <div class="panel-footer" *ngIf="employeeList?.length < 1" class="text-center">
+              <br>No employees are registered in the system.
+          </div>
       </div>
     </div>
 </div>

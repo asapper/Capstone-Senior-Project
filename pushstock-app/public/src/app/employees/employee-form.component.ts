@@ -37,9 +37,9 @@ export class EmployeeFormComponent {
     // Class used to group data added to mongoDb
     newEmployee: Employee = new Employee();
 
-    addEmployee(email: String, password: String, firstName: String, lastName: String, role: String){
+    addEmployee(email: String, password: String, firstName: String, lastName: String, role: String, phone: String){
         // Add Employee using services
-        this.employeeService.addEmployee(email, password, firstName, lastName, role)
+        this.employeeService.addEmployee(email, password, firstName, lastName, role, phone)
         .subscribe(res => {
             this.alertService.handleApiResponse(res);
             this.location.back(); // Route back to buttons table

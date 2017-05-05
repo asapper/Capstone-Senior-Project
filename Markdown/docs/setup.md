@@ -91,6 +91,7 @@ Ensure that the device is properly attached, and can be detected by the system.
 To run the app on an iOS device, run `ionic run ios`.  
 To run the app on an Android device, run `ionic run android`.
 
----
+# Information for Twilio
 
-On the following page you will find instructions on how to interact with our product.
+Account: Collin Rapp  
+Phone Number: +1 (971) 252-6887

@@ -63,6 +63,17 @@ directive-->
     *ngIf="password.invalid && password.touched"> Required </span>
   </div>
 
+  <!-- Phone field -->
+  <div class="form-group" [ngClass]="{ 'has-error': phone.invalid && phone.touched }">
+  <label for="phone">Phone</label>
+    <input type="tel" class="form-control" name="phone" required
+    [(ngModel)]="newEmployee.phone" #phone="ngModel" placeholder="Employee's phone">
+
+    <!-- Shows "Required" if phone field is empty -->
+    <span style="color:red" class="help-block"
+    *ngIf="phone.invalid && phone.touched"> Required </span>
+  </div>
+
   <!-- Role selector -->
   <div class="form-group" [ngClass]="{ 'has-error': role.invalid && role.touched }">
     <label for="role">Role</label><br />
@@ -81,5 +92,5 @@ directive-->
   <!-- Button is disabled if form=invaild & been touched -->
   <button type="button" (click)="addEmployee(newEmployee.email,
   newEmployee.password, newEmployee.firstName, newEmployee.lastName,
-  newEmployee.role)" class="btn btn-primary"
+  newEmployee.role, newEmployee.phone)" class="btn btn-primary"
   [disabled]="form.invalid">Add Employee</button>

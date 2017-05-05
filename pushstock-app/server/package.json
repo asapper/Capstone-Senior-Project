@@ -16,7 +16,8 @@
     "mongoose": "^4.8.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "twilio": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

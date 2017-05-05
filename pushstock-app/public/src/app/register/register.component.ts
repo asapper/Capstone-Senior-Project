@@ -22,7 +22,7 @@ export class RegisterComponent {
 
     register() {
         this.loading = true;
-        this.employeeService.registerEmployee(this.model.username, this.model.password, this.model.firstName, this.model.lastName, 'Unassigned')
+        this.employeeService.registerEmployee(this.model.username, this.model.password, this.model.firstName, this.model.lastName, this.model.phone, 'Unassigned')
             .subscribe(
                 data => {
                     this.alertService.setSuccessAlert('Registration successful');

@@ -15,6 +15,12 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       ObjectId = Schema.Types.ObjectId;
 
+const twilio = require('twilio');
+const config = require('../../config/twilio.js');
+const client = new twilio(config.accountSid, config.authToken);
+const Employee = require('./employee');
+const Button = require('./button');
+
 //===========================
 // Task Schema
 //==========================
@@ -46,5 +52,40 @@ const TaskSchema = new Schema({
         default: null 
     }
 }, { timestamps: true });
+
+// Send notification after assigning task
+TaskSchema.post('save', function(doc) {
+    if (doc.isOpen) {
+        // If employee has phone number, send notification
+        Employee.findOne({ _id: doc.employee }, function(err, res) {
+            // Check whether employee found without error
+            if (!err && res) {
+                // Check whether employee has a phone number
+                if (res.phone) {
+                    var name = '';
+                    if (res.profile.firstName && res.profile.firstName !== '' && res.profile.firstName.length <= 25) {
+                        name = ', ' + res.profile.firstName;
+                    }
+                    Button.findOne({ _id: doc.button }, function(err, btn) {
+                        if (!err && btn) {
+                            var desc = btn.description;
+                            if (desc.length > 25) {
+                                desc = desc.slice(0, 26) + '...';
+                            }
+                            var msg = 'Hello' + name + '! You have been assigned the task "' + desc + '".';
+                            var receivingNumber = '+1' + res.phone;
+
+                            client.messages.create({
+                                body: msg,
+                                to: receivingNumber,
+                                from: config.sendingNumber
+                            }).then((message) => console.log(message));
+                        }
+                    });
+                }
+            }
+        });
+    }
+});
 
 module.exports = mongoose.model('Task', TaskSchema);

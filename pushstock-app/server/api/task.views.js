@@ -7,12 +7,17 @@
  * Editor       Date            Description
  * ------       --------        -----------
  * sapper       03/01/17        File created
+ * Rapp         05/05/17        Added SMS notifications
  */
 
 const Button = require('../app/models/button');
 const Task = require('../app/models/task');
 const Employee = require('../app/models/employee');
 const controller = require('./controller');
+
+const twilio = require('twilio');
+const config = require('../config/twilio.js');
+const client = new twilio(config.accountSid, config.authToken);
 
 const CREATED_STATUS = '201';
 const BAD_REQUEST_STATUS = '400';
@@ -149,6 +154,36 @@ module.exports = {
             if (err) {
                 res.json({ error: err.message });
             } else {
+                // Send notification to previous employee
+                Employee.findOne({ _id: task.employee }, function(err, oldEmployee) {
+                    if (!err && oldEmployee) {
+                        if (oldEmployee.phone) {
+                            var name = '';
+                            if (oldEmployee.profile.firstName && oldEmployee.profile.firstName !== ''
+                                && oldEmployee.profile.firstName.length <= 25) {
+                                name = ', ' + oldEmployee.profile.firstName;
+                            }
+                            Button.findOne({ _id: task.button }, function(err, button) {
+                                if (!err && button) {
+                                    var desc = button.description;
+                                    if (desc.length > 25) {
+                                        desc = desc.slice(0, 26) + '...';
+                                    }
+
+                                    var msg = 'Hello' + name + '! Your task "' + desc + '"has been reassigned.';
+                                    var receivingNumber = '+1' + res.phone;
+
+                                    client.messages.create({
+                                        body: msg,
+                                        to: receivingNumber,
+                                        from: config.sendingNumber
+                                    }).then((message) => console.log(message));
+                                }
+                            });
+                        }
+                    }
+                });
+
                 // find employee
                 Employee.findOne({ email: req.body.employee_email }, function(err, employee) {
                     if (err) {
