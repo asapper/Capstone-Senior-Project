@@ -23,6 +23,10 @@ const EmployeeSchema = new Schema({
     lastName: { type: String, required: false },
     required: false
   },
+  phone: {
+    type: String,
+    required: false
+  },
   role: {
     type: String,
     enum: ['Worker', 'Manager', 'Admin', 'Unassigned', 'Pi'],

@@ -15,6 +15,10 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       ObjectId = Schema.Types.ObjectId;
 
+const twillio = require('twilio'),
+      config = require('../../config/twilio.js'),
+      client = new twilio(config.accountSid, config.authToken);
+
 //===========================
 // Task Schema
 //==========================
@@ -46,5 +50,30 @@ const TaskSchema = new Schema({
         default: null 
     }
 }, { timestamps: true });
+
+// Send notification after assigning task
+TaskSchema.post('save', function(doc) {
+    // If employee has phone number, send notification
+    Employee.findOne({ _id: doc.employee }, function(err, res) {
+        // Check whether employee found without error
+        if (!err && res) {
+            // Check whether employee has a phone number
+            if (res.phone) {
+                var name = '';
+                if (res.profile.firstName && res.profile.firstname !== '') {
+                    name = ', ' + res.profile.firstName;
+                }
+                var msg = 'Hello' + name + '! You have been assigned a new PushStock task.';
+                var receivingNumber = '+1' + res.phone;
+
+                client.messages.create({
+                    body: msg,
+                    to: receivingNumber,
+                    from: config.sendingNumber;
+                }).then((message) => console.log(message));
+            }
+        }
+    });
+});
 
 module.exports = mongoose.model('Task', TaskSchema);
