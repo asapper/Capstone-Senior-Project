@@ -99,15 +99,15 @@ api_router.delete('/employees', requireAuth, AuthenticationController.roleAuthor
 // Add an emplyee to the database
 api_router.post('/addEmployee', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.addEmployeeView);
 // Delete a specified employee
-api_router.delete('/employees/:email', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.deleteEmployeeView);
+api_router.delete('/employees/:_id', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.deleteEmployeeView);
 // Update a specific employee
 api_router.put('/employees/:email', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.updateSingleEmployeeView);
 // Retrieve a specific Button (ex: /api/buttons/1)
 api_router.get('/employees/:email', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.getSingleEmployeeView);
 // Returns true if the employee has an open task
-api_router.get('/hasTask/:_id', AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.hasTaskView);
+api_router.get('/hasTask/:_id', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.hasTaskView);
 // Delete the completed tasks Associated with an employee
-api_router.delete('/deleteCompletedTasks/:_id', AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.deleteCompletedTasksView);
+api_router.delete('/deleteCompletedTasks/:_id', requireAuth, AuthenticationController.roleAuthorization(REQUIRE_ADMIN), employeeViews.deleteCompletedTasksView);
 
 
 module.exports = api_router;

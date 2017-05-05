@@ -76,8 +76,8 @@ module.exports = {
                                 if (err) {
                                     res.json({ error: err.message });
                                 } else if (tasks.length > 0) {
-                                    // get all non-admin employees not in task set
-                                    Employee.find({ role: { $ne: "Admin"}, _id: { $nin: tasks } },
+                                    // get all workers not in task set
+                                    Employee.find({ role: { $eq: "Worker"}, _id: { $nin: tasks } },
                                             null, { sort: { createdAt: 1 }}, function(err, employees) {
                                         if (err) {
                                             res.json({ error: err.message });
@@ -136,7 +136,7 @@ module.exports = {
                                     });
                                 } else { // no tasks have ever been created
                                     // criteria #1
-                                    Employee.find({ role: { $ne: "Admin" }}, null, { sort: { createdAt: 1 }}, function(err, employees) {
+                                    Employee.find({ role: { $eq: "Worker" }}, null, { sort: { createdAt: 1 }}, function(err, employees) {
                                         if (err) {
                                             res.json({ error: err.message });
                                         } else if (employees.length > 0) {
