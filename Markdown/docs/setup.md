@@ -88,6 +88,8 @@ To launch the app in an Android simulator, run `ionic emulate android`.
 
 Ensure that the device is properly attached, and can be detected by the system.  
 
+Follow [these instructions](https://ionicframework.com/docs/intro/deploying/) to allow your connected device to run the app. After finishing this, you can rebuild and run the app on your device with the following terminal commands.
+
 To run the app on an iOS device, run `ionic run ios`.  
 To run the app on an Android device, run `ionic run android`.
 
