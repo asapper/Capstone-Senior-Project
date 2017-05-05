@@ -24,6 +24,7 @@ Our file structure is divided into separate modules, which translate to containe
 - Markdown: folder including this documentation :)
 - database: folder including all the files used to configure MongoDB.
 - pushstock-app: folder containing the source code for our server and front-end components.
+- raspberry-pi: folder including the source code for our button controller.
 
 The entire file structure is as follows:
 
@@ -33,6 +34,11 @@ The entire file structure is as follows:
 │   ├── docs
 │   │   ├── about.md
 │   │   ├── design.md
+│   │   ├── guide.md
+│   │   ├── img
+│   │   │   ├── Database\ diagram.png
+│   │   │   ├── Design\ overview.png
+│   │   │   └── Layer\ architecture.png
 │   │   ├── index.md
 │   │   └── setup.md
 │   └── mkdocs.yml
@@ -46,6 +52,77 @@ The entire file structure is as follows:
 ├── docker-compose.yml
 ├── pushstock-app
 │   ├── Dockerfile
+│   ├── build_mobile_app.sh
+│   ├── mobile-app
+│   │   ├── config.xml
+│   │   ├── ionic.config.json
+│   │   ├── package.json
+│   │   ├── resources
+│   │   │   ├── android
+│   │   │   │   ├── icon
+│   │   │   │   │   ├── drawable-hdpi-icon.png
+│   │   │   │   │   ├── drawable-ldpi-icon.png
+│   │   │   │   │   ├── drawable-mdpi-icon.png
+│   │   │   │   │   ├── drawable-xhdpi-icon.png
+│   │   │   │   │   ├── drawable-xxhdpi-icon.png
+│   │   │   │   │   └── drawable-xxxhdpi-icon.png
+│   │   │   │   └── splash
+│   │   │   │       ├── drawable-land-hdpi-screen.png
+│   │   │   │       ├── drawable-land-ldpi-screen.png
+│   │   │   │       ├── drawable-land-mdpi-screen.png
+│   │   │   │       ├── drawable-land-xhdpi-screen.png
+│   │   │   │       ├── drawable-land-xxhdpi-screen.png
+│   │   │   │       ├── drawable-land-xxxhdpi-screen.png
+│   │   │   │       ├── drawable-port-hdpi-screen.png
+│   │   │   │       ├── drawable-port-ldpi-screen.png
+│   │   │   │       ├── drawable-port-mdpi-screen.png
+│   │   │   │       ├── drawable-port-xhdpi-screen.png
+│   │   │   │       ├── drawable-port-xxhdpi-screen.png
+│   │   │   │       └── drawable-port-xxxhdpi-screen.png
+│   │   │   ├── icon.png
+│   │   │   ├── ios
+│   │   │   │   ├── icon
+│   │   │   │   │   ├── icon-40.png
+│   │   │   │   │   ├── icon-40@2x.png
+│   │   │   │   │   ├── icon-40@3x.png
+│   │   │   │   │   ├── icon-50.png
+│   │   │   │   │   ├── icon-50@2x.png
+│   │   │   │   │   ├── icon-60.png
+│   │   │   │   │   ├── icon-60@2x.png
+│   │   │   │   │   ├── icon-60@3x.png
+│   │   │   │   │   ├── icon-72.png
+│   │   │   │   │   ├── icon-72@2x.png
+│   │   │   │   │   ├── icon-76.png
+│   │   │   │   │   ├── icon-76@2x.png
+│   │   │   │   │   ├── icon-83.5@2x.png
+│   │   │   │   │   ├── icon-small.png
+│   │   │   │   │   ├── icon-small@2x.png
+│   │   │   │   │   ├── icon-small@3x.png
+│   │   │   │   │   ├── icon.png
+│   │   │   │   │   └── icon@2x.png
+│   │   │   │   └── splash
+│   │   │   │       ├── Default-568h@2x~iphone.png
+│   │   │   │       ├── Default-667h.png
+│   │   │   │       ├── Default-736h.png
+│   │   │   │       ├── Default-Landscape-736h.png
+│   │   │   │       ├── Default-Landscape@2x~ipad.png
+│   │   │   │       ├── Default-Landscape@~ipadpro.png
+│   │   │   │       ├── Default-Landscape~ipad.png
+│   │   │   │       ├── Default-Portrait@2x~ipad.png
+│   │   │   │       ├── Default-Portrait@~ipadpro.png
+│   │   │   │       ├── Default-Portrait~ipad.png
+│   │   │   │       ├── Default@2x~iphone.png
+│   │   │   │       └── Default~iphone.png
+│   │   │   └── splash.png
+│   │   ├── src
+│   │   │   ├── app
+│   │   │   │   ├── app.module.ts
+│   │   │   │   └── main.ts
+│   │   │   ├── index.html
+│   │   │   └── theme
+│   │   │       └── variables.scss
+│   │   ├── tsconfig.json
+│   │   └── tslint.json
 │   ├── public
 │   │   ├── README.md
 │   │   ├── angular-cli.json
@@ -157,6 +234,7 @@ The entire file structure is as follows:
 │   │   │   │   ├── environment.prod.ts
 │   │   │   │   └── environment.ts
 │   │   │   ├── favicon.ico
+│   │   │   ├── icon.png
 │   │   │   ├── index.html
 │   │   │   ├── main.ts
 │   │   │   ├── polyfills.ts
@@ -234,6 +312,20 @@ The entire file structure is as follows:
 │   │       └── task.spec.js
 │   ├── wait-for-it.sh
 │   └── wait-for-mongo.sh
+├── raspberry-pi
+│   └── flicbutton-config
+│       ├── armv6l
+│       │   ├── flic.sqlite3
+│       │   └── flicd
+│       └── python
+│           ├── __pycache__
+│           │   └── fliclib.cpython-34.pyc
+│           ├── fliclib.py
+│           ├── fliclib.pyc
+│           ├── my_client.py
+│           ├── my_scan_wizard.py
+│           ├── my_script.sh
+│           └── passthrough_daemon.sh
 └── startup_script.sh
 ```
 

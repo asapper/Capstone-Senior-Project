@@ -17,6 +17,12 @@ This will take a little bit of time the first time you run it, as it's building 
 
 Once Docker is done composing you can head over to https://localhost:4200 and see the application running. Hooray! We have our development environment ready.
 
+You might notice that there's is not much you can do now. In order to create some base accounts in the database exit out of Docker by clicking `Ctrl-C`. Then, run the following command, still in the pushstock-app directory:
+
+    ./startup-script.sh
+
+This script will automatically create accounts in the database that you can use. Head over to the User Guide page to find more information on those accounts.
+
 # Setting up mobile app dev environment
 
 **Note:** You may have to use `sudo` in order to make some or possibly all of these commands work.
