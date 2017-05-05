@@ -53,6 +53,7 @@ if [[ "$errors" -eq "0" ]]; then
     echo "Built core Ionic project"
 else
     cat build_errors.txt
+    rm build_errors.txt
     echo "Failed to build core Ionic project"
     exit 1
 fi
@@ -70,6 +71,7 @@ if [[ "$errors" -eq "0" ]]; then
     echo "Built iOS project"
 else
     cat build_errors.txt
+    rm build_errors.txt
     echo "Failed to build iOS project"
     exit 1
 fi
@@ -87,6 +89,7 @@ if [[ "$errors" -eq "0" ]]; then
     echo "Built Android project"
 else
     cat build_errors.txt
+    rm build_errors.txt
     echo "Failed to build Android project"
     exit 1
 fi
