@@ -77,8 +77,8 @@ export class EmployeeService {
 			.map( res => res.json());
 	}
 
-	registerEmployee(email: String, password: String, firstName: String, lastName: String, role: String, phone: String){
-    	return this.authHttp.post(`${this.auth}/register`, { email, password, firstName, lastName, role, phone })
+	registerEmployee(email: String, password: String, firstName: String, lastName: String, phone: String, role: String){
+    	return this.http.post(`${this.auth}/register`, { email, password, firstName, lastName, role, phone })
     		.map(res => res.json())
     		.catch(this.handleRegisterError);
     }
