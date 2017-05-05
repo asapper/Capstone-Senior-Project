@@ -1,6 +1,8 @@
-site_name: PVS02 Docs
+site_name: Capstone PVS02 Documentation
 pages:
     - Home: index.md
+    - Project Design: design.md
+    - Set Up: setup.md
+    - User Guide: guide.md
     - About: about.md
-    - Dev Setup: setup.md
 theme: readthedocs
