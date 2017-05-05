@@ -72,7 +72,11 @@ exports.register = function(req, res, next) {
 
 
   Employee.findOne({ email: email }, function(err, existingEmployee) {
-      if (err) { return next(err); }
+      if (err) { 
+          console.log("Find one error: " + err);
+          return next(err); 
+      }
+
 
       // If user is not unique, return error
       if (existingEmployee){
@@ -85,19 +89,19 @@ exports.register = function(req, res, next) {
       newEmployee.profile = { firstName, lastName }
       newEmployee.role = role;
 
-      employee.save(function(err, employee) {
-        if (err) { return next(err); }
-
-        // Subscribe member to Mailchimp list
-        // mailchimp.subscribeToNewsletter(user.email);
+      newEmployee.save(function(err, newEmployee) {
+        if (err) { 
+          console.log("Employee save error: " + err);
+          return next(err); 
+        }
 
         // Respond with JWT if user was created
 
-        let employeeInfo = setEmployeeInfo(employee);
+        let employeeInfo = setEmployeeInfo(newEmployee);
 
         res.status(201).json({
           token: 'JWT ' + generateToken(employeeInfo),
-          employee: employeeInfo
+          newEmployee: employeeInfo
         });
       });
   });

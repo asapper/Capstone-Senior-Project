@@ -59,7 +59,10 @@ module.exports = {
         }
 
         Employee.findOne({ email: email }, function(err, existingEmployee) {
-            if (err) { return next(err); }
+            if (err) { 
+                console.log("Find one error: " + err);
+                return next(err); 
+            }
 
             // If user is not unique, return error
             if (existingEmployee){
