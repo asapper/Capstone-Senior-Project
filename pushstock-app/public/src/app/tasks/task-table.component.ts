@@ -10,6 +10,7 @@
 * Sapper        04/06/17        Add task and alert services
 * Saul          04/20/17        Task complete function implemented
 * Sapper        05/02/17        Filter tasks according to email
+* Ragnell       05/04/17        Added filter-based description message for when there are no tasks
 */
 
 import { Component, OnInit } from '@angular/core';
@@ -36,6 +37,8 @@ export class TaskTableComponent implements OnInit {
     modalDescription: string = "";
     modalEmployee: string = "";
     modalTaskId: string = "";
+    // descriptor message for "no tasks"
+    descriptionMessage: String = "There are no open tasks registered in the system";
     // store if user is admin
     isAdmin: boolean = false;
     // authentication
@@ -89,17 +92,20 @@ export class TaskTableComponent implements OnInit {
     private filterOpen(){
       this.open = true;
       this.all = false;
+      this.descriptionMessage = "There are no open tasks registered in the system";
       this.filterTasks();
     }
     // Filter to closed buttons
     private filterClose(){
       this.open = false;
       this.all = false;
+      this.descriptionMessage = "There are no completed tasks registered in the system";
       this.filterTasks();
     }
     // Filter to all buttons
     private filterAll(){
       this.all = true;
+      this.descriptionMessage = "There are no tasks registered in the system";
       this.filterTasks();
     }
 
@@ -139,7 +145,7 @@ export class TaskTableComponent implements OnInit {
         this.modalEmployee = employee;
     }
 
-    deleteTask(taskId: number): void {
+    deleteTask(taskId: number): void { 
         this.taskService.deleteTask(taskId.toString()).subscribe(res => {
             this.alertService.handleApiResponse(res);
             this.retrieveLatestAlert();

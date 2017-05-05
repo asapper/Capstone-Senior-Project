@@ -5,7 +5,7 @@ import { AlertService } from '../services/index';
 import { EmployeeService } from '../services/employee.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     templateUrl: 'register.component.html',
     providers: [EmployeeService]
 })
