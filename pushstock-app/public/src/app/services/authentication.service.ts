@@ -3,9 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { AuthConfig, JwtHelper, tokenNotExpired } from 'angular2-jwt';
-
-import { ApiSettings } from './api-settings';
-
+import { ApiSettings } from '../services/api-settings';
 import 'rxjs/add/operator/map';
 
 export class User {
@@ -17,9 +15,10 @@ export class User {
 @Injectable()
 export class AuthService {
     jwtHelper: JwtHelper = new JwtHelper();
-    auth: string = ApiSettings.AUTH;
-
-    constructor(private http: Http, private _router: Router) { }
+    auth: String;
+    constructor(private http: Http, private _router: Router) { 
+        this.auth = ApiSettings.Auth;
+    }
 
     checkCredentials() {
         if (localStorage.getItem('token') === null){

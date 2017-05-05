@@ -9,13 +9,6 @@
  * Rapp				03/28/17		File created
  */
 export class ApiSettings {
-    private static endpoint = 'https://192.168.3.117:4200';
-    //private static endpoint = 'https://localhost:4200';
-    public static API = ApiSettings.endpoint + '/api';
-    public static AUTH = ApiSettings.endpoint + '/auth';
-
-    /*
-	public static API = 'https://localhost:4200/api';
-	public static AUTH = 'https://localhost:4200/auth';
-   */
+	public static API = 'https://192.168.3.109:4200/api';
+	public static Auth = 'https://192.168.3.109:4200/auth';
 }

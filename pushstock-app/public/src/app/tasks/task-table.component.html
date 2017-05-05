@@ -4,11 +4,11 @@
 *
 * Edit history:
 *
-* Editor	Date		Description
-* ======	========	===========
-* Rapp		03/23/17	File created (copied from employee-table.component.html)
-* Saul      04/20/17    Mark task complete and modal added
-* Rapp      05/04/17    Made tables scrollable if too large for mobile screens
+* Editor			Date				Description
+* ======			========		===========
+* Rapp			  03/23/17		File created (copied from employee-table.component.html)
+* Saul        04/20/17    Mark task complete and modal added
+* Ragnell     05/04/17    Added filter based descriptor message for when there are no tasks
 -->
 
 <!-- Alerts displayed -->
@@ -131,8 +131,8 @@
                   </tr>
               </tbody>
           </table>
-          <div class="panel-footer" *ngIf="taskList?.length < 1" class="text-center">
-              <br>No tasks are registered in the system.
+          <div class="panel-footer" *ngIf="filteredList?.length < 1" class="text-center">
+              <br>{{ descriptionMessage }}
           </div>
       </div>
     </div>
