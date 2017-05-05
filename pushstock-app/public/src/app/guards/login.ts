@@ -33,10 +33,12 @@ export class LoginRouteGuard implements CanActivate {
         }
       }
       else{
+        console.log("Whoops!");
         this.router.navigate(['/login']);
       }
   	}
     else{
+      console.log("Whoops!");
       this.router.navigate(['/login']);
     }
     

@@ -83,7 +83,7 @@ if (process.env.NODE_ENV === 'test') {
 
     // Create HTTP Server to redirect
     const insecureServer = http.createServer(redirectApp, function(req, res){
-    	res.redirect('https://localhost:4200');
+    	res.redirect('https://192.168.3.108:4200');
     }).listen(HTTP_PORT);
 
     // Create HTTPS Server
