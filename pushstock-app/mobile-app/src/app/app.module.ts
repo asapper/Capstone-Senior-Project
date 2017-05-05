@@ -86,7 +86,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         HttpModule,
         RouterModule,
         AppRoutingModule,
-        IonicModule.forRoot(AppComponent)
+        IonicModule.forRoot(AppComponent, {
+            platforms: {
+                ios: {
+                    statusbarPadding: false
+                }
+            }
+        }, {})
     ],
     entryComponents: [
         AppComponent,
