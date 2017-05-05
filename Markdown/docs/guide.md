@@ -20,6 +20,14 @@ The two devices that would need to be accessed in order to test our product are 
 
 Beyond these two devices you might want to access one of the computers in the lab, which you can access using your ECS credentials.
 
+In order to verify a phone to receieve text notifications when tasks are assigned to the user who owns the phone, visit twilio.com/login with the credentials:  
+
+    `Username: collin_rapp@baylor.edu`
+
+    `Password: pvs201702capstone`
+
+Then select the "# Phone Numbers" box and select "Verified Caller IDs" on the left. Select the red plus button and follow the instructions. Then, any user with this phone number will receive an SMS notification when they are assigned a task.  
+
 ### Website information
 In the setup instructions you ran a start-up script that created a few base accounts that you can use for testing our product. Following is the information regarding those accounts:
 
