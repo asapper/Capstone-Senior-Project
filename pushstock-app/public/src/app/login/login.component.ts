@@ -31,8 +31,10 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
+		    setTimeout(() => {
                     console.log('Auth service route home');
                     this.router.navigate(['/home/tasks']);
+		    }, 1000);
                 },
                 error =>{
                     this.error = 'Email or password is incorrect';

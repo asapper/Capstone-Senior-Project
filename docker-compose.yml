@@ -16,6 +16,6 @@ services:
    build: database
    image: mongo
    volumes:
-     - ~/data/mongodb-docker:/data/db
+     - /opt/mongodb-docker:/data/db:Z
    ports:
      - "27017:27017"

@@ -24,23 +24,23 @@ export class LoginRouteGuard implements CanActivate {
     //return true;
     
   	if(this.authService.checkCredentials()){
-      if(this.authService.isLoggedIn()){
-        if(!this.authService.isUnassigned()){
-          return true;
-        }
-        else{
-          this.router.navigate(['/unauthorized']);
-        }
-      }
-      else{
-        console.log("Whoops!");
-        this.router.navigate(['/login']);
-      }
+      		if(this.authService.isLoggedIn()){
+        		if(!this.authService.isUnassigned()){
+          			return true;
+        		}
+        		else{
+          			this.router.navigate(['/unauthorized']);
+        		}
+      		}
+      		else{
+        		console.log("Whoops!");
+        		this.router.navigate(['/login']);
+      		}
   	}
-    else{
-      console.log("Whoops!");
-      this.router.navigate(['/login']);
-    }
+    	else{
+      		console.log("Whoops!");
+      		this.router.navigate(['/login']);
+    	}
     
     return false;
   }

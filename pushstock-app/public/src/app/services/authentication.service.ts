@@ -32,7 +32,7 @@ export class AuthService {
     isLoggedIn(){
         console.log(this.jwtHelper.decodeToken(localStorage.getItem('token')));
         console.log(tokenNotExpired('token', localStorage.getItem('token')));
-        return tokenNotExpired('token', localStorage.getItem('token'));
+        return tokenNotExpired(null , localStorage.getItem('token'));
     }
 
     checkAdmin() {
