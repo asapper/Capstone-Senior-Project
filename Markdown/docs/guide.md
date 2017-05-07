@@ -84,7 +84,7 @@ Employees operations are performed in a similar way as for the Buttons.
 ##### Creation
 There are two ways to create a worker. You can either register a worker (i.e., the worker would register him/herself) or you can (as an admin) manually create a worker.
 
-- In order to register yourself as a worker, you need to be logged out of the application. Then, in the log in page click on "Regsiter", where you can enter your information. From there you will need an admin to assign you a role before you can do any operations.
+- In order to register yourself as a worker, you need to be logged out of the application. Then, in the log in page click on "Register", where you can enter your information. From there you will need an admin to assign you a role before you can do any operations.
 - In order to manually create a worker you need to be logged in as an admin. Then head to the Employees page and click on "Add Employee". There you can enter the worker's information and create an account for that worker.
 
 Note that workers need to be assigned a role before they can be assigned a task.
@@ -121,7 +121,7 @@ In order to delete a task you will need to click on the *trash can* icon in the 
 ## Restoring valid data
 During your testing you might need to restore some valid data to proceed. Follow these steps to do that.
 
-1. Remove the *mongodb-docker* directory inside of your *~/data* directory.
+1. Remove the *mongodb-docker* directory inside of your *~/data/* directory (or inside your */opt/* directory, if running on our server machine).
 2. Head back to the project folder, at the top level, and run the following command:
 
         ./startup-script.sh
@@ -137,8 +137,9 @@ Once you have MongoDB installed, start it by running the following command (whic
 
     mongod
 
-Once MongoDB is running, go to the *pushstock-app/server* directory. Once there, run the following command to run the suite of tests:
+Once MongoDB is running, go to the *pushstock-app/server* directory. Once there, run the following commands to install the required packages locally and run the suite of tests:
 
+    npm install
     npm test
 
 The output of this command will show you all the tests being ran and a coverage report for all the files in that directory.

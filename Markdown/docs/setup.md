@@ -5,7 +5,13 @@ Following are the instructions to setup a development environment and get the so
 
 # Developing on your local machine
 
-To get started on our dev, you'll pull from our Git repo in TFS. (You probably already did that considering you're reading this). Once you've pulled, go into the pushstock-app directory. When testing/running the app while developing, you'll need Docker on your machine. Go to [Docker's website](https://docs.docker.com/engine/installation/) and follow the installation instructions.
+To get started on our dev, you'll pull from our Git repo in TFS, by running the following command:
+
+	git clone https://tfs.ecs.baylor.edu/tfs/CSI-43C9/_git/201701-PVS02
+
+This command will download our entire repository. Note that you will need to have **git** installed in order to run this command.
+
+Once you've pulled, go into the pushstock-app directory. When testing/running the app while developing, you'll need Docker on your machine. Go to [Docker's website](https://docs.docker.com/engine/installation/) and follow the installation instructions.
 
 Once you have installed Docker, run it as indicated in the instructions found in the link above. Once Docker is up and running, run the following command in terminal while inside of the push-stock app directory:
 
