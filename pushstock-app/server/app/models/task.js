@@ -59,7 +59,9 @@ TaskSchema.post('save', function(doc) {
         // If employee has phone number, send notification
         Employee.findOne({ _id: doc.employee }, function(err, res) {
             // Check whether employee found without error
-            if (!err && res) {
+            if (err) {
+                console.log(err);
+            } else if (res) {
                 // Check whether employee has a phone number
                 if (res.phone) {
                     var name = '';
@@ -67,7 +69,9 @@ TaskSchema.post('save', function(doc) {
                         name = ', ' + res.profile.firstName;
                     }
                     Button.findOne({ _id: doc.button }, function(err, btn) {
-                        if (!err && btn) {
+                        if (err) {
+                            console.log(err);
+                        } else if (btn) {
                             var desc = btn.description;
                             if (desc.length > 25) {
                                 desc = desc.slice(0, 26) + '...';
@@ -82,7 +86,15 @@ TaskSchema.post('save', function(doc) {
                             }).then((message) => console.log(message));
                         }
                     });
+                } else {
+                    var name = '';
+                    if (res.profile.firstName && res.profile.lastName) {
+                        name = res.profile.firstName + ' ' + res.profile.lastName + ' ';
+                    }
+                    console.log('Employee ' + name + 'has no phone number for notifications.');
                 }
+            } else {
+                console.log('No new employee assigned to task.');
             }
         });
     }
