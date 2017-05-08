@@ -98,4 +98,4 @@ To run the app on an Android device, run `ionic run android`.
 Account: Collin Rapp  
 Email: collin_rapp@baylor.edu
 Password: pvs201702capstone
-Twilio generated Phone Number: +1 (971) 252-6887
+Phone Number: +1 (971) 252-6887

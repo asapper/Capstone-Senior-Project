@@ -156,7 +156,9 @@ module.exports = {
             } else {
                 // Send notification to previous employee
                 Employee.findOne({ _id: task.employee }, function(err, oldEmployee) {
-                    if (!err && oldEmployee) {
+                    if (err) {
+                        console.log(err);
+                    } else if (oldEmployee) {
                         if (oldEmployee.phone) {
                             var name = '';
                             if (oldEmployee.profile.firstName && oldEmployee.profile.firstName !== ''
@@ -171,7 +173,7 @@ module.exports = {
                                     }
 
                                     var msg = 'Hello' + name + '! Your task "' + desc + '"has been reassigned.';
-                                    var receivingNumber = '+1' + res.phone;
+                                    var receivingNumber = '+1' + oldEmployee.phone;
 
                                     client.messages.create({
                                         body: msg,
@@ -181,6 +183,8 @@ module.exports = {
                                 }
                             });
                         }
+                    } else {
+                        console.log('No previous employee found for task.');
                     }
                 });
 
