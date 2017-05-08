@@ -47,37 +47,11 @@ echo "Installing dependencies..."
 npm install
 echo "Installed dependencies"
 
-# Build app to make sure everything in place
-echo "Building core Ionic project..."
-ionic build 2> build_errors.txt
-errors=`grep -ic "err" build_errors.txt`
-if [[ "$errors" -eq "0" ]]; then
-    echo "Built core Ionic project"
-    rm build_errors.txt
-    exit 0                              ### EXIT WITHOUT BUILDING PLATFORM SPECIFIC
-else
-    cat build_errors.txt
-    rm build_errors.txt
-    echo "Failed to build core Ionic project"
-    exit 1
-fi
-
 # Add iOS platform if necessary, and then build either way
 if [[ ! -d "platforms/ios" ]]; then
     echo "Adding ios platform..."
     ionic platform add ios
     echo "Added ios platform"
-fi
-echo "Building iOS project..."
-ionic build ios 2> build_errors.txt
-errors=`grep -ic "err" build_errors.txt`
-if [[ "$errors" -eq "0" ]]; then
-    echo "Built iOS project"
-else
-    cat build_errors.txt
-    rm build_errors.txt
-    echo "Failed to build iOS project"
-    exit 1
 fi
 
 # Add Android platform if necessary, and then build either way
@@ -86,18 +60,25 @@ if [[ ! -d "platforms/android" ]]; then
     ionic platform add android
     echo "Added Android platform"
 fi
-echo "Building Android project..."
-ionic build android
+
+# Build app to make sure everything in place
+echo "Building core Ionic project..."
+ionic build 2> build_errors.txt
 errors=`grep -ic "err" build_errors.txt`
 if [[ "$errors" -eq "0" ]]; then
-    echo "Built Android project"
+    echo "Built core Ionic project"
+    rm build_errors.txt
 else
     cat build_errors.txt
     rm build_errors.txt
-    echo "Failed to build Android project"
+    echo "Failed to build core Ionic project"
     exit 1
 fi
 
 if [[ -e "build_errors.txt" ]]; then
     rm build_errors.txt
 fi
+
+# Allow mobile app to access HTTPS server
+cd platforms/ios/PushStock/Classes/
+printf "\n\n@implementation NSURLRequest(DataController)\n+ (BOOL)allowsAnyHTTPSCertificateForHost: (NSString *)host\n{\n\treturn YES;\n}\n@end" >> AppDelegate.m
