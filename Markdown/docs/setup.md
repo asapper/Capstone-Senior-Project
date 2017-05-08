@@ -96,4 +96,6 @@ To run the app on an Android device, run `ionic run android`.
 # Information for Twilio
 
 Account: Collin Rapp  
+Email: collin_rapp@baylor.edu
+Password: pvs201702capstone
 Phone Number: +1 (971) 252-6887

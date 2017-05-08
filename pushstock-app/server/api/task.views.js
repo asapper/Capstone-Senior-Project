@@ -171,7 +171,7 @@ module.exports = {
                                     }
 
                                     var msg = 'Hello' + name + '! Your task "' + desc + '"has been reassigned.';
-                                    var receivingNumber = '+1' + res.phone;
+                                    var receivingNumber = '+1' + oldEmployee.phone;
 
                                     client.messages.create({
                                         body: msg,
