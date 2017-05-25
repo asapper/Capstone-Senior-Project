@@ -1,0 +1,2 @@
+# Capstone-Senior-Project
+This project was developed, with a group of 4 members, as our Senior Capstone Project during our last semester at Baylor University. This project was given to us by [Pariveda Solutions](http://www.parivedasolutions.com/Pages/default.aspx). The goal of this project was to integrate all of the knowledge learned throughout college and apply it in a situation that resembled situations found in industry.
