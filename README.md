@@ -3,9 +3,9 @@ This group project was developed as our Senior Capstone Project during our last 
 
 ## Group Members
 - [Andy Sapper](https://www.linkedin.com/in/andysapper)
-- [Brennan Saul] (https://www.linkedin.com/in/brennansaul)
-- [Collin Rapp] (https://www.linkedin.com/in/collinrapp)
-- [Ryan Ragnell] (https://www.linkedin.com/in/ryanragnell)
+- [Brennan Saul](https://www.linkedin.com/in/brennansaul)
+- [Collin Rapp](https://www.linkedin.com/in/collinrapp)
+- [Ryan Ragnell](https://www.linkedin.com/in/ryanragnell)
 
 ### Business Problem
 "Commercially Facilites Management"
